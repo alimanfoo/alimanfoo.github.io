@@ -1,3 +1,6 @@
+---
+published: false
+---
 
 This is a hello world post written using the **IPython notebook**.
 
