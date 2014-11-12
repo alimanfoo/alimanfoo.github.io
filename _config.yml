@@ -72,7 +72,7 @@ exclude:
     - Gemfile.lock
     - LICENSE
     - README.md
-    - *.ipynb
+    - '*.ipynb'
     - .ipynb_checkpoints/*
     
 
