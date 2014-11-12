@@ -17,5 +17,5 @@ This is a hello world post written using the **IPython notebook**.
     plt.plot(x, y, 'bo');
 
 
-![png](2014-11-12-hello-world-notebook_files/2014-11-12-hello-world-notebook_2_0.png)
+![png](/images/2014-11-12-hello-world-notebook_files/2014-11-12-hello-world-notebook_2_0.png)
 

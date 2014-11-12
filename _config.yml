@@ -73,6 +73,7 @@ exclude:
     - LICENSE
     - README.md
     - '*.ipynb'
+    - '*.png'
     - .ipynb_checkpoints/*
     
 
