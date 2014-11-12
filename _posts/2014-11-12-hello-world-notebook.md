@@ -1,4 +1,6 @@
 ---
+layout: post
+title: "Notebook hello world!"
 published: true
 ---
 
