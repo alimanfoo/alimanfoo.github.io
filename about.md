@@ -2,14 +2,11 @@
 layout: page
 title: About
 permalink: /about/
+published: true
 ---
 
-Some information about you!
-
-### More Information
-
-A place to include any other types of information that you'd like to include about yourself. 
+I work for the University of Oxford in Dominic Kwiatkowski's group at the Wellcome Trust Center for Human Genetics.
 
 ### Contact me
 
-[email@domain.com](mailto:email@domain.com)
+[alimanfoo@googlemail.com](mailto:alimanfoo@googlemail.com)
