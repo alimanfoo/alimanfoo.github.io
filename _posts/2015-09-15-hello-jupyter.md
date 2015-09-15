@@ -1,17 +1,10 @@
 ---
 layout: post
-title: Hello, Jupyter
----
-
----
-layout: post
 title: Hello Jupyter
 ---
 
 
-## Introduction
-
-This is a jupyter notebook post...
+This is a test post written as a Jupyter notebook.
 
 
 {% highlight python %}
@@ -29,7 +22,7 @@ plt.hist(x);
 {% endhighlight %}
 
 
-![png](/assets//assets/2015-09-15-hello-jupyter_files/2015-09-15-hello-jupyter_4_0.png)
+![png](/assets/2015-09-15-hello-jupyter_files/2015-09-15-hello-jupyter_3_0.png)
 
 
 Let's make another plot...
@@ -41,7 +34,7 @@ plt.hist(y);
 {% endhighlight %}
 
 
-![png](/assets//assets/2015-09-15-hello-jupyter_files/2015-09-15-hello-jupyter_6_0.png)
+![png](/assets/2015-09-15-hello-jupyter_files/2015-09-15-hello-jupyter_5_0.png)
 
 
 All done.
