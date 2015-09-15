@@ -9,20 +9,6 @@ dl, dd, ol, ul, figure {
 }
 
 
-table {
-    border-collapse: collapse;
-    border: 1px solid black;
-    font-size: 12px;
-}
-table td {
-    border: 1px solid black;
-    padding: 3px;
-}
-table th {
-    border: 1px solid black;
-    padding: 3px;
-}
-
 
 /**
  * Basic styling
@@ -38,6 +24,17 @@ body {
 }
 
 
+  table{
+      border-collapse: collapse;
+          border: 1px solid black;
+	    }
+	      table td{
+	          border: 1px solid black;
+		    }
+		    
+table {
+
+}
 
 /**
  * Set `margin-bottom` to maintain vertical rhythm
@@ -139,28 +136,21 @@ blockquote {
 /**
  * Code formatting
  */
-
-div.highlight pre {
-    font-size: 12px;
-    padding: 8px 12px;
-    background-color: #eef;
-    border: 1px solid $grey-color-light;
-    border-radius: 3px;
-}
-
-
 pre,
 code {
+    font-size: 15px;
+    border: 1px solid $grey-color-light;
+    border-radius: 3px;
+    background-color: #eef;
 }
 
 code {
-    padding: 0px;
+    padding: 1px 5px;
 }
 
 pre {
-    font-size: 12px;
-    padding: 2px 12px;
-    overflow-x: auto;
+    padding: 8px 12px;
+    overflow-x: scroll;
 
     > code {
         border: 0;
