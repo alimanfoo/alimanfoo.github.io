@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Estimating Fst
+title: Estimating F<sub>ST</sub>
 ---
 
 
@@ -405,9 +405,9 @@ print('retaining', np.count_nonzero(flt), 'SNPs')
 
 {% highlight python %}
 pos = pos_all.compress(flt)
-genotype = genotype_all.compress(flt)
-ac1 = allel.AlleleCountsArray(acs[pop1].compress(flt)[:, :2])
-ac2 = allel.AlleleCountsArray(acs[pop2].compress(flt)[:, :2])
+genotype = genotype_all.compress(flt, axis=0)
+ac1 = allel.AlleleCountsArray(acs[pop1].compress(flt, axis=0)[:, :2])
+ac2 = allel.AlleleCountsArray(acs[pop2].compress(flt, axis=0)[:, :2])
 {% endhighlight %}
 
 ## Comparing F<sub>ST</sub> estimators
@@ -689,8 +689,8 @@ SNP ascertainment also makes a difference. It's probably a good idea to try diff
 
 ## Further reading
 
-* Bhatia, G., Patterson, N., Sankararaman, S., & Price, A. L. (2013). Estimating and interpreting FST: the impact of rare variants. Genome Research, 23(9), 1514–21. [http://doi.org/10.1101/gr.154831.113](http://doi.org/10.1101/gr.154831.113)
-* `scikit-allel` F<sub>ST</sub> functions [http://scikit-allel.readthedocs.org/en/latest/stats/fst.html](http://scikit-allel.readthedocs.org/en/latest/stats/fst.html)
+* Bhatia, G., Patterson, N., Sankararaman, S., & Price, A. L. (2013). [Estimating and interpreting FST: the impact of rare variants](http://doi.org/10.1101/gr.154831.113). Genome Research, 23(9), 1514–21. 
+* [`scikit-allel` F<sub>ST</sub> functions](http://scikit-allel.readthedocs.org/en/latest/stats/fst.html)
 
 
 {% highlight python %}
@@ -699,5 +699,5 @@ duration = (time_after - time_before)
 print('all done in %.1f seconds' % duration)
 {% endhighlight %}
 
-    all done in 140.9 seconds
+    all done in 235.0 seconds
 
