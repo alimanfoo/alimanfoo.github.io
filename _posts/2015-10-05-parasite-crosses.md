@@ -53,6 +53,35 @@ variation in *Plasmodium* and other species.
 
 ## Variant discovery
 
+The crosses are a great testing ground for variant discovery
+methods. Each cross comprises two parent clones and up to 35 progeny
+clones. We sequence at the haploid merozoite life cycle stage, so
+there is not heterozygosity to worry about, calling a genotype means
+calling a single allele. And for the progeny, we know their genotype
+must be inherited from one parent or the other. True *de novo*
+mutations are relatively rare, so any allele called in a progeny clone
+but not called in either parent is probably a "Mendelian"
+error. Furthermore, for some progeny there are multiple biological
+replicates, which means we sequenced the same culture several
+times. These replicates should be identical, so any disagreement
+between them is also probably an error.
+
+To call SNPs and small INDELs, we used two methods. The first was
+based on alignment of sequence reads to the 3D7 reference genome using
+BWA, followed by GATK best practice (BQSR, INDEL realignment,
+UnifiedGenotyper, VQSR). The second used Cortex via the independent
+workflow, which involves a De Bruijn graph assembly for each clone,
+followed by mapping of assembled variants back to the reference genome
+to obtain coordinates.
+
+@@IMAGE
+
+
+
+
+
+
+
 @@TODO
 
 
