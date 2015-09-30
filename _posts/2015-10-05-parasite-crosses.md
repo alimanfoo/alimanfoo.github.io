@@ -16,7 +16,7 @@ long, undergoing meiosis shortly afterwards. During meiosis the cell
 divides, transmitting only a single genome copy to each daughter. The
 rest of the parasite's life cycle is spent as a haploid. If you've
 ever heard the joke about how man is but a brief stage in the life
-cycle of a sperm, for malaria parasites that is not so far from the
+cycle of a sperm, for malaria parasites that is not far from the
 truth, at least from a genomic point of view.
 
 Because malaria parasites have sex, they can be crossed. A parasite
@@ -28,110 +28,115 @@ inherited. In practice it's not quite so simple, because you cannot
 actually cross two individual parasites. Rather you have to cross two
 parasite *clones*, meaning that each "parent" is actually many
 thousands of parasites which have been cultured to be genetically
-identical. However, Walliker et al. (1987) showed that it can be done,
-performing the first cross between clones 3D7 and HB3. Wellems et
-al. (1991) performed a second cross between clones HB3 and Dd2, which
-they used to discover the gene responsible for chloroquine
-resistance. Hayton et al. (200X) performed a third cross between
-clones 7G8 and GB4, discovering a gene involved in parasite invasion
-of human red blood cells, now a promising vaccine candidate.
+identical. However, [Walliker et
+al. (1987)](http://www.ncbi.nlm.nih.gov/pubmed/3299700) showed that it
+can be done, performing the first cross between clones 3D7 and
+HB3. [Wellems et
+al. (1991)](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=51451&tool=pmcentrez&rendertype=abstract)
+performed a second cross between clones HB3 and Dd2, which they used
+to discover the gene responsible for chloroquine resistance. [Hayton
+et
+al. (2008)](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=2677973&tool=pmcentrez&rendertype=abstract)
+performed a third cross between clones 7G8 and GB4, discovering a gene
+involved in parasite invasion of human red blood cells, now a
+promising vaccine candidate.
 
-The MalariaGEN *P. falciparum* genetic crosses was set up in 201X with
-the goal of deep sequencing the parents and progeny of these three
-crosses. The project has given us some unique insights into the
-unusual world of *P. falciparum* genome biology, and it's been a great
-privilege to take part in the analysis. We recently made a public data
-release from the project, which includes SNP and INDEL calls from two
+The [MalariaGEN *P. falciparum* genetic crosses
+project](www.malariagen.net/projects/parasite/pf-crosses) was set up
+in 2012 with the goal of deep sequencing the parents and progeny of
+these three crosses. The project has given us some unique insights
+into the unusual world of *P. falciparum* genome biology, and it's
+been a great privilege to take part in the analysis. We recently made
+a [public data release](http://www.malariagen.net/data/pf-crosses-1.0)
+from the project, which includes SNP and INDEL calls from two
 different methods of variant discovery, as well as the underlying
-sequence data itself. We also created a web application to help
-explore the data, and posted a preprint on biorxiv describing the data
-and what it can tell us about how parasites evolve to face new
-challenges, such as pressure from anti-malarial drugs. This post gives
-an informal tour of the data and web application, and brings together
-a few experiences that might be useful to others studying genome
-variation in *Plasmodium* and other species.
+sequence data itself. We also created a [web
+application](http://www.malariagen.net/apps/pf-crosses/1.0/) to help
+explore the data, and posted a [preprint on
+biorxiv](http://dx.doi.org/10.1101/024182) describing the data and
+what it can tell us about how parasites evolve to face new challenges,
+such as pressure from anti-malarial drugs. The preprint gives the main
+biological results, so I thought I would share here a few technical
+notes on variant calling, and a brief tour of the web application.
 
-## Variant discovery
+## Variant calling
 
-The crosses are a great testing ground for variant discovery
-methods. Each cross comprises two parent clones and up to 35 progeny
+The crosses are a great testing ground for variant calling
+methods. Each cross comprises two parents and up to 35 progeny
 clones. We sequence at the haploid merozoite life cycle stage, so
-there is not heterozygosity to worry about, calling a genotype means
+there is no heterozygosity to worry about, calling a genotype means
 calling a single allele. And for the progeny, we know their genotype
 must be inherited from one parent or the other. True *de novo*
-mutations are relatively rare, so any allele called in a progeny clone
-but not called in either parent is probably a "Mendelian"
-error. Furthermore, for some progeny there are multiple biological
-replicates, which means we sequenced the same culture several
-times. These replicates should be identical, so any disagreement
-between them is also probably an error.
+mutations are relatively rare, so any variant where an allele is
+called in one or more progeny clone that is not found in either parent
+is probably a "Mendelian" error. Furthermore, for some progeny there
+are multiple biological replicates, which means we sequenced the same
+clone several times. These replicates should be identical, so any
+disagreement between them is also probably an error. These features of
+the dataset provide a means to empirically calibrate and evaluate the
+outputs from a variant caller.
 
 To call SNPs and small INDELs, we used two methods. The first was
 based on alignment of sequence reads to the 3D7 reference genome using
-BWA, followed by GATK best practice (BQSR, INDEL realignment,
-UnifiedGenotyper, VQSR). The second used Cortex via the independent
-workflow, which involves a De Bruijn graph assembly for each clone,
-followed by mapping of assembled variants back to the reference genome
-to obtain coordinates.
+[BWA](http://bio-bwa.sourceforge.net/), followed by
+[GATK](https://www.broadinstitute.org/gatk/) (BQSR, INDEL realignment,
+UnifiedGenotyper, VQSR). The second used
+[Cortex](http://cortexassembler.sourceforge.net/index_cortex_var.html)
+via the independent workflow, which involves a De Bruijn graph
+assembly for each clone, followed by mapping of assembled variants
+back to the 3D7 reference genome to obtain coordinates. These two
+methods work in very different ways, so we wanted to learn about
+their relative strengths and weaknesses.
 
-@@IMAGE
+![alignment versus assembly](/assets/2015-10-05-parasite-crosses_files/pileup.jpg)
 
+For both SNPs and INDELs, we found both methods could be calibrated to
+produce highly accurate results: low rates of Mendelian error, and
+almost perfect concordance between replicates. However, although SNP
+density is relatively low throughout most of the core genome, there
+are a handful of genes where some clones have sequences that are
+highly diverged, with as little as ~60% identity with the reference
+genome. I've shown the most extreme example, MSP1, in the figure
+above. Here, clone HB3 diverges from the reference genome in two
+separate regions. You can see this from the read pileups, because
+mapping fails completely. If you didn't know better, you might think
+there was a deletion here. Below the pileups, however, I've plotted
+the reference and alternate sequences from the "bubbles" assembled by
+Cortex. This gene has previously been capillary sequenced, so we know
+that Cortex's assemblies are correct.
 
+It is probably no coincidence that most of the genes where you find
+this kind of variation are expressed on the surface of the blood-stage
+parasite, and so are likely to be involved either in evading the human
+immune system or invading red blood cells. These are medically
+important processes, so being able to get a complete picture of
+parasite genetic variation is vital. We were very pleased to find
+Cortex was able to access this kind of variation, because it opens the
+possibility of high-throughput studies in parasites collected from the
+field, which is now being followed up in the [Pf3k
+project](http://www.malariagen.net/projects/parasite/pf3k).
 
+Cortex is, however, by no means perfect. Currently it can only
+genotype biallelic variants. For INDELs especially, we found a
+substantial number of multiallelics in the HB3xDd2 and 7G8xGB4 crosses
+(based on results from GATK), so in those crosses Cortex was
+limited. Also, Cortex struggles in the non-coding regions of the
+*P. falciparum* genome. Non-coding regions are AT-rich, which means
+they tend to be underrepresented in the sequence data. To cope with
+lower coverage, Cortex needs to use a smaller K-mer size to achieve
+sufficient overlap between reads. However, non-coding regions are also
+low in sequence complexity, and need longer K-mers to create a unique
+assembly. The result is a lower rate of variant discovery and a higher
+rate of genotype missingness.
 
-
-
+## Web application
 
 @@TODO
 
+## Conclusions
 
-## Sandbox
+@@TODO
 
-The fact that parasites have sex is a blessing and a curse. It is a
-curse because sex means recombination, and recombination generates
-genetic novelty, 
+## Further reading
 
-You could say that genetics began with a cross. Two pea plants, one
-tall, one short. Their children, all tall. But their children's
-children, some short again. From patterns of inheritance like these,
-Mendel inferred laws of sexual reproduction. The first law could be
-put this way: you have two copies of your genetic material (DNA), one
-inherited from your father, the other from your mother. Hold that
-thought.
-
-Mendel also found that different traits, like height and seed colour,
-were inherited independently. But Morgan and Sturtevant, studying
-fruit flies, found some traits that were often inherited
-together. @@EXAMPLE. To explain their data, they proposed that genetic
-material was carried by chromosomes. Before being transmitted to the
-next generation, the two copies of each chromosome recombine, forming
-a unique patchwork of the originals.
-
-@@IMAGE
-
-In 1987 Walliker et al. showed that what goes for plants and flies
-also goes for Plasmodium falciparum. Malaria parasites have sex,
-recombining chromosomes with each cycle of transmission from one host
-to the next. To demonstrate this, Walliker et al. used a cross. They
-selected two "parent" parasite clones, gave them the opportunity to
-mate, then collected their "progeny". However, crossing parasites
-isn't as easy as crossing plants. Malaria parasites have a complex
-life cycle, and only have sex during the brief time they spend inside
-a mosquito's midgut. 
-
-This was fundamental biology, but for
-malaria there was also a medical application. In 1990 Wellems et al
-used a second Plasmodium falciparum cross to discover the gene
-responsible for resistance to chloroquine, which at the time was in
-widespread use for treatment of malaria but whose efficacy was
-dropping rapidly. In 200X Hayton et al. performed a third cross, using
-it to discover a gene involved in red blood cell invasion, which is
-now a promising vaccine candidate.
-
-Walliker et al (1987), Wellems et al. (1990) and Hayton et al. (200X)
-each performed a single parasite cross. The concept is the
-fundamentally the same as for crossing plants or flies: pick two
-parents with different phenotypes, induce them to mate, then study how
-the different parental traits are transmitted to the progeny. However,
-for microscopic unicellular parasites the practicalities are very
-different. 
+@@TODO
