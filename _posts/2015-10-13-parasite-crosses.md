@@ -1,7 +1,9 @@
 ---
 layout: post
-title: Parasite crosses
+title: Genetic variation in parasite crosses
 ---
+
+## About the crosses
 
 The malaria parasite *Plasmodium falciparum* is a tiny, single-celled
 organism, uniquely adapted to living inside humans and mosquitoes. It
@@ -41,6 +43,8 @@ performed a third cross between clones 7G8 and GB4, discovering a gene
 involved in parasite invasion of human red blood cells, now a
 promising vaccine candidate.
 
+## Data release and web application
+
 The [MalariaGEN *P. falciparum* genetic crosses
 project](www.malariagen.net/projects/parasite/pf-crosses) was set up
 in 2012 with the goal of deep sequencing the parents and progeny of
@@ -52,16 +56,16 @@ from the project, which includes SNP and INDEL calls from two
 different methods of variant discovery, as well as the underlying
 sequence data itself. We also created a [web
 application](http://www.malariagen.net/apps/pf-crosses/1.0/) to help
-explore the data, and posted a [preprint on
+explore the data (see the screen cast below for a brief tour), and posted a [preprint on
 biorxiv](http://dx.doi.org/10.1101/024182) describing the data and
 what it can tell us about how parasites evolve to face new challenges,
-such as pressure from anti-malarial drugs. The preprint gives the main
-biological results, so I thought I would share here a few technical
-notes on variant calling, and a brief tour of the web application.
+such as pressure from anti-malarial drugs.
 
-## Variant calling
+<iframe width="740" height="430" src="https://www.youtube.com/embed/8jx10dqhc9Y" frameborder="0" allowfullscreen></iframe>
 
-The crosses are a great testing ground for variant calling
+## Notes on variant calling
+
+The crosses are a great proving ground for variant calling
 methods. Each cross comprises two parents and up to 35 progeny
 clones. We sequence at the haploid merozoite life cycle stage, so
 there is no heterozygosity to worry about, calling a genotype means
@@ -129,14 +133,15 @@ low in sequence complexity, and need longer K-mers to create a unique
 assembly. The result is a lower rate of variant discovery and a higher
 rate of genotype missingness.
 
-## Web application
-
-@@TODO
-
-## Conclusions
-
-@@TODO
+So in this study we found GATK and Cortex were complementary,
+compensating for each other's weaknesses to a certain extent. For the
+analyses in the paper we combined the results from both methods into a
+single call set. Further details are available in the supplementary information associated with the preprint.
 
 ## Further reading
 
-@@TODO
+* Walliker, D., Quakyi, I. A., Wellems, T. E., McCutchan, T. F., Szarfman, A., London, W. T., … Carter, R. (1987). [Genetic analysis of the human malaria parasite Plasmodium falciparum](http://www.ncbi.nlm.nih.gov/pubmed/3299700). Science (New York, N.Y.), 236(4809), 1661–6. 
+* Wellems, T. E., Walker-Jonah, A., & Panton, L. J. (1991). [Genetic mapping of the chloroquine-resistance locus on Plasmodium falciparum chromosome 7](http://www.pubmedcentral.nih.gov/articlerender.fcgi?artid=51451&tool=pmcentrez&rendertype=abstract). Proceedings of the National Academy of Sciences of the United States of America, 88(8), 3382–6.
+* Hayton, K., Gaur, D., Liu, A., Takahashi, J., Henschen, B., Singh, S., … Wellems, T. E. (2008). [Erythrocyte binding protein PfRH5 polymorphisms determine species-specific pathways of Plasmodium falciparum invasion](http://doi.org/10.1016/j.chom.2008.06.001). Cell Host & Microbe, 4(1), 40–51. 
+* Miles, A., Iqbal, Z., Vauterin, P., Pearson, R., Campino, S., Theron, M., … Kwiatkowski, D. (2015). [Genome variation and meiotic recombination in Plasmodium falciparum: insights from deep sequencing of genetic crosses](http://biorxiv.org/content/early/2015/08/07/024182.abstract). bioRxiv. Cold Spring Harbor Labs Journals. 
+
