@@ -35,7 +35,7 @@ Here's a quick illustration of a couple of features.
 
 {% highlight python %}
 import numpy as np
-import allel
+import allel; print('scikit-allel', allel.__version__)
 import matplotlib.pyplot as plt
 import h5py
 import seaborn as sns
@@ -43,6 +43,9 @@ sns.set_style('white')
 sns.set_style('ticks')
 %matplotlib inline
 {% endhighlight %}
+
+    scikit-allel 0.20.0
+
 
 I'm going to use data from the [Ag1000G phase 1 AR3 release](http://www.malariagen.net/data/ag1000g-phase1-AR3). I have a copy of the data downloaded to a local drive.
 
@@ -86,7 +89,7 @@ Every genetic variant (in this case they are all SNPs) has a position on the gen
 
 
 {% highlight python %}
-pos = allel.SortedIndex(variants['POS'][:])
+pos = allel.SortedIndex(variants['POS'])
 pos
 {% endhighlight %}
 
@@ -294,6 +297,14 @@ allel.plot.pairwise_distance(dist);
 
 ## Further reading
 
-I will leave it there for now, but check out the [scikit-allel docs](http://scikit-allel.readthedocs.org/en/latest/index.html) for more information. There is a section on [data structures](http://scikit-allel.readthedocs.org/en/latest/model.html), which includes both contiguous in-memory and compressed data structures for dealing with very large arrays (made possible thanks to [bcolz](http://bcolz.blosc.org/)). The [statistics](http://scikit-allel.readthedocs.org/en/latest/stats.html) section has various functions for computing diversity, Fst, LD, running PCA, and doing admixture tests. And the [plotting](http://scikit-allel.readthedocs.org/en/latest/plot.html) section has a couple of useful plotting functions.
+I will leave it there for now, but check out the [scikit-allel docs](http://scikit-allel.readthedocs.org/en/latest/index.html) for more information. There is a section on [data structures](http://scikit-allel.readthedocs.org/en/latest/model.html), which includes both contiguous in-memory and compressed data structures for dealing with very large arrays (made possible thanks to [bcolz](http://bcolz.blosc.org/)). There is also a [statistics](http://scikit-allel.readthedocs.org/en/latest/stats.html) section with various functions for computing diversity, Fst, LD, running PCA, and doing admixture tests, as well as a few useful plotting functions.
 
 It is just a beginning, but hopefully a step in a good direction.
+
+
+{% highlight python %}
+import os; print(os.environ['docker_image'])
+{% endhighlight %}
+
+    cggh/biipy:v1.1.0
+
