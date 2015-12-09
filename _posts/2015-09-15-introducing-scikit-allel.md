@@ -44,7 +44,7 @@ sns.set_style('ticks')
 %matplotlib inline
 {% endhighlight %}
 
-    scikit-allel 0.20.0
+    scikit-allel 0.20.1
 
 
 I'm going to use data from the [Ag1000G phase 1 AR3 release](http://www.malariagen.net/data/ag1000g-phase1-AR3). I have a copy of the data downloaded to a local drive.
@@ -301,10 +301,12 @@ I will leave it there for now, but check out the [scikit-allel docs](http://scik
 
 It is just a beginning, but hopefully a step in a good direction.
 
+<hr/>
+
 
 {% highlight python %}
 import os; print(os.environ['docker_image'])
 {% endhighlight %}
 
-    cggh/biipy:v1.1.0
+    cggh/biipy:v1.1.1
 
