@@ -9,9 +9,11 @@ malaria](http://www.oxfordsparks.ox.ac.uk/content/big-questions-killers-1-mosqui
 in their recent podcast series. For the episode I spoke to
 [Michaela](https://twitter.com/a_n_s) about the work we're doing on
 [Anopheles mosquito genomics](http://www.malariagen.net/ag1000g) and
-the threat of insecticide resistance. They have done a marvellous job
-editing my stream-of-consciousness into something vaguely coherent! To
-listen, try the audio player below, or head over to the [Oxford Sparks
+the threat of insecticide
+resistance. [Steve](https://twitter.com/topcat3005) who produced the
+podcast has done a marvellous job editing my stream-of-consciousness
+into something vaguely coherent! To listen, try the audio player
+below, or head over to the [Oxford Sparks
 website](http://www.oxfordsparks.ox.ac.uk/content/big-questions-killers-1-mosquito-genomes-and-malaria-control).
 
 <audio controls>
