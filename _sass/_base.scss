@@ -141,7 +141,7 @@ blockquote {
  * Code formatting
  */
 
-div.highlight pre {
+figure.highlight pre {
     font-size: 12px;
     padding: 8px 12px;
     background-color: #eef;
@@ -149,6 +149,13 @@ div.highlight pre {
     border-radius: 3px;
 }
 
+div.highlight pre {
+    font-size: 12px;
+    padding: 8px 12px;
+    background-color: #eef;
+    border: 1px solid $grey-color-light;
+    border-radius: 3px;
+}
 
 pre,
 code {
