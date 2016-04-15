@@ -65,7 +65,7 @@ Time how long it takes to store in an HDF5 dataset.
 %timeit h5fmem().create_dataset('arange', data=a1, chunks=(2**18,), compression='gzip', compression_opts=1, shuffle=True)
 {% endhighlight %}
 
-    1 loop, best of 3: 1.4 s per loop
+    1 loop, best of 3: 1.42 s per loop
 
 
 Time how long it takes to store in a ``carray``.
@@ -75,7 +75,7 @@ Time how long it takes to store in a ``carray``.
 %timeit bcolz.carray(a1, chunklen=2**18, cparams=bcolz.cparams(cname='lz4', clevel=5, shuffle=1))
 {% endhighlight %}
 
-    10 loops, best of 3: 108 ms per loop
+    10 loops, best of 3: 86.6 ms per loop
 
 
 In the example above, ``bcolz`` is more than 10 times faster at storing (compressing) the data than HDF5. As I understand it, this performance gain comes from several factors. ``bcolz`` uses a C library called [``blosc``](https://github.com/blosc/c-blosc) internally to perform compression and decompression operations. ``blosc`` can use multiple threads, so some of the work is done in parallel. ``blosc`` also splits data up in a way that is designed to work well with the CPU cache architecture. Finally, ``blosc`` is a meta-compressor and several different compression libraries can be used - above I used the ``lz4`` compressor, which does not achieve quite the same compression ratios as ``gzip`` (``zlib``) but is much faster with numerical data.
@@ -146,7 +146,7 @@ Time how long it takes to access a slice along the first dimension.
 %timeit c2[:1000]
 {% endhighlight %}
 
-    100 loops, best of 3: 12.4 ms per loop
+    100 loops, best of 3: 11.5 ms per loop
 
 
 
@@ -154,7 +154,7 @@ Time how long it takes to access a slice along the first dimension.
 %timeit z[:1000]
 {% endhighlight %}
 
-    10 loops, best of 3: 19.2 ms per loop
+    10 loops, best of 3: 19.6 ms per loop
 
 
 Time how long it takes to access a slice along the second dimension.
@@ -164,7 +164,7 @@ Time how long it takes to access a slice along the second dimension.
 %timeit c2[:, :1000]
 {% endhighlight %}
 
-    10 loops, best of 3: 130 ms per loop
+    10 loops, best of 3: 139 ms per loop
 
 
 
@@ -172,12 +172,12 @@ Time how long it takes to access a slice along the second dimension.
 %timeit z[:, :1000]
 {% endhighlight %}
 
-    100 loops, best of 3: 12.7 ms per loop
+    100 loops, best of 3: 12.5 ms per loop
 
 
 By using ``zarr`` and chunking along both dimensions of the array, we have forfeited a small amount of speed when slicing the first dimension to gain a lot of speed when accessing the second dimension.
 
-Like ``h5py`` and ``bcolz``, ``zarr`` can store data either in memory or on disk. However, ``zarr`` has some unique features too. For example, multi-dimensional arrays can be resized along any dimension, allowing an array to be grown by appending new data in a flexible way. Also, ``zarr`` arrays can be used in parallel computations, supporting concurrent reads and writes in either a multi-threaded or multi-process context. That is something I am just beginning to explore, and hope to follow up in a separate post.
+Like ``h5py`` and ``bcolz``, ``zarr`` can store data either in memory or on disk. ``zarr`` has some other notable features too. For example, multi-dimensional arrays can be resized along any dimension, allowing an array to be grown by appending new data in a flexible way. Also, ``zarr`` arrays can be used in parallel computations, supporting concurrent reads and writes in either a multi-threaded or multi-process context. That is something I am just beginning to explore, and hope to follow up in a separate post.
 
 ``zarr`` is still in an experimental phase, but if you do try it out, any feedback is very welcome.
 
@@ -191,7 +191,7 @@ Like ``h5py`` and ``bcolz``, ``zarr`` can store data either in memory or on disk
 
 ## Post-script: Performance with real genotype data
 
-Here are some benchmarks with real genotype data.
+Here are benchmarks with some real data.
 
 
 {% highlight python %}
@@ -262,18 +262,18 @@ Benchmark compression performance.
 
 {% highlight python %}
 %%time
-genotype_h5dmem = h5fmem().create_dataset('genotype', data=a3, 
-                                          compression='gzip', compression_opts=1, shuffle=False,
-                                          chunks=(10000, 100, 2))
+genotype_hdf5_gzip = h5fmem().create_dataset('genotype', data=a3, 
+                                             compression='gzip', compression_opts=1, shuffle=False,
+                                             chunks=(10000, 100, 2))
 {% endhighlight %}
 
-    CPU times: user 6.76 s, sys: 24 ms, total: 6.79 s
+    CPU times: user 6.77 s, sys: 16 ms, total: 6.79 s
     Wall time: 6.76 s
 
 
 
 {% highlight python %}
-h5d_diagnostics(genotype_h5dmem)
+h5d_diagnostics(genotype_hdf5_gzip)
 {% endhighlight %}
 
     <HDF5 dataset "genotype": shape (1000000, 765, 2), type "|i1">
@@ -284,11 +284,33 @@ h5d_diagnostics(genotype_h5dmem)
 
 {% highlight python %}
 %%time
+genotype_hdf5_lzf = h5fmem().create_dataset('genotype', data=a3, 
+                                             compression='lzf', shuffle=False,
+                                             chunks=(10000, 100, 2))
+{% endhighlight %}
+
+    CPU times: user 1.99 s, sys: 32 ms, total: 2.02 s
+    Wall time: 2.01 s
+
+
+
+{% highlight python %}
+h5d_diagnostics(genotype_hdf5_lzf)
+{% endhighlight %}
+
+    <HDF5 dataset "genotype": shape (1000000, 765, 2), type "|i1">
+      cname=lzf, clevel=None, shuffle=False
+      nbytes=1.4G, cbytes=71.7M, ratio=20.3, chunks=(10000, 100, 2)
+
+
+
+{% highlight python %}
+%%time
 genotype_carray = bcolz.carray(a3, cparams=bcolz.cparams(cname='lz4', clevel=1, shuffle=2))
 {% endhighlight %}
 
-    CPU times: user 2.4 s, sys: 28 ms, total: 2.43 s
-    Wall time: 778 ms
+    CPU times: user 2.38 s, sys: 28 ms, total: 2.41 s
+    Wall time: 790 ms
 
 
 
@@ -359,8 +381,8 @@ genotype_carray
 genotype_zarr = zarr.array(a3, chunks=(10000, 100, 2), cname='lz4', clevel=1, shuffle=2)
 {% endhighlight %}
 
-    CPU times: user 2.7 s, sys: 68 ms, total: 2.77 s
-    Wall time: 1.19 s
+    CPU times: user 2.76 s, sys: 44 ms, total: 2.8 s
+    Wall time: 1.26 s
 
 
 
@@ -379,7 +401,7 @@ genotype_zarr
 
 Note that although I've used the LZ4 compression library with ``bcolz`` and ``zarr``, the compression ratio is actually better than when using gzip (zlib) with HDF5. This is due to the bitshuffle filter, which comes bundled with ``bcolz`` and ``zarr``. The bitshuffle filter can also be used with HDF5 with some configuration I believe.
 
-Similar to the synthetic ``arange`` dataset, compression with ``bcolz`` is around 10 times faster than with HDF5, due to a combination of factors. Compression with ``zarr`` is slightly slower than ``bcolz``, but this is entirely due to the choice of chunk shape and the correlation structure in the data. If we use the same chunking for both, compression speed is similar...
+Compression with ``zarr`` is slightly slower than ``bcolz``, but this is entirely due to the choice of chunk shape and the correlation structure in the data. If we use the same chunking for both, compression speed is similar...
 
 
 {% highlight python %}
@@ -387,18 +409,26 @@ Similar to the synthetic ``arange`` dataset, compression with ``bcolz`` is aroun
 _ = zarr.array(a3, chunks=(genotype_carray.chunklen, 765, 2), cname='lz4', clevel=1, shuffle=2)
 {% endhighlight %}
 
-    CPU times: user 2.1 s, sys: 36 ms, total: 2.14 s
-    Wall time: 667 ms
+    CPU times: user 2.07 s, sys: 64 ms, total: 2.14 s
+    Wall time: 671 ms
 
 
 Benchmark data access via slices along first and second dimensions. 
 
 
 {% highlight python %}
-%timeit genotype_h5dmem[:10000]
+%timeit genotype_hdf5_gzip[:10000]
 {% endhighlight %}
 
-    10 loops, best of 3: 24.5 ms per loop
+    10 loops, best of 3: 23.6 ms per loop
+
+
+
+{% highlight python %}
+%timeit genotype_hdf5_lzf[:10000]
+{% endhighlight %}
+
+    10 loops, best of 3: 28.4 ms per loop
 
 
 
@@ -406,7 +436,7 @@ Benchmark data access via slices along first and second dimensions.
 %timeit genotype_carray[:10000]
 {% endhighlight %}
 
-    100 loops, best of 3: 10.8 ms per loop
+    100 loops, best of 3: 10.4 ms per loop
 
 
 
@@ -414,15 +444,23 @@ Benchmark data access via slices along first and second dimensions.
 %timeit genotype_zarr[:10000]
 {% endhighlight %}
 
-    100 loops, best of 3: 14.3 ms per loop
+    100 loops, best of 3: 17.3 ms per loop
 
 
 
 {% highlight python %}
-%timeit genotype_h5dmem[:, :10]
+%timeit genotype_hdf5_gzip[:, :10]
 {% endhighlight %}
 
-    1 loop, best of 3: 284 ms per loop
+    1 loop, best of 3: 285 ms per loop
+
+
+
+{% highlight python %}
+%timeit genotype_hdf5_lzf[:, :10]
+{% endhighlight %}
+
+    1 loop, best of 3: 290 ms per loop
 
 
 
@@ -430,7 +468,7 @@ Benchmark data access via slices along first and second dimensions.
 %timeit genotype_carray[:, :10]
 {% endhighlight %}
 
-    1 loop, best of 3: 1.63 s per loop
+    1 loop, best of 3: 1.31 s per loop
 
 
 
@@ -438,7 +476,7 @@ Benchmark data access via slices along first and second dimensions.
 %timeit genotype_zarr[:, :10]
 {% endhighlight %}
 
-    10 loops, best of 3: 128 ms per loop
+    10 loops, best of 3: 127 ms per loop
 
 
 ## Setup
@@ -454,9 +492,9 @@ cpuinfo.main()
     Hardware Raw: 
     Brand: Intel(R) Core(TM) i7-3667U CPU @ 2.00GHz
     Hz Advertised: 2.0000 GHz
-    Hz Actual: 3.0374 GHz
+    Hz Actual: 2.9260 GHz
     Hz Advertised Raw: (2000000000, 0)
-    Hz Actual Raw: (3037402000, 0)
+    Hz Actual Raw: (2925976000, 0)
     Arch: X86_64
     Bits: 64
     Count: 4
