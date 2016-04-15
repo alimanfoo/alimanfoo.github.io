@@ -4,7 +4,7 @@ title: To HDF5 and beyond
 ---
 
 
-This post contains some notes about 3 Python libraries for working with numerical data too large to fit into main memory: [``h5py``](http://www.h5py.org/), [``bcolz``](http://bcolz.blosc.org/) and [``zarr``](https://github.com/alimanfoo/zarr).
+This post contains some notes about three Python libraries for working with numerical data too large to fit into main memory: [``h5py``](http://www.h5py.org/), [``bcolz``](http://bcolz.blosc.org/) and [``zarr``](https://github.com/alimanfoo/zarr).
 
 ## HDF5 (``h5py``)
 
@@ -65,7 +65,7 @@ Time how long it takes to store in an HDF5 dataset.
 %timeit h5fmem().create_dataset('arange', data=a1, chunks=(2**18,), compression='gzip', compression_opts=1, shuffle=True)
 {% endhighlight %}
 
-    1 loop, best of 3: 1.41 s per loop
+    1 loop, best of 3: 1.4 s per loop
 
 
 Time how long it takes to store in a ``carray``.
@@ -75,7 +75,7 @@ Time how long it takes to store in a ``carray``.
 %timeit bcolz.carray(a1, chunklen=2**18, cparams=bcolz.cparams(cname='lz4', clevel=5, shuffle=1))
 {% endhighlight %}
 
-    10 loops, best of 3: 95.6 ms per loop
+    10 loops, best of 3: 108 ms per loop
 
 
 In the example above, ``bcolz`` is more than 10 times faster at storing (compressing) the data than HDF5. As I understand it, this performance gain comes from several factors. ``bcolz`` uses a C library called [``blosc``](https://github.com/blosc/c-blosc) internally to perform compression and decompression operations. ``blosc`` can use multiple threads, so some of the work is done in parallel. ``blosc`` also splits data up in a way that is designed to work well with the CPU cache architecture. Finally, ``blosc`` is a meta-compressor and several different compression libraries can be used - above I used the ``lz4`` compressor, which does not achieve quite the same compression ratios as ``gzip`` (``zlib``) but is much faster with numerical data.
@@ -146,7 +146,7 @@ Time how long it takes to access a slice along the first dimension.
 %timeit c2[:1000]
 {% endhighlight %}
 
-    10 loops, best of 3: 22.1 ms per loop
+    100 loops, best of 3: 12.4 ms per loop
 
 
 
@@ -154,7 +154,7 @@ Time how long it takes to access a slice along the first dimension.
 %timeit z[:1000]
 {% endhighlight %}
 
-    10 loops, best of 3: 39.3 ms per loop
+    10 loops, best of 3: 19.2 ms per loop
 
 
 Time how long it takes to access a slice along the second dimension.
@@ -164,7 +164,7 @@ Time how long it takes to access a slice along the second dimension.
 %timeit c2[:, :1000]
 {% endhighlight %}
 
-    1 loop, best of 3: 250 ms per loop
+    10 loops, best of 3: 130 ms per loop
 
 
 
@@ -172,7 +172,7 @@ Time how long it takes to access a slice along the second dimension.
 %timeit z[:, :1000]
 {% endhighlight %}
 
-    10 loops, best of 3: 22.5 ms per loop
+    100 loops, best of 3: 12.7 ms per loop
 
 
 By using ``zarr`` and chunking along both dimensions of the array, we have forfeited a small amount of speed when slicing the first dimension to gain a lot of speed when accessing the second dimension.
@@ -188,3 +188,287 @@ Like ``h5py`` and ``bcolz``, ``zarr`` can store data either in memory or on disk
 * [bcolz](http://bcolz.blosc.org/)
 * [blosc](http://blosc.org/)
 * [zarr](https://github.com/alimanfoo/zarr)
+
+## Post-script: Performance with real genotype data
+
+Here are some benchmarks with real genotype data.
+
+
+{% highlight python %}
+import operator
+from functools import reduce
+
+
+def human_readable_size(size):
+    if size < 2**10:
+        return "%s" % size
+    elif size < 2**20:
+        return "%.1fK" % (size / float(2**10))
+    elif size < 2**30:
+        return "%.1fM" % (size / float(2**20))
+    elif size < 2**40:
+        return "%.1fG" % (size / float(2**30))
+    else:
+        return "%.1fT" % (size / float(2**40))
+
+    
+def h5d_diagnostics(d):
+    """Print some diagnostics on an HDF5 dataset."""
+    
+    print(d)
+    nbytes = reduce(operator.mul, d.shape) * d.dtype.itemsize
+    cbytes = d._id.get_storage_size()
+    if cbytes > 0:
+        ratio = nbytes / cbytes
+    else:
+        ratio = np.inf
+    r = '  cname=%s' % d.compression
+    r += ', clevel=%s' % d.compression_opts
+    r += ', shuffle=%s' % d.shuffle
+    r += '\n  nbytes=%s' % human_readable_size(nbytes)
+    r += ', cbytes=%s' % human_readable_size(cbytes)
+    r += ', ratio=%.1f' % ratio
+    r += ', chunks=%s' % str(d.chunks)
+    print(r)
+    
+{% endhighlight %}
+
+Locate a genotype dataset within an HDF5 file from the [Ag1000G project](http://www.malariagen.net/data/ag1000g-phase1-AR3).
+
+
+{% highlight python %}
+callset = h5py.File('/data/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/hdf5/ag1000g.phase1.ar3.pass.h5',
+                    mode='r')
+genotype = callset['3R/calldata/genotype']
+genotype
+{% endhighlight %}
+
+
+
+
+    <HDF5 dataset "genotype": shape (13167162, 765, 2), type "|i1">
+
+
+
+Extract the first million rows of the dataset to use for benchmarking.
+
+
+{% highlight python %}
+a3 = genotype[:1000000]
+{% endhighlight %}
+
+Benchmark compression performance.
+
+
+{% highlight python %}
+%%time
+genotype_h5dmem = h5fmem().create_dataset('genotype', data=a3, 
+                                          compression='gzip', compression_opts=1, shuffle=False,
+                                          chunks=(10000, 100, 2))
+{% endhighlight %}
+
+    CPU times: user 6.76 s, sys: 24 ms, total: 6.79 s
+    Wall time: 6.76 s
+
+
+
+{% highlight python %}
+h5d_diagnostics(genotype_h5dmem)
+{% endhighlight %}
+
+    <HDF5 dataset "genotype": shape (1000000, 765, 2), type "|i1">
+      cname=gzip, clevel=1, shuffle=False
+      nbytes=1.4G, cbytes=51.1M, ratio=28.5, chunks=(10000, 100, 2)
+
+
+
+{% highlight python %}
+%%time
+genotype_carray = bcolz.carray(a3, cparams=bcolz.cparams(cname='lz4', clevel=1, shuffle=2))
+{% endhighlight %}
+
+    CPU times: user 2.4 s, sys: 28 ms, total: 2.43 s
+    Wall time: 778 ms
+
+
+
+{% highlight python %}
+genotype_carray
+{% endhighlight %}
+
+
+
+
+    carray((1000000, 765, 2), int8)
+      nbytes: 1.42 GB; cbytes: 48.70 MB; ratio: 29.96
+      cparams := cparams(clevel=1, shuffle=2, cname='lz4')
+    [[[0 0]
+      [0 0]
+      [0 0]
+      ..., 
+      [0 0]
+      [0 0]
+      [0 0]]
+    
+     [[0 0]
+      [0 0]
+      [0 0]
+      ..., 
+      [0 0]
+      [0 0]
+      [0 0]]
+    
+     [[0 0]
+      [0 0]
+      [0 0]
+      ..., 
+      [0 0]
+      [0 0]
+      [0 0]]
+    
+     ..., 
+     [[0 0]
+      [0 0]
+      [0 0]
+      ..., 
+      [0 0]
+      [0 0]
+      [0 0]]
+    
+     [[0 0]
+      [0 0]
+      [0 0]
+      ..., 
+      [0 0]
+      [0 0]
+      [0 0]]
+    
+     [[0 0]
+      [0 0]
+      [0 0]
+      ..., 
+      [0 0]
+      [0 0]
+      [0 0]]]
+
+
+
+
+{% highlight python %}
+%%time
+genotype_zarr = zarr.array(a3, chunks=(10000, 100, 2), cname='lz4', clevel=1, shuffle=2)
+{% endhighlight %}
+
+    CPU times: user 2.7 s, sys: 68 ms, total: 2.77 s
+    Wall time: 1.19 s
+
+
+
+{% highlight python %}
+genotype_zarr
+{% endhighlight %}
+
+
+
+
+    zarr.ext.SynchronizedArray((1000000, 765, 2), int8, chunks=(10000, 100, 2))
+      cname: lz4; clevel: 1; shuffle: 2 (BITSHUFFLE)
+      nbytes: 1.4G; cbytes: 50.2M; ratio: 29.1; initialized: 800/800
+
+
+
+Note that although I've used the LZ4 compression library with ``bcolz`` and ``zarr``, the compression ratio is actually better than when using gzip (zlib) with HDF5. This is due to the bitshuffle filter, which comes bundled with ``bcolz`` and ``zarr``. The bitshuffle filter can also be used with HDF5 with some configuration I believe.
+
+Similar to the synthetic ``arange`` dataset, compression with ``bcolz`` is around 10 times faster than with HDF5, due to a combination of factors. Compression with ``zarr`` is slightly slower than ``bcolz``, but this is entirely due to the choice of chunk shape and the correlation structure in the data. If we use the same chunking for both, compression speed is similar...
+
+
+{% highlight python %}
+%%time 
+_ = zarr.array(a3, chunks=(genotype_carray.chunklen, 765, 2), cname='lz4', clevel=1, shuffle=2)
+{% endhighlight %}
+
+    CPU times: user 2.1 s, sys: 36 ms, total: 2.14 s
+    Wall time: 667 ms
+
+
+Benchmark data access via slices along first and second dimensions. 
+
+
+{% highlight python %}
+%timeit genotype_h5dmem[:10000]
+{% endhighlight %}
+
+    10 loops, best of 3: 24.5 ms per loop
+
+
+
+{% highlight python %}
+%timeit genotype_carray[:10000]
+{% endhighlight %}
+
+    100 loops, best of 3: 10.8 ms per loop
+
+
+
+{% highlight python %}
+%timeit genotype_zarr[:10000]
+{% endhighlight %}
+
+    100 loops, best of 3: 14.3 ms per loop
+
+
+
+{% highlight python %}
+%timeit genotype_h5dmem[:, :10]
+{% endhighlight %}
+
+    1 loop, best of 3: 284 ms per loop
+
+
+
+{% highlight python %}
+%timeit genotype_carray[:, :10]
+{% endhighlight %}
+
+    1 loop, best of 3: 1.63 s per loop
+
+
+
+{% highlight python %}
+%timeit genotype_zarr[:, :10]
+{% endhighlight %}
+
+    10 loops, best of 3: 128 ms per loop
+
+
+## Setup
+
+
+{% highlight python %}
+# run on my laptop, which doesn't have AVX2
+import cpuinfo
+cpuinfo.main()
+{% endhighlight %}
+
+    Vendor ID: GenuineIntel
+    Hardware Raw: 
+    Brand: Intel(R) Core(TM) i7-3667U CPU @ 2.00GHz
+    Hz Advertised: 2.0000 GHz
+    Hz Actual: 3.0374 GHz
+    Hz Advertised Raw: (2000000000, 0)
+    Hz Actual Raw: (3037402000, 0)
+    Arch: X86_64
+    Bits: 64
+    Count: 4
+    Raw Arch String: x86_64
+    L2 Cache Size: 4096 KB
+    L2 Cache Line Size: 0
+    L2 Cache Associativity: 0
+    Stepping: 9
+    Model: 58
+    Family: 6
+    Processor Type: 0
+    Extended Model: 0
+    Extended Family: 0
+    Flags: acpi, aes, aperfmperf, apic, arat, arch_perfmon, avx, bts, clflush, cmov, constant_tsc, cx16, cx8, de, ds_cpl, dtes64, dtherm, dts, eagerfpu, epb, ept, erms, est, f16c, flexpriority, fpu, fsgsbase, fxsr, ht, ida, lahf_lm, lm, mca, mce, mmx, monitor, msr, mtrr, nonstop_tsc, nopl, nx, pae, pat, pbe, pcid, pclmulqdq, pdcm, pebs, pge, pln, pni, popcnt, pse, pse36, pts, rdrand, rdtscp, rep_good, sep, smep, smx, ss, sse, sse2, sse4_1, sse4_2, ssse3, syscall, tm, tm2, tpr_shadow, tsc, tsc_deadline_timer, vme, vmx, vnmi, vpid, x2apic, xsave, xsaveopt, xtopology, xtpr
+
