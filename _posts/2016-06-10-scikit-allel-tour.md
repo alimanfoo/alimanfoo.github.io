@@ -1,6 +1,6 @@
 ---
 layout: post
-title: A lightning tour of scikit-allel
+title: A tour of scikit-allel
 ---
 
 
