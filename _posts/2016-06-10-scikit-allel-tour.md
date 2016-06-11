@@ -499,13 +499,13 @@ plot_joint_ti_tv('MQ', 'DP', downsample=5, mincnt=400, extent=(0, 60, 0, 50000))
 ![png](/assets/2016-06-10-scikit-allel-tour_files/2016-06-10-scikit-allel-tour_52_0.png)
 
 
+This information may be useful when designing a variant filtering strategy. If you have other data that could be used as a quality indicator, such as Mendelian errors in a trio or cross, and/or data on genotype discordances between replicate samples, a similar analysis could be performed.
+
 ## Filtering variants
 
-There are many possible approaches to filtering variants. The simplest approach is define thresholds on variant attributes like DP, MQ and QD, and exclude SNPs that fall outside of a defined range (a.k.a. "hard filtering"). This is crude but simple to implement and in many cases may suffice. 
+There are many possible approaches to filtering variants. The simplest approach is define thresholds on variant attributes like DP, MQ and QD, and exclude SNPs that fall outside of a defined range (a.k.a. "hard filtering"). This is crude but simple to implement and in many cases may suffice, at least for an initial exploration of the data. 
 
-Let's implement a simple hard filter, informed by our knowledge of variant quality gained from above.
-
-First, a reminder that we have a table containing all these variant attributes.
+Let's implement a simple hard filter. First, a reminder that we have a table containing all these variant attributes.
 
 
 {% highlight python %}
@@ -1195,18 +1195,6 @@ This takes a couple of minutes, so time for a quick tea break.
 
 
 {% highlight python %}
-%%html
-<iframe width="739" height="415" src="https://www.youtube.com/embed/oYKmvwGmBVY" frameborder="0" allowfullscreen></iframe>
-{% endhighlight %}
-
-
-<iframe width="739" height="415" src="https://www.youtube.com/embed/oYKmvwGmBVY" frameborder="0" allowfullscreen></iframe>
-
-
-OK, back to business. Here's the new genotype array we've made, with 11,766,616 SNPs and 129 samples.
-
-
-{% highlight python %}
 genotypes_subset
 {% endhighlight %}
 
@@ -1307,6 +1295,8 @@ genotypes_subset
 <p><strong>...</strong></p>
 
 
+
+The new genotype array we've made has 11,766,616 SNPs and 129 samples, as expected.
 
 ## Sample QC
 
