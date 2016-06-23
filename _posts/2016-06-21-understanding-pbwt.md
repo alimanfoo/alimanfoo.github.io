@@ -6,6 +6,8 @@ title: Understanding PBWT
 
 Last year a colleague pointed me at [Richard Durbin's 2014 paper on the positional Burrows Wheeler transform](http://www.ncbi.nlm.nih.gov/pmc/articles/PMC3998136/). I read it with interest but didn't really get it at the time. Recently there have been papers developing PBWT for [variation graphs](http://biorxiv.org/content/early/2016/05/02/051409.abstract) and [chromosome painting](http://biorxiv.org/content/early/2016/04/12/048280.abstract). Given the applicability of PBWT to a range of problems, I wanted to try and wrap my head around it. This notebook is an attempt to understand the basic algorithms described in Durbin (2014), I wrote it for my own benefit but thought I'd share in case it's useful to anyone and/or anyone might be able to help me fill in some of the gaps.
 
+*2016-06-23: Updated implementation of algorithm 4 to avoid reporting 0 length matches. Also added some discussion of the value of using PBWT to improve compressibility of haplotype data versus simply transposing the haplotypes so the data are organised one variant per row.*
+
 Let's start with some data. The variable *X* below is a list of 8 haplotypes with 6 variable sites, all biallelic. This is just some dummy data I made up myself to test out the algorithms
 
 
@@ -256,7 +258,7 @@ display_prefix_and_divergence_arrays(Y)
 {% endhighlight %}
 
 
-<pre style="line-height: 100%">8|00111111110011111100110010000  0<br/>0|00110011100011010000001001<strong><u>000</u></strong>  0<br/>6|1100000101000000100110110001<strong><u>0</u></strong>  1<br/>4|001001010001111101111110001<strong><u>10</u></strong>  0<br/>7|00000010101011010000011101<strong><u>110</u></strong>  1<br/>3|10000111100110111010010011001  1<br/>9|1110111100110011001010101001<strong><u>1</u></strong>  0<br/>1|000100011111010101000010001<strong><u>11</u></strong>  1<br/>2|11011011110010110001010101<strong><u>111</u></strong>  1<br/>5|1010111110011000111<strong><u>1010101111</u></strong>  1<br/></pre>
+<pre style="line-height: 100%">1|11001011100011111101111000000  0<br/>9|110011011011110110010000101<strong><u>00</u></strong>  0<br/>8|11110001100100100111000001<strong><u>100</u></strong>  1<br/>4|1001111111010100011011101<strong><u>1100</u></strong>  1<br/>5|1111100110101000101000001011<strong><u>0</u></strong>  1<br/>2|00101000111100110011101010001  0<br/>6|11010001100000001<strong><u>011101010001</u></strong>  0<br/>7|10010110111010100000000011<strong><u>001</u></strong>  1<br/>3|000100011111000110110101101<strong><u>01</u></strong>  1<br/>0|1101011111011010001101001111<strong><u>1</u></strong>  0<br/></pre>
 
 
 ## Algorithm 3. Report long matches
@@ -456,10 +458,12 @@ def report_set_maximal_matches(X):
                 continue
                 
             for j in range(m+1, i):
-                yield ppa[i], ppa[j], div[i], k
+                if div[i] < k:  # N.B., avoid 0 length matches, not in Durbin (2014)
+                    yield ppa[i], ppa[j], div[i], k
                 
             for j in range(i+1, n):
-                yield ppa[i], ppa[j], div[i+1], k
+                if div[i+1] < k:  # N.B., avoid 0 length matches, not in Durbin (2014)
+                    yield ppa[i], ppa[j], div[i+1], k
                     
         # build next prefix and divergence arrays
         if k < N - 1:        
@@ -575,7 +579,7 @@ display_set_maximal_matches(Y)
 {% endhighlight %}
 
 
-<pre style="line-height: 100%">set maximal matches for haplotype 0:<br/><br/>0|111001111010010100110000011011<br/>1|<strong><u>1</u></strong>00010101111111110110100010100<br/>2|00<strong><u>1001</u></strong>010010001011101100010111<br/>1|100010<strong><u>1</u></strong>01111111110110100010100<br/>2|0010010<strong><u>1</u></strong>0010001011101100010111<br/>1|10001010<strong><u>1</u></strong>111111110110100010100<br/>2|001001010<strong><u>0100</u></strong>01011101100010111<br/>1|1000101011111<strong><u>1</u></strong>1110110100010100<br/>1|100010101111111<strong><u>1</u></strong>10110100010100<br/>1|10001010111111111<strong><u>0110</u></strong>100010100<br/>1|1000101011111111101101<strong><u>0001</u></strong>0100<br/>2|0010010100100010111011<strong><u>0001</u></strong>0111<br/><br/>set maximal matches for haplotype 1:<br/><br/>1|100010101111111110110100010100<br/>0|<strong><u>1</u></strong>11001111010010100110000011011<br/>2|0<strong><u>0</u></strong>1001010010001011101100010111<br/>2|001<strong><u>0</u></strong>01010010001011101100010111<br/>0|111<strong><u>0</u></strong>01111010010100110000011011<br/>0|111001<strong><u>1</u></strong>11010010100110000011011<br/>0|11100111<strong><u>1</u></strong>010010100110000011011<br/>2|0010010100<strong><u>1</u></strong>0001011101100010111<br/>0|1110011110<strong><u>1</u></strong>0010100110000011011<br/>0|1110011110100<strong><u>1</u></strong>0100110000011011<br/>2|00100101001000<strong><u>1</u></strong>011101100010111<br/>0|111001111010010<strong><u>1</u></strong>00110000011011<br/>2|0010010100100010<strong><u>1</u></strong>1101100010111<br/>0|11100111101001010<strong><u>0110</u></strong>000011011<br/>2|001001010010001011101<strong><u>1000101</u></strong>11<br/>2|00100101001000101110110001011<strong><u></u></strong>1<br/>0|11100111101001010011000001101<strong><u></u></strong>1<br/>2|00100101001000101110110001011<strong><u></u></strong>1<br/><br/>set maximal matches for haplotype 2:<br/><br/>2|001001010010001011101100010111<br/>1|1<strong><u>0</u></strong>0010101111111110110100010100<br/>0|11<strong><u>1001</u></strong>111010010100110000011011<br/>0|1110011<strong><u>1</u></strong>1010010100110000011011<br/>0|111001111<strong><u>0100</u></strong>10100110000011011<br/>1|10001010111111<strong><u>1</u></strong>110110100010100<br/>1|1000101011111111<strong><u>1</u></strong>0110100010100<br/>0|111001111010010100<strong><u>1</u></strong>10000011011<br/>1|100010101111111110<strong><u>1</u></strong>10100010100<br/>1|10001010111111111011<strong><u></u></strong>0100010100<br/>0|11100111101001010011<strong><u></u></strong>0000011011<br/>1|10001010111111111011<strong><u></u></strong>0100010100<br/>1|100010101111111110110<strong><u>1000101</u></strong>00<br/><br/></pre>
+<pre style="line-height: 100%">set maximal matches for haplotype 0:<br/><br/>0|100001010111100110111010100101<br/>2|011<strong><u>00</u></strong>0110001000111111011110011<br/>1|01101<strong><u>1</u></strong>110111001111100110000010<br/>1|0110111<strong><u>10111</u></strong>001111100110000010<br/>2|0110001100010<strong><u>0011</u></strong>1111011110011<br/>2|011000110001000111<strong><u>11101</u></strong>1110011<br/>1|0110111101110011111001<strong><u>10</u></strong>000010<br/>2|011000110001000111111011<strong><u>1</u></strong>10011<br/>1|0110111101110011111001100<strong><u>00</u></strong>010<br/><br/>set maximal matches for haplotype 1:<br/><br/>1|011011110111001111100110000010<br/>2|<strong><u>0110</u></strong>00110001000111111011110011<br/>0|10000<strong><u>1</u></strong>010111100110111010100101<br/>2|011000<strong><u>110</u></strong>001000111111011110011<br/>0|1000010<strong><u>10111</u></strong>100110111010100101<br/>2|01100011000<strong><u>100</u></strong>0111111011110011<br/>2|011000110001000<strong><u>1111</u></strong>11011110011<br/>0|1000010101111001101110<strong><u>10</u></strong>100101<br/>0|1000010101111001101110101<strong><u>00</u></strong>101<br/>2|01100011000100011111101111<strong><u>001</u></strong>1<br/><br/>set maximal matches for haplotype 2:<br/><br/>2|011000110001000111111011110011<br/>1|<strong><u>0110</u></strong>11110111001111100110000010<br/>0|100<strong><u>00</u></strong>1010111100110111010100101<br/>1|011011<strong><u>110</u></strong>111001111100110000010<br/>1|01101111011<strong><u>100</u></strong>1111100110000010<br/>0|1000010101111<strong><u>0011</u></strong>0111010100101<br/>1|011011110111001<strong><u>1111</u></strong>00110000010<br/>0|100001010111100110<strong><u>11101</u></strong>0100101<br/>0|100001010111100110111010<strong><u>1</u></strong>00101<br/>1|01101111011100111110011000<strong><u>001</u></strong>0<br/><br/></pre>
 
 
 ## Algorithm 5. Set maximal matches from a new sequence *z* to *X*
@@ -1001,9 +1005,13 @@ pbwt_compressed_lz4
 
 
 
-So in this case, *PBWT* is more compressible than the original data, but only marginally, requiring 8.2M rather than 10.7M. I am using LZ4 here and not the run length encoding used in Durbin (2014), I don't know how much difference that would make.
+So in this case, *PBWT* is more compressible than the original data, but only marginally, requiring 8.2M rather than 10.7M. This seems at odds with what is reported in Durbin (2014), i.e., that PBWT is many times more compressible than raw haplotypes, so what's going on? 
 
-How about the divergence array?
+I think that a lot of the benefit in terms of compressibility that is reported in Durbin (2014) is actually due to the fact that the haplotype data in the PBWT are transposed relative to the original .gz representation. I.e., If haplotypes are organised one variant per row rather than one haplotype per row, and the underlying bytes are in row-major order, then the data become more compressible as you add more haplotypes, because variants tend to be rare and hence most rows will be composed almost entirely of zeros. If you then permute each row via the PBWT you get a further benefit, because PBWT tends to bring the ones and zeros together, however the added benefit is fairly marginal and most of the gains come simply from the transposed layout.
+
+Note that I am using LZ4 here and not the run length encoding used in Durbin (2014), I don't know how much difference that would make.
+
+To make use of the PBWT you also need the divergence array, so how compressible is that?
 
 
 {% highlight python %}
