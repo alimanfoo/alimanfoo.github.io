@@ -67,8 +67,8 @@ a1
 
 
 
-    Array(/foo/bar, (10000, 10000), int32, chunks=(1000, 1000), order=C)
-      nbytes: 381.5M; nbytes_stored: 323; ratio: 1238390.1; initialized: 0/100
+    Array(/foo/bar, (10000, 10000), float64, chunks=(1000, 1000), order=C)
+      nbytes: 762.9M; nbytes_stored: 323; ratio: 2476780.2; initialized: 0/100
       compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
       store: DictStore
 
@@ -98,8 +98,8 @@ foo_group['bar']
 
 
 
-    Array(/foo/bar, (10000, 10000), int32, chunks=(1000, 1000), order=C)
-      nbytes: 381.5M; nbytes_stored: 323; ratio: 1238390.1; initialized: 0/100
+    Array(/foo/bar, (10000, 10000), float64, chunks=(1000, 1000), order=C)
+      nbytes: 762.9M; nbytes_stored: 323; ratio: 2476780.2; initialized: 0/100
       compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
       store: DictStore
 
@@ -109,16 +109,13 @@ Multiple hierarchy levels can also be traversed, e.g.:
 
 
 {% highlight python %}
-root_group['foo/bar']
+root_group['foo/bar'] == foo_group['bar']
 {% endhighlight %}
 
 
 
 
-    Array(/foo/bar, (10000, 10000), int32, chunks=(1000, 1000), order=C)
-      nbytes: 381.5M; nbytes_stored: 323; ratio: 1238390.1; initialized: 0/100
-      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
-      store: DictStore
+    True
 
 
 
@@ -147,6 +144,198 @@ Data can also be stored in a [Zip file](http://zarr.readthedocs.io/en/latest/api
 For more information about groups, see the [groups section of the Zarr tutorial](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and the [zarr.hierarchy API docs](http://zarr.readthedocs.io/en/latest/api/hierarchy.html).
 
 ## Filters
+
+Zarr 2 also adds support for filters. Filters are arbitrary data transformations that can be applied to data chunks prior to compression and storage. The idea is that, for some kinds of data, certain transformations can help to improve the compression ratio, or provide other useful features such as error checking.
+
+There are a few [built-in filter classes](http://zarr.readthedocs.io/en/latest/api/codecs.html) available in Zarr, including delta, scale-offset, quantize, packbits and categorize transformations. Here's a trivial example using the delta filter:
+
+
+{% highlight python %}
+data = np.arange(100000000)
+z1a = zarr.array(data)  # no filters
+z1a
+{% endhighlight %}
+
+
+
+
+    Array((100000000,), int64, chunks=(48829,), order=C)
+      nbytes: 762.9M; nbytes_stored: 11.3M; ratio: 67.4; initialized: 2048/2048
+      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
+      store: dict
+
+
+
+
+{% highlight python %}
+z1b = zarr.array(data, filters=[zarr.Delta(dtype=data.dtype)])
+z1b
+{% endhighlight %}
+
+
+
+
+    Array((100000000,), int64, chunks=(48829,), order=C)
+      nbytes: 762.9M; nbytes_stored: 3.6M; ratio: 213.3; initialized: 2048/2048
+      filters: Delta(dtype=int64)
+      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
+      store: dict
+
+
+
+Note that the delta filter improves the compression ratio in this case. 
+
+For floating point data you can try the quantize or scale-offset filters. Both are lossy for floating point data and allow you to store data with a given precision. E.g.:
+
+
+{% highlight python %}
+data = np.random.normal(loc=10, scale=2, size=10000000)
+data
+{% endhighlight %}
+
+
+
+
+    array([ 10.87730896,   9.15425995,   9.8667373 , ...,   8.8752233 ,
+            11.0624768 ,   8.00697576])
+
+
+
+
+{% highlight python %}
+z2a = zarr.array(data)  # no filters
+z2a
+{% endhighlight %}
+
+
+
+
+    Array((10000000,), float64, chunks=(39063,), order=C)
+      nbytes: 76.3M; nbytes_stored: 67.2M; ratio: 1.1; initialized: 256/256
+      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
+      store: dict
+
+
+
+
+{% highlight python %}
+z2b = zarr.array(data, filters=[zarr.Quantize(digits=1, dtype=data.dtype)])
+z2b
+{% endhighlight %}
+
+
+
+
+    Array((10000000,), float64, chunks=(39063,), order=C)
+      nbytes: 76.3M; nbytes_stored: 19.4M; ratio: 3.9; initialized: 256/256
+      filters: Quantize(digits=1, dtype=float64)
+      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
+      store: dict
+
+
+
+
+{% highlight python %}
+z2b[:]
+{% endhighlight %}
+
+
+
+
+    array([ 10.875 ,   9.125 ,   9.875 , ...,   8.875 ,  11.0625,   8.    ])
+
+
+
+
+{% highlight python %}
+z2c = zarr.array(data, filters=[zarr.FixedScaleOffset(offset=10, scale=10, dtype=data.dtype)])
+z2c
+{% endhighlight %}
+
+
+
+
+    Array((10000000,), float64, chunks=(39063,), order=C)
+      nbytes: 76.3M; nbytes_stored: 17.3M; ratio: 4.4; initialized: 256/256
+      filters: FixedScaleOffset(scale=10, offset=10, dtype=float64)
+      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
+      store: dict
+
+
+
+
+{% highlight python %}
+z2c[:]
+{% endhighlight %}
+
+
+
+
+    array([ 10.9,   9.2,   9.9, ...,   8.9,  11.1,   8. ])
+
+
+
+Here's an example using the packbits filter with a Boolean array:
+
+
+{% highlight python %}
+data = np.random.randint(0, 2, size=10000000, dtype=bool)
+data
+{% endhighlight %}
+
+
+
+
+    array([False,  True,  True, ...,  True, False, False], dtype=bool)
+
+
+
+
+{% highlight python %}
+z3a = zarr.array(data)  # no filters
+z3a
+{% endhighlight %}
+
+
+
+
+    Array((10000000,), bool, chunks=(156250,), order=C)
+      nbytes: 9.5M; nbytes_stored: 4.8M; ratio: 2.0; initialized: 64/64
+      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
+      store: dict
+
+
+
+
+{% highlight python %}
+z3b = zarr.array(data, filters=[zarr.PackBits()], compressor=None)
+z3b
+{% endhighlight %}
+
+
+
+
+    Array((10000000,), bool, chunks=(156250,), order=C)
+      nbytes: 9.5M; nbytes_stored: 1.2M; ratio: 8.0; initialized: 64/64
+      filters: PackBits()
+      store: dict
+
+
+
+The Zarr packbits filter packs boolean values into single bits, hence the compression ratio of 8.0 on some Random boolean data.
+
+The built-in filters in Zarr have not been optimized at all yet, and I am sure there is much room for performance improvement. The main idea in this release was to establish a simple API for developing and integrating new filters, so it is easier to explore different options for new data.
+
+For more information about filters, see the [filters section of the Zarr tutorial](TODO) and the [zarr.codecs API docs](TODO).
+
+## Further reading
+
+* Zarr documentation
+* To HDF5 and beyond
+* CPU blues
+* ...
+
+Thanks to Matthew Rocklin, Stephan Hoyer and Francesc Alted for much advice and inspiration.
 
 
 {% highlight python %}
