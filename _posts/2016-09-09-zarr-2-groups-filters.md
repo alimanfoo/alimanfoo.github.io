@@ -119,7 +119,7 @@ root_group['foo/bar'] == foo_group['bar']
 
 
 
-In the examples above, all data will be stored in memory. However, Zarr can use a variety of other storage layers. For example, data can also be stored on the file system, e.g.:
+In the examples above, all data will be stored in memory. However, Zarr can use a variety of other storage layers. For example, data can be stored on the file system, e.g.:
 
 
 {% highlight python %}
@@ -139,9 +139,9 @@ a2
 
 
 
-Data can also be stored in a [Zip file](http://zarr.readthedocs.io/en/latest/api/storage.html#zarr.storage.ZipStore) (with some limitations), on [S3](http://s3fs.readthedocs.io/en/latest/api.html#s3fs.mapping.S3Map), on [HDFS](http://hdfs3.readthedocs.io/en/latest/api.html#hdfs3.mapping.HDFSMap), or via any storage system that can expose a [MutableMapping](https://docs.python.org/3/library/collections.abc.html) interface.
+Data can also be stored in a [Zip file](http://zarr.readthedocs.io/en/latest/api/storage.html#zarr.storage.ZipStore) (with some limitations), on [S3](http://s3fs.readthedocs.io/en/latest/api.html#s3fs.mapping.S3Map), [HDFS](http://hdfs3.readthedocs.io/en/latest/api.html#hdfs3.mapping.HDFSMap), or any storage system that can by accessed via the [MutableMapping](https://docs.python.org/3/library/collections.abc.html) interface.
 
-For more information about groups, see the [groups section of the Zarr tutorial](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and the [zarr.hierarchy API docs](http://zarr.readthedocs.io/en/latest/api/hierarchy.html).
+For more information about groups, see the [groups section of the Zarr tutorial](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and the [`zarr.hierarchy` API docs](http://zarr.readthedocs.io/en/latest/api/hierarchy.html).
 
 ## Filters
 
@@ -196,8 +196,8 @@ data
 
 
 
-    array([ 10.87730896,   9.15425995,   9.8667373 , ...,   8.8752233 ,
-            11.0624768 ,   8.00697576])
+    array([  8.74674205,  12.21517843,   5.64209159, ...,   9.15225917,
+            10.78280929,  10.8855431 ])
 
 
 
@@ -242,7 +242,7 @@ z2b[:]
 
 
 
-    array([ 10.875 ,   9.125 ,   9.875 , ...,   8.875 ,  11.0625,   8.    ])
+    array([  8.75  ,  12.1875,   5.625 , ...,   9.125 ,  10.8125,  10.875 ])
 
 
 
@@ -271,7 +271,7 @@ z2c[:]
 
 
 
-    array([ 10.9,   9.2,   9.9, ...,   8.9,  11.1,   8. ])
+    array([  8.7,  12.2,   5.6, ...,   9.2,  10.8,  10.9])
 
 
 
@@ -286,7 +286,7 @@ data
 
 
 
-    array([False,  True,  True, ...,  True, False, False], dtype=bool)
+    array([False,  True,  True, ...,  True,  True, False], dtype=bool)
 
 
 
@@ -324,18 +324,47 @@ z3b
 
 The Zarr packbits filter packs boolean values into single bits, hence the compression ratio of 8.0 on some Random boolean data.
 
-The built-in filters in Zarr have not been optimized at all yet, and I am sure there is much room for performance improvement. The main idea in this release was to establish a simple API for developing and integrating new filters, so it is easier to explore different options for new data.
+More than one filter can be provided, and compressors are filters too, so you can do some fairly zany things if you want to, e.g.:
+
+
+{% highlight python %}
+data = np.random.normal(loc=10, scale=2, size=10000000)
+zany = zarr.array(data, 
+                  filters=[zarr.Quantize(digits=1, dtype=data.dtype),
+                           zarr.Blosc(clevel=0, shuffle=1),
+                           zarr.BZ2(level=9)],
+                  compression=None)
+zany
+{% endhighlight %}
+
+
+
+
+    Array((10000000,), float64, chunks=(39063,), order=C)
+      nbytes: 76.3M; nbytes_stored: 9.1M; ratio: 8.4; initialized: 256/256
+      filters: Quantize(digits=1, dtype=float64)
+               Blosc(cname='lz4', clevel=0, shuffle=1)
+               BZ2(level=9)
+      store: dict
+
+
+
+Please note that the built-in filters in Zarr have not been optimized at all yet, and I am sure there is much room for performance improvement. The main idea in this release is to establish a simple API for developing and integrating new filters, so it is easier to explore different options for new data.
 
 For more information about filters, see the [filters section of the Zarr tutorial](TODO) and the [zarr.codecs API docs](TODO).
 
-## Further reading
+## Acknowledgments and further reading
+
+I hope this new release of Zarr is useful, any [feedback or suggestions]() are very welcome as always. The latest version of Zarr is available from [PyPI]() and [conda-forge](), see the [installation instructions]() for more information. Here are some other resources you might find interesting:
 
 * Zarr documentation
 * To HDF5 and beyond
 * CPU blues
 * ...
 
-Thanks to Matthew Rocklin, Stephan Hoyer and Francesc Alted for much advice and inspiration.
+Development of Zarr is motivated by our work on the [genomic epidemiology of malaria](), and supported by the [MRC Centre for Genomics and Global Health]().
+
+Thanks to Matthew Rocklin, Stephan Hoyer and Francesc Alted for much advice and inspiration. As Francesc would say, enjoy data!
 
 
 {% highlight python %}
