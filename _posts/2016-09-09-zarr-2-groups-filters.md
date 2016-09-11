@@ -1,23 +1,20 @@
 ---
 layout: post
-title: Zarr 2 - groups and filters
+title: Zarr 2 - groups, filters and Zstandard
 ---
 
 
-Recently I've been working on [Zarr](http://zarr.readthedocs.io/en/latest/), a Python package providing chunked, compressed storage for numerical arrays. I've just released [Zarr version 2](http://zarr.readthedocs.io/en/latest/release.html) which adds two new major features: [groups](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and [filters](http://zarr.readthedocs.io/en/latest/tutorial.html#filters). This post provides a brief tour of what's new.
+Recently I've been working on [Zarr](http://zarr.readthedocs.io/en/latest/), a Python package providing chunked, compressed storage for numerical arrays. I've just released [Zarr version 2](http://zarr.readthedocs.io/en/latest/release.html) which adds two new major features: [groups](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and [filters](http://zarr.readthedocs.io/en/latest/tutorial.html#filters). It also brings support for [Zstandard](TODO) compression via [Blosc](TODO). This post provides a brief tour of what's new.
 
 
 {% highlight python %}
 import numpy as np
-import zarr
-zarr.__version__
+import zarr; print('zarr', zarr.__version__)
+from zarr import blosc; print('blosc', blosc.VERSION_STRING)  # TODO __version__
 {% endhighlight %}
 
-
-
-
-    '2.1.0'
-
+    zarr 2.1.0
+    blosc 1.11.1
 
 
 ## Groups
@@ -145,7 +142,7 @@ For more information about groups, see the [groups section of the Zarr tutorial]
 
 ## Filters
 
-Zarr 2 also adds support for filters. Filters are arbitrary data transformations that can be applied to data chunks prior to compression and storage. The idea is that, for some kinds of data, certain transformations can help to improve the compression ratio, or provide other useful features such as error checking.
+Zarr 2 also adds support for filters. Filters are arbitrary data transformations that can be applied to data chunks prior to storage. The idea is that, for some kinds of data, certain transformations can help to improve the compression ratio, or provide other useful features such as error checking.
 
 There are a few [built-in filter classes](http://zarr.readthedocs.io/en/latest/api/codecs.html) available in Zarr, including delta, scale-offset, quantize, packbits and categorize transformations. Here's a trivial example using the delta filter:
 
@@ -275,7 +272,7 @@ z2c[:]
 
 
 
-Here's an example using the packbits filter with a Boolean array:
+The packbits filter is intended for use with Boolean arrays, e.g.:
 
 
 {% highlight python %}
@@ -322,7 +319,7 @@ z3b
 
 
 
-The Zarr packbits filter packs boolean values into single bits, hence the compression ratio of 8.0 on some Random boolean data.
+The Zarr packbits filter packs Boolean values into single bits, hence the compression ratio of 8.
 
 More than one filter can be provided, and compressors are filters too, so you can do some fairly zany things if you want to, e.g.:
 
@@ -331,7 +328,7 @@ More than one filter can be provided, and compressors are filters too, so you ca
 data = np.random.normal(loc=10, scale=2, size=10000000)
 zany = zarr.array(data, 
                   filters=[zarr.Quantize(digits=1, dtype=data.dtype),
-                           zarr.Blosc(clevel=0, shuffle=1),
+                           zarr.Blosc(clevel=0, shuffle=blosc.SHUFFLE),
                            zarr.BZ2(level=9)],
                   compression=None)
 zany
@@ -349,22 +346,42 @@ zany
 
 
 
-Please note that the built-in filters in Zarr have not been optimized at all yet, and I am sure there is much room for performance improvement. The main idea in this release is to establish a simple API for developing and integrating new filters, so it is easier to explore different options for new data.
+Please note that the built-in filters in Zarr have not been optimized at all yet, I am sure there is much room for performance improvement. The main idea in the Zarr version 2 release is to establish a simple API for developing and integrating new filters, so it is easier to explore different options for new data.
 
 For more information about filters, see the [filters section of the Zarr tutorial](TODO) and the [zarr.codecs API docs](TODO).
 
+## Zstandard
+
+One other thing I wanted to mention is that Zarr now supports compression with Zstandard. I don't want to say too much here because I'm hoping to write up some detailed benchmark data in a separate blog post soon. But from what I have seen so far, Zstandard is a superb codec, providing very high compression ratios (better than zlib) while maintaining excellent speed for both compression and decompression.
+
+Here's how to create a Zarr array using Zstandard compression via Blosc:
+
+
+{% highlight python %}
+z4 = zarr.zeros(shape=(10000, 10000), 
+                compressor=zarr.Blosc(cname='zstd', clevel=5, shuffle=blosc.SHUFFLE))
+z4
+{% endhighlight %}
+
+
+
+
+    Array((10000, 10000), float64, chunks=(157, 313), order=C)
+      nbytes: 762.9M; nbytes_stored: 322; ratio: 2484472.0; initialized: 0/2048
+      compressor: Blosc(cname='zstd', clevel=5, shuffle=1)
+      store: dict
+
+
+
 ## Acknowledgments and further reading
 
-I hope this new release of Zarr is useful, any [feedback or suggestions]() are very welcome as always. The latest version of Zarr is available from [PyPI]() and [conda-forge](), see the [installation instructions]() for more information. Here are some other resources you might find interesting:
+The latest version of Zarr is available from [PyPI]() and [conda-forge](), see the [installation instructions]() for more information. I hope this new release of Zarr is useful, any [feedback or suggestions]() are very welcome as always.  
 
-* Zarr documentation
-* To HDF5 and beyond
-* CPU blues
-* ...
+If this is the first time you are reading about Zarr, you might like to check out these previous posts, [To HDF5 and beyond]() and [CPU blues]().
 
-Development of Zarr is motivated by our work on the [genomic epidemiology of malaria](), and supported by the [MRC Centre for Genomics and Global Health]().
+Development of Zarr is motivated by our work on the [genomic epidemiology of malaria]() and supported by the [MRC Centre for Genomics and Global Health]().
 
-Thanks to Matthew Rocklin, Stephan Hoyer and Francesc Alted for much advice and inspiration. As Francesc would say, enjoy data!
+Thanks to [Matthew Rocklin](), [Stephan Hoyer]() and [Francesc Alted]() for much advice and inspiration. As Francesc would say, enjoy data!
 
 
 {% highlight python %}
