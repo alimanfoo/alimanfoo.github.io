@@ -4,16 +4,16 @@ title: Zarr 2 - groups, filters and Zstandard
 ---
 
 
-Recently I've been working on [Zarr](http://zarr.readthedocs.io/en/latest/), a Python package providing chunked, compressed storage for numerical arrays. I've just released [Zarr version 2](http://zarr.readthedocs.io/en/latest/release.html) which adds two new major features: [groups](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and [filters](http://zarr.readthedocs.io/en/latest/tutorial.html#filters). It also brings support for [Zstandard](TODO) compression via [Blosc](TODO). This post provides a brief tour of what's new.
+Recently I've been working on [Zarr](http://zarr.readthedocs.io/en/latest/), a Python package providing chunked, compressed storage for numerical arrays. I've just released [Zarr version 2](http://zarr.readthedocs.io/en/latest/release.html) which adds two new major features: [groups](http://zarr.readthedocs.io/en/latest/tutorial.html#groups) and [filters](http://zarr.readthedocs.io/en/latest/tutorial.html#filters). It also brings support for [Zstandard](http://facebook.github.io/zstd/) compression via [Blosc](http://www.blosc.org/). This post provides a brief tour of what's new.
 
 
 {% highlight python %}
 import numpy as np
 import zarr; print('zarr', zarr.__version__)
-from zarr import blosc; print('blosc', blosc.VERSION_STRING)  # TODO __version__
+from zarr import blosc; print('blosc', blosc.__version__)
 {% endhighlight %}
 
-    zarr 2.1.0
+    zarr 2.1.1
     blosc 1.11.1
 
 
@@ -57,15 +57,15 @@ The [Group](http://zarr.readthedocs.io/en/latest/api/hierarchy.html#zarr.hierarc
 
 
 {% highlight python %}
-a1 = foo_group.zeros('bar', shape=(10000, 10000), chunks=(1000, 1000))
+a1 = foo_group.zeros('bar', shape=(10000, 10000))
 a1
 {% endhighlight %}
 
 
 
 
-    Array(/foo/bar, (10000, 10000), float64, chunks=(1000, 1000), order=C)
-      nbytes: 762.9M; nbytes_stored: 323; ratio: 2476780.2; initialized: 0/100
+    Array(/foo/bar, (10000, 10000), float64, chunks=(157, 313), order=C)
+      nbytes: 762.9M; nbytes_stored: 321; ratio: 2492211.8; initialized: 0/2048
       compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
       store: DictStore
 
@@ -95,8 +95,8 @@ foo_group['bar']
 
 
 
-    Array(/foo/bar, (10000, 10000), float64, chunks=(1000, 1000), order=C)
-      nbytes: 762.9M; nbytes_stored: 323; ratio: 2476780.2; initialized: 0/100
+    Array(/foo/bar, (10000, 10000), float64, chunks=(157, 313), order=C)
+      nbytes: 762.9M; nbytes_stored: 321; ratio: 2492211.8; initialized: 0/2048
       compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
       store: DictStore
 
@@ -142,7 +142,7 @@ For more information about groups, see the [groups section of the Zarr tutorial]
 
 ## Filters
 
-Zarr 2 also adds support for filters. Filters are arbitrary data transformations that can be applied to data chunks prior to storage. The idea is that, for some kinds of data, certain transformations can help to improve the compression ratio, or provide other useful features such as error checking.
+Zarr 2 also adds support for filters. Filters are arbitrary data transformations that can be applied to encode data chunks prior to storage, and to decode data on retrieval. The idea is that, for some kinds of data, certain transformations can help to improve the compression ratio, or provide other useful features such as error checking.
 
 There are a few [built-in filter classes](http://zarr.readthedocs.io/en/latest/api/codecs.html) available in Zarr, including delta, scale-offset, quantize, packbits and categorize transformations. Here's a trivial example using the delta filter:
 
@@ -182,7 +182,7 @@ z1b
 
 Note that the delta filter improves the compression ratio in this case. 
 
-For floating point data you can try the quantize or scale-offset filters. Both are lossy for floating point data and allow you to store data with a given precision. E.g.:
+For floating point data you can try the quantize or scale-offset filters, which allow you to store data with a given precision. E.g.:
 
 
 {% highlight python %}
@@ -193,8 +193,8 @@ data
 
 
 
-    array([  8.74674205,  12.21517843,   5.64209159, ...,   9.15225917,
-            10.78280929,  10.8855431 ])
+    array([  6.72635296,   9.91028746,   7.83297722, ...,  10.12890375,
+            10.54766939,   9.78125015])
 
 
 
@@ -239,7 +239,7 @@ z2b[:]
 
 
 
-    array([  8.75  ,  12.1875,   5.625 , ...,   9.125 ,  10.8125,  10.875 ])
+    array([  6.75  ,   9.9375,   7.8125, ...,  10.125 ,  10.5625,   9.8125])
 
 
 
@@ -268,69 +268,18 @@ z2c[:]
 
 
 
-    array([  8.7,  12.2,   5.6, ...,   9.2,  10.8,  10.9])
+    array([  6.7,   9.9,   7.8, ...,  10.1,  10.5,   9.8])
 
 
-
-The packbits filter is intended for use with Boolean arrays, e.g.:
-
-
-{% highlight python %}
-data = np.random.randint(0, 2, size=10000000, dtype=bool)
-data
-{% endhighlight %}
-
-
-
-
-    array([False,  True,  True, ...,  True,  True, False], dtype=bool)
-
-
-
-
-{% highlight python %}
-z3a = zarr.array(data)  # no filters
-z3a
-{% endhighlight %}
-
-
-
-
-    Array((10000000,), bool, chunks=(156250,), order=C)
-      nbytes: 9.5M; nbytes_stored: 4.8M; ratio: 2.0; initialized: 64/64
-      compressor: Blosc(cname='lz4', clevel=5, shuffle=1)
-      store: dict
-
-
-
-
-{% highlight python %}
-z3b = zarr.array(data, filters=[zarr.PackBits()], compressor=None)
-z3b
-{% endhighlight %}
-
-
-
-
-    Array((10000000,), bool, chunks=(156250,), order=C)
-      nbytes: 9.5M; nbytes_stored: 1.2M; ratio: 8.0; initialized: 64/64
-      filters: PackBits()
-      store: dict
-
-
-
-The Zarr packbits filter packs Boolean values into single bits, hence the compression ratio of 8.
 
 More than one filter can be provided, and compressors are filters too, so you can do some fairly zany things if you want to, e.g.:
 
 
 {% highlight python %}
-data = np.random.normal(loc=10, scale=2, size=10000000)
 zany = zarr.array(data, 
                   filters=[zarr.Quantize(digits=1, dtype=data.dtype),
-                           zarr.Blosc(clevel=0, shuffle=blosc.SHUFFLE),
-                           zarr.BZ2(level=9)],
-                  compression=None)
+                           zarr.Blosc(clevel=0, shuffle=blosc.SHUFFLE)],
+                  compressor=zarr.BZ2(level=9))
 zany
 {% endhighlight %}
 
@@ -341,33 +290,32 @@ zany
       nbytes: 76.3M; nbytes_stored: 9.1M; ratio: 8.4; initialized: 256/256
       filters: Quantize(digits=1, dtype=float64)
                Blosc(cname='lz4', clevel=0, shuffle=1)
-               BZ2(level=9)
+      compressor: BZ2(level=9)
       store: dict
 
 
 
 Please note that the built-in filters in Zarr have not been optimized at all yet, I am sure there is much room for performance improvement. The main idea in the Zarr version 2 release is to establish a simple API for developing and integrating new filters, so it is easier to explore different options for new data.
 
-For more information about filters, see the [filters section of the Zarr tutorial](TODO) and the [zarr.codecs API docs](TODO).
+For more information about filters, see the [filters section of the Zarr tutorial](http://zarr.readthedocs.io/en/latest/tutorial.html#filters) and the [`zarr.codecs` API docs](http://zarr.readthedocs.io/en/latest/api/codecs.html).
 
 ## Zstandard
 
-One other thing I wanted to mention is that Zarr now supports compression with Zstandard. I don't want to say too much here because I'm hoping to write up some detailed benchmark data in a separate blog post soon. But from what I have seen so far, Zstandard is a superb codec, providing very high compression ratios (better than zlib) while maintaining excellent speed for both compression and decompression.
+One other thing I wanted to mention is that Zarr now supports compression with [Zstandard](http://facebook.github.io/zstd/). I'm not going to say much here because I'm hoping to write up some detailed benchmark data in a separate blog post soon. But from what I have seen so far, Zstandard is a superb codec, providing high compression ratios while maintaining excellent speed for both compression and decompression, although as always mileage will vary depending on the nature of the data.
 
 Here's how to create a Zarr array using Zstandard compression via Blosc:
 
 
 {% highlight python %}
-z4 = zarr.zeros(shape=(10000, 10000), 
-                compressor=zarr.Blosc(cname='zstd', clevel=5, shuffle=blosc.SHUFFLE))
+z4 = zarr.array(data, compressor=zarr.Blosc(cname='zstd', clevel=5, shuffle=blosc.SHUFFLE))
 z4
 {% endhighlight %}
 
 
 
 
-    Array((10000, 10000), float64, chunks=(157, 313), order=C)
-      nbytes: 762.9M; nbytes_stored: 322; ratio: 2484472.0; initialized: 0/2048
+    Array((10000000,), float64, chunks=(39063,), order=C)
+      nbytes: 76.3M; nbytes_stored: 66.2M; ratio: 1.2; initialized: 256/256
       compressor: Blosc(cname='zstd', clevel=5, shuffle=1)
       store: dict
 
@@ -375,15 +323,12 @@ z4
 
 ## Acknowledgments and further reading
 
-The latest version of Zarr is available from [PyPI]() and [conda-forge](), see the [installation instructions]() for more information. I hope this new release of Zarr is useful, any [feedback or suggestions]() are very welcome as always.  
+I hope this new release of Zarr is useful, any [feedback or suggestions](https://github.com/alimanfoo/zarr/issues) are very welcome as always.
 
-If this is the first time you are reading about Zarr, you might like to check out these previous posts, [To HDF5 and beyond]() and [CPU blues]().
+The latest version of Zarr is available from [PyPI](https://pypi.python.org/pypi/zarr) and [conda-forge](https://github.com/conda-forge/zarr-feedstock), see the [installation instructions](http://zarr.readthedocs.io/en/latest/index.html#installation) for more information.  
 
-Development of Zarr is motivated by our work on the [genomic epidemiology of malaria]() and supported by the [MRC Centre for Genomics and Global Health]().
+If this is the first time you are reading about Zarr, you might like to take a look at these previous posts: [To HDF5 and beyond](http://alimanfoo.github.io/2016/04/14/to-hdf5-and-beyond.html), and [CPU blues](http://alimanfoo.github.io/2016/05/16/cpu-blues.html).
 
-Thanks to [Matthew Rocklin](), [Stephan Hoyer]() and [Francesc Alted]() for much advice and inspiration. As Francesc would say, enjoy data!
+Development of Zarr is motivated by our work on the [genomic epidemiology of malaria](https://www.malariagen.net/) and supported by the [MRC Centre for Genomics and Global Health](http://www.cggh.org/).
 
-
-{% highlight python %}
-
-{% endhighlight %}
+Thanks to [Matthew Rocklin](https://github.com/mrocklin), [Stephan Hoyer](https://github.com/shoyer) and [Francesc Alted](https://github.com/FrancescAlted) for much good advice and inspiration. As Francesc would say, enjoy data!
