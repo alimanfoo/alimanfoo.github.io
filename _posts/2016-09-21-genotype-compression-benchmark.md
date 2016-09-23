@@ -4,19 +4,17 @@ title: Genotype compressor benchmark
 ---
 
 
-*This blog post benchmarks different compressors for use with genotype data from large-scale resequencing projects. TL;DR for raw speed you can't beat LZ4, but Zstd gives a very high compression ratio with good all-round performance.*
+*This blog post benchmarks different compressors for use with genotype data from large-scale resequencing projects. TL;DR for speed you can't beat Blosc+LZ4, but Blosc+Zstd+Bitshuffle gives a very high compression ratio with good all-round performance.*
 
 ## About the data
 
-The data used in this benchmark are genotype data from the [Ag1000G project phase 1 AR3 data release](@@TODO). The data are available for download from a [public FTP site]() in HDF5 format files. The goal of this benchmark is compare compression ratio and speed of compression and decompression for a variety of different compression algorithms. For convenience I won't use all of the data, but will extract a sample of 1 million rows from a genotype array.
+The data used in this benchmark are genotype data from the [Ag1000G project phase 1 AR3 data release](@@TODO). The goal of this benchmark is compare compression ratio and speed of compression and decompression for a variety of different compressors. For convenience I won't use all of the data, but will extract a sample of 1 million rows from a genotype array.
 
 
 {% highlight python %}
-# import h5py
-# h5f = h5py.File('/kwiat/2/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/')
-# TODO use h5py
-import zarr
-callset = zarr.group('/kwiat/2/coluzzi/ag1000g/data/phase1/release/AR3.1/variation/main/zarr2/zstd/ag1000g.phase1.ar3.pass')
+import h5py
+callset = h5py.File('/kwiat/2/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/hdf5/ag1000g.phase1.ar3.pass.3R.h5',
+                    mode='r')
 data = callset['3R/calldata/genotype'][5000000:6000000]
 {% endhighlight %}
 
@@ -87,7 +85,7 @@ ax.set_title('Distribution of data values');
 ![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_7_0.png)
 
 
-For the benchmark I'm going to store the data via [Zarr](@@TODO) which is similar to HDF5 in that it splits the data into chunks and compresses each chunk separately. We usually choose a chunk shape that provides a good trade-off between row-wise and column-wise data access, and use chunk sizes of 1 megabyte or greater.
+For the benchmark I'm going to store the data via [Zarr](@@TODO) which splits the data into chunks and compresses each chunk separately. Compressed data will be stored in and retrieved from main memory. We usually choose a chunk shape that provides a good trade-off between row-wise and column-wise data access, and use chunk sizes of 1 megabyte or greater.
 
 
 {% highlight python %}
@@ -100,10 +98,15 @@ print('uncompressed chunk size:', humanize.naturalsize(reduce(operator.mul, chun
     uncompressed chunk size: 1.8 MB
 
 
-## Compression ratio
+## About the compressors
+
+The Python standard library provides three compression libraries: [Zlib](), [BZ2]() and [LZMA](). I'm including these in the benchmark for comparison, however these are typically too slow for interactive data analysis. The main comparisons will be between different configurations of the [Blosc](@@TODO) compression library. 
+
+[Blosc](@@TODO) is a meta-compressor which accelerates compression by using multiple threads and by splitting data into smaller blocks that fit well with CPU cache architecture. There are a number of different compression algorithms which can be used within Blosc, including LZ4, Zstandard, Zlib and BloscLZ. Blosc also provides hardware-optimized implementations of shuffle filters, which can improve compression ratio for some data. Because I am dealing with single-byte data, I am particularly interested in how the bit-shuffle filter affects compression ratio and performance.
 
 
 {% highlight python %}
+import zarr
 from zarr import Zlib, BZ2, LZMA, Blosc
 from zarr.blosc import NOSHUFFLE, BITSHUFFLE
 compressors = (
@@ -141,17 +144,33 @@ compressors = (
 )
 {% endhighlight %}
 
+Note that ``NOSHUFFLE`` and ``BITSHUFFLE`` are numeric constants with values 0 and 2 respectively:
+
 
 {% highlight python %}
-NOSHUFFLE, BITSHUFFLE
+NOSHUFFLE
 {% endhighlight %}
 
 
 
 
-    (0, 2)
+    0
 
 
+
+
+{% highlight python %}
+BITSHUFFLE
+{% endhighlight %}
+
+
+
+
+    2
+
+
+
+## Compression ratio
 
 
 {% highlight python %}
@@ -167,13 +186,13 @@ def calc_ratios():
 
 
 {% highlight python %}
-assets_dir = '../assets//assets/2016-09-21-genotype-compression-benchmark_files'
+data_dir = '../assets/2016-09-21-genotype-compression-benchmark_data'
 {% endhighlight %}
 
 
 {% highlight python %}
 import os
-ratios_fn = os.path.join(assets_dir, 'ratios.npy')
+ratios_fn = os.path.join(data_dir, 'ratios.npy')
 if os.path.exists(ratios_fn):
     ratios = np.load(ratios_fn)
 else:
@@ -196,7 +215,7 @@ ax.set_title('Compression ratio', va='bottom');
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_16_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_19_0.png)
 
 
 ## Compression and decompression speed
@@ -238,8 +257,11 @@ def bench_performance(repeat=10, number=1, blosc_nthreads=1):
 {% highlight python %}
 # this takes a long time, so only run once and save results
 import os
-times_fn = os.path.join(assets_dir, 'times.npz')
+times_fn = os.path.join(data_dir, 'times.npz')
+{% endhighlight %}
 
+
+{% highlight python %}
 if not os.path.exists(times_fn):
     compress_times, decompress_times = bench_performance(blosc_nthreads=1)
     mt_compress_times, mt_decompress_times = bench_performance(blosc_nthreads=8)
@@ -254,7 +276,6 @@ else:
     decompress_times = times['decompress_times']
     mt_compress_times = times['mt_compress_times']
     mt_decompress_times = times['mt_decompress_times']
-
 {% endhighlight %}
 
 
@@ -280,13 +301,15 @@ def plot_speed(times, title, xlim=(0, 3100)):
                     fontsize=8)
 {% endhighlight %}
 
+Below are several plots of compression and decompression speed. In the plots I've included the compression ratios as well as annotations (e.g., "53.7X") for easy reference. Note that ``clevel=0`` means no compression. 
+
 
 {% highlight python %}
 plot_speed(compress_times, 'Compression speed (single-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_22_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_27_0.png)
 
 
 
@@ -295,7 +318,7 @@ plot_speed(mt_compress_times, 'Compression speed (multi-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_23_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_28_0.png)
 
 
 
@@ -304,7 +327,7 @@ plot_speed(decompress_times, 'Decompression speed (single-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_24_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_29_0.png)
 
 
 
@@ -313,7 +336,7 @@ plot_speed(mt_decompress_times, 'Decompression speed (multi-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_25_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_30_0.png)
 
 
 ## Summary
@@ -322,10 +345,7 @@ plot_speed(mt_decompress_times, 'Decompression speed (multi-threaded Blosc)')
 {% highlight python %}
 palette = sns.color_palette('Set1', n_colors=7)
 #sns.palplot(palette);
-{% endhighlight %}
 
-
-{% highlight python %}
 colors = np.array([
     palette[0] if not isinstance(c, Blosc)
     else palette[1] if c.cname == b'snappy'
@@ -337,10 +357,7 @@ colors = np.array([
     else 'k'
     for c in compressors
 ])
-{% endhighlight %}
 
-
-{% highlight python %}
 def plot_summary(ctimes, dtimes, xlim=(0, 2100), ylim=(0, 2100), annotate=[], title=None, alpha=1):
     fig, ax = plt.subplots(figsize=(8, 8))
     sns.despine(ax=ax, offset=10)
@@ -382,14 +399,14 @@ def plot_summary(ctimes, dtimes, xlim=(0, 2100), ylim=(0, 2100), annotate=[], ti
                       markersize=10, label=label, alpha=alpha)
         for color, label in zip(
             palette,
-            ['other', 'snappy', 'blosclz', 'lz4', 'lz4hc', 'zlib', 'zstd']
+            ['other', 'blosc+snappy', 'blosc+blosclz', 'blosc+lz4', 'blosc+lz4hc', 'blosc+zlib', 'blosc+zstd']
         )
     ]
     handles += [
         mlines.Line2D([], [], color='k', marker=ns_marker, linestyle=' ',
                       markersize=10, label='NOSHUFFLE', alpha=alpha),
         mlines.Line2D([], [], color='k', marker=bs_marker, linestyle=' ',
-                      markersize=10, label='BITSUFFLE', alpha=alpha)
+                      markersize=10, label='BITSHUFFLE', alpha=alpha)
         
     ]
     handles += [
@@ -410,7 +427,7 @@ plot_summary(compress_times, decompress_times, annotate=annotate,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_30_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_33_0.png)
 
 
 
@@ -421,16 +438,24 @@ plot_summary(mt_compress_times, mt_decompress_times, annotate=annotate,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_31_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_34_0.png)
 
 
 ## Conclusions
 
-@@TODO
+* For maximum all-round speed, Blosc with LZ4 and no shuffle is the best option.
+* For higher compression ratios, Blosc with Zstandard is excellent. Adding the bit-shuffle filter increases compression ratio even further at a modest cost to decompression speed.
 
 ## Further reading
 
-@@TODO
+* [Blosc web site](http://www.blosc.org/)
+* [Zstandard web site](@@TODO)
+* [Zstandard GitHub repo](@@TODO)
+* [Bitshuffle GitHub repo](https://github.com/kiyo-masui/bitshuffle)
+* [New "bitshuffle" filter](http://www.blosc.org/blog/new-bitshuffle-filter.html) - blog post by Francesc Alted with further benchmarks using the bit-shuffle filter
+* [Zstd has just landed in Blosc](http://www.blosc.org/blog/zstd-has-just-landed-in-blosc.html) - blog post by Francesc Alted with further benchmarks using Zstandard
+* [Zarr documentation](@@TODO)
+* [*Anopheles gambiae* 1000 genomes project](@@TODO)
 
 ## Post-script: system information
 
@@ -444,9 +469,9 @@ cpuinfo.main()
     Hardware Raw: 
     Brand: Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
     Hz Advertised: 2.8000 GHz
-    Hz Actual: 900.0000 MHz
+    Hz Actual: 2.1000 GHz
     Hz Advertised Raw: (2800000000, 0)
-    Hz Actual Raw: (900000000, 0)
+    Hz Actual Raw: (2100000000, 0)
     Arch: X86_64
     Bits: 64
     Count: 8
@@ -467,8 +492,8 @@ cpuinfo.main()
 
 
 {% highlight python %}
-def bench_blosc(cname, shuffle, nthreads, clevels=None, repeat=3, force=False):
-    fn = os.path.join(assets_dir, 'blosc.%s.%s.%s.npz' % (cname, shuffle, nthreads))
+def bench_blosc(cname, shuffle, nthreads, clevels=None, repeat=5, force=False):
+    fn = os.path.join(data_dir, 'blosc.%s.%s.%s.npz' % (cname, shuffle, nthreads))
     if force or not os.path.exists(fn):
         blosc.set_nthreads(nthreads)
 
@@ -518,7 +543,7 @@ shuffle_labels = ['NOSHUFFLE', 'SHUFFLE', 'BITSHUFFLE']
 
 {% highlight python %}
 def plot_bench_blosc(cname, shuffle, nthreads, ax=None):
-    fn = os.path.join(assets_dir, 'blosc.%s.%s.%s.npz' % (cname, shuffle, nthreads))
+    fn = os.path.join(data_dir, 'blosc.%s.%s.%s.npz' % (cname, shuffle, nthreads))
     results = np.load(fn)
     palette = sns.color_palette()
     
@@ -570,7 +595,7 @@ fig_blosc_bench('lz4', 8)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_40_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_43_0.png)
 
 
 
@@ -579,35 +604,23 @@ fig_blosc_bench('blosclz', 8)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_41_0.png)
-
-
-
-{% highlight python %}
-fig_blosc_bench('zstd', 8, clevels=range(1, 7))
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_42_0.png)
-
-
-
-{% highlight python %}
-fig_blosc_bench('zlib', 8, clevels=range(1, 7))
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_43_0.png)
-
-
-
-{% highlight python %}
-fig_blosc_bench('lz4hc', 8, clevels=range(1, 5))
-{% endhighlight %}
-
-
 ![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_44_0.png)
 
+
+
+{% highlight python %}
+fig_blosc_bench('zstd', 8, clevels=range(1, 8))
+{% endhighlight %}
+
+
+{% highlight python %}
+fig_blosc_bench('zlib', 8, clevels=range(1, 8))
+{% endhighlight %}
+
+
+{% highlight python %}
+fig_blosc_bench('lz4hc', 8, clevels=range(1, 6))
+{% endhighlight %}
 
 
 {% highlight python %}
