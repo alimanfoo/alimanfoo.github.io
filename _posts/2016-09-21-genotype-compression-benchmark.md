@@ -6,15 +6,24 @@ title: Genotype compressor benchmark
 
 *This blog post benchmarks different compressors for use with genotype data from large-scale resequencing projects. TL;DR for speed you can't beat Blosc+LZ4, but Blosc+Zstd+Bitshuffle gives a very high compression ratio with good all-round performance.*
 
+## Why do I care about compression?
+
+Fast compression brings [interactive analysis of genome variation data](http://alimanfoo.github.io/2016/06/10/scikit-allel-tour.html) within reach of pretty much anyone with a computer. No need for a high-performance compute cluster. No need for a degree in software engineering. So it's not just a geeky obsession with making stuff go faster. It's about making the data accessible to a broader audience and a deeper kind of exploration.
+
 ## About the data
 
-The data used in this benchmark are genotype data from the [Ag1000G project phase 1 AR3 data release](@@TODO). The goal of this benchmark is compare compression ratio and speed of compression and decompression for a variety of different compressors. For convenience I won't use all of the data, but will extract a sample of 2 million rows from a genotype array.
+The data used in this benchmark are genotype data from the [Ag1000G project phase 1 AR3 data release](https://www.malariagen.net/data/ag1000g-phase1-ar3) and can be downloaded via [FTP](ftp://ngs.sanger.ac.uk/production/ag1000g/phase1/AR3/variation/main/hdf5/). The goal of this benchmark is compare compression ratio and speed of compression and decompression for a variety of different compressors. For convenience I won't use all of the data, but will extract a sample of 2 million rows from a genotype array.
+
+
+{% highlight python %}
+data_dir = '../assets/2016-09-21-genotype-compression-benchmark_data'
+{% endhighlight %}
 
 
 {% highlight python %}
 import h5py
-callset = h5py.File('/kwiat/2/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/hdf5/ag1000g.phase1.ar3.pass.3R.h5',
-                    mode='r')
+import os
+callset = h5py.File(os.path.join(data_dir, 'ag1000g.phase1.ar3.pass.3R.h5'), mode='r')
 data = callset['3R/calldata/genotype'][5000000:7000000]
 {% endhighlight %}
 
@@ -47,7 +56,11 @@ data.shape
 
 {% highlight python %}
 import humanize
-print('benchmark data uncompressed size:', humanize.naturalsize(data.nbytes, gnu=True))
+
+def gnusize(nbytes, format='%.0f'):
+    return humanize.naturalsize(nbytes, gnu=True, format=format)
+
+print('benchmark data uncompressed size:', gnusize(data.nbytes, format='%.1f'))
 {% endhighlight %}
 
     benchmark data uncompressed size: 2.8G
@@ -60,13 +73,12 @@ Because most individuals within a species share much of their DNA sequence in co
 
 {% highlight python %}
 import matplotlib.pyplot as plt
-plt.rcParams['savefig.dpi'] = 80
 %matplotlib inline
 import numpy as np
 import seaborn as sns
 sns.set_style('white')
 sns.set_style('ticks')
-sns.set_context('notebook')
+sns.set_context('paper')
 
 mn = data.min()
 mx = data.max()
@@ -86,10 +98,10 @@ ax.set_title('Distribution of data values');
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_7_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_8_0.png)
 
 
-For the benchmark I'm going to store the data via [Zarr](@@TODO) which splits the data into chunks and compresses each chunk separately. Compressed data will be stored in and retrieved from main memory. 
+For the benchmark I'm going to store the data via [Zarr](http://zarr.readthedocs.io) which splits the data into chunks and compresses each chunk separately. Compressed data will be stored to and retrieved from main memory. 
 
 For the purposes of this benchmark I'm going to chunk only along the first dimension. In practice a different chunk shape may be used depending on how the data will be accessed, however this blog post is focusing on comparing compressors and this simple chunk shape helps to provide a more direct comparison. 
 
@@ -98,20 +110,20 @@ I'm also going to use a relatively large chunk size - 16M - because I've found (
 
 {% highlight python %}
 chunk_size = 2**24
-print('uncompressed chunk size:', humanize.naturalsize(chunk_size, gnu=True))
+print('uncompressed chunk size:', gnusize(chunk_size))
 chunks = (int(chunk_size/(data.shape[1] * data.shape[2])), data.shape[1], data.shape[2])
 print('chunk shape:', chunks)
 {% endhighlight %}
 
-    uncompressed chunk size: 16.0M
+    uncompressed chunk size: 16M
     chunk shape: (10965, 765, 2)
 
 
 ## About the compressors
 
-The Python standard library provides three compression libraries: [Zlib](), [BZ2]() and [LZMA](). I'm including these in the benchmark for comparison, however these are typically too slow for interactive data analysis. The main comparisons will be between different configurations of the [Blosc](@@TODO) compression library. 
+The Python standard library provides three compression libraries: [Zlib](https://docs.python.org/3/library/zlib.html), [BZ2](https://docs.python.org/3/library/bz2.html) and [LZMA](https://docs.python.org/3/library/lzma.html). I'm including these in the benchmark for comparison, however although they provide good compression ratios they are typically too slow for interactive data analysis. The main comparisons will be between different configurations of the [Blosc](http://blosc.org/) compression library. 
 
-[Blosc](@@TODO) is a meta-compressor which accelerates compression by using multiple threads and by splitting data into smaller blocks that fit well with CPU cache architecture. There are a number of different compression algorithms which can be used within Blosc, including LZ4, Zstandard, Zlib and BloscLZ. Blosc also provides hardware-optimized implementations of shuffle filters, which can improve compression ratio for some data. Because I am dealing with single-byte data, I am particularly interested in how the bit-shuffle filter affects compression ratio and performance.
+[Blosc](http://blosc.org/) is a meta-compressor which accelerates compression by using multiple threads and by splitting data into smaller blocks that fit well with CPU cache architecture. There are a number of different compression algorithms which can be used within Blosc, including LZ4, Zstandard, Zlib and BloscLZ. Blosc also provides hardware-optimized implementations of shuffle filters, which can improve compression ratio for some data. Because I am dealing with single-byte data, I am particularly interested in how the bit-shuffle filter affects compression ratio and performance.
 
 
 {% highlight python %}
@@ -204,11 +216,6 @@ def calc_ratios():
 
 
 {% highlight python %}
-data_dir = '../assets/2016-09-21-genotype-compression-benchmark_data'
-{% endhighlight %}
-
-
-{% highlight python %}
 import os
 ratios_fn = os.path.join(data_dir, 'ratios.npy')
 if os.path.exists(ratios_fn):
@@ -221,7 +228,7 @@ else:
 
 
 {% highlight python %}
-fig, ax = plt.subplots(figsize=(7, len(compressors) * .3))
+fig, ax = plt.subplots(figsize=(7, len(compressors) * .25))
 sns.despine(ax=ax, offset=10)
 ax.barh(bottom=np.arange(len(compressors)), width=ratios, height=.8)
 ax.set_yticks(np.arange(len(compressors)) + .4)
@@ -270,12 +277,9 @@ def bench_performance(repeat=10, number=1, blosc_nthreads=1):
 
 
 {% highlight python %}
-# this takes a long time, so only run once and save results
+# this takes a long time - lots of replicates - so only run once and save results
 times_fn = os.path.join(data_dir, 'times.npz')
-{% endhighlight %}
 
-
-{% highlight python %}
 if not os.path.exists(times_fn):
     compress_times, decompress_times = bench_performance(blosc_nthreads=1)
     mt_compress_times, mt_decompress_times = bench_performance(blosc_nthreads=8)
@@ -295,7 +299,7 @@ else:
 
 {% highlight python %}
 def plot_speed(times, title, xlim=(0, 12100)):
-    fig, ax = plt.subplots(figsize=(7, len(compressors) * .3))
+    fig, ax = plt.subplots(figsize=(7, len(compressors) * .25))
     sns.despine(ax=ax, offset=10)
     
     # plot bars
@@ -322,7 +326,7 @@ def plot_speed(times, title, xlim=(0, 12100)):
                     fontsize=8)
 {% endhighlight %}
 
-Below are several plots of compression and decompression speed. In the plots I've included the compression ratios as well as annotations (e.g., "53.7X") for easy reference. Note that ``clevel=0`` means no compression. 
+Below are several plots of compression and decompression speed. In the plots I've included the compression ratios as well as annotations (e.g., "61.1X") for easy reference. Note that ``clevel=0`` means no compression within Blosc, and ``None`` means no compressor at all (memory copy). 
 
 
 {% highlight python %}
@@ -330,7 +334,7 @@ plot_speed(compress_times, 'Compression speed (single-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_28_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_27_0.png)
 
 
 
@@ -339,7 +343,7 @@ plot_speed(mt_compress_times, 'Compression speed (multi-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_29_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_28_0.png)
 
 
 
@@ -348,7 +352,7 @@ plot_speed(decompress_times, 'Decompression speed (single-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_30_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_29_0.png)
 
 
 
@@ -357,7 +361,7 @@ plot_speed(mt_decompress_times, 'Decompression speed (multi-threaded Blosc)')
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_31_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_30_0.png)
 
 
 ## Summary
@@ -449,7 +453,7 @@ plot_summary(compress_times, decompress_times, annotate=annotate,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_34_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_33_0.png)
 
 
 
@@ -460,14 +464,14 @@ plot_summary(mt_compress_times, mt_decompress_times, annotate=annotate,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_35_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_34_0.png)
 
 
 ## Conclusions
 
-* For maximum all-round speed, Blosc with LZ4 and no shuffle is the best option.
-* For higher compression ratios, Blosc with Zstandard is excellent. Adding the bit-shuffle filter increases compression ratio even further at a moderate cost to decompression speed.
-* Using Blosc with multiple threads accelerates both compression and decompression, however I needed large (16M) chunk sizes to see the benefits (see also below).
+* For maximum all-round speed, Blosc with LZ4 and no shuffle is the best option, compressing at 11G/s and decompressing at over 7G/s.
+* For higher compression ratios, Blosc with Zstandard is excellent. Adding the bit-shuffle filter increases compression ratio even further to over 50X at a moderate cost to decompression speed.
+* Using Blosc with multiple threads accelerates both compression and decompression, large (16M) chunk sizes were needed to see the benefits (see also below).
 
 ## Caveats
 
@@ -476,13 +480,13 @@ There are multiple interacting factors at work here, including data, software an
 ## Further reading
 
 * [Blosc web site](http://www.blosc.org/)
-* [Zstandard web site](@@TODO)
-* [Zstandard GitHub repo](@@TODO)
+* [Zstandard web site](http://facebook.github.io/zstd/)
+* [Zstandard GitHub repo](https://github.com/facebook/zstd)
 * [Bitshuffle GitHub repo](https://github.com/kiyo-masui/bitshuffle)
 * [New "bitshuffle" filter](http://www.blosc.org/blog/new-bitshuffle-filter.html) - blog post by Francesc Alted with further benchmarks using the bit-shuffle filter
 * [Zstd has just landed in Blosc](http://www.blosc.org/blog/zstd-has-just-landed-in-blosc.html) - blog post by Francesc Alted with further benchmarks using Zstandard
-* [Zarr documentation](@@TODO)
-* [*Anopheles gambiae* 1000 genomes project](@@TODO)
+* [Zarr documentation](http://zarr.readthedocs.io)
+* [*Anopheles gambiae* 1000 genomes project](http://www.malariagen.net/ag1000g)
 
 ## Post-script: system information
 
@@ -506,7 +510,7 @@ Run on a Dell Precision 5510...
     CPU family:            6
     Model:                 94
     Stepping:              3
-    CPU MHz:               1500.000
+    CPU MHz:               1200.000
     BogoMIPS:              5613.52
     Virtualisation:        VT-x
     L1d cache:             32K
@@ -518,7 +522,7 @@ Run on a Dell Precision 5510...
 
 
 {% highlight python %}
-# cpuinfo has some more info, but reports L3 cache size as L2
+# cpuinfo has some more information, but N.B. mistakenly reports L3 cache size as L2
 import cpuinfo
 cpuinfo.main()
 {% endhighlight %}
@@ -527,9 +531,9 @@ cpuinfo.main()
     Hardware Raw: 
     Brand: Intel(R) Xeon(R) CPU E3-1505M v5 @ 2.80GHz
     Hz Advertised: 2.8000 GHz
-    Hz Actual: 2.2000 GHz
+    Hz Actual: 2.8010 GHz
     Hz Advertised Raw: (2800000000, 0)
-    Hz Actual Raw: (2200000000, 0)
+    Hz Actual Raw: (2801000000, 0)
     Arch: X86_64
     Bits: 64
     Count: 8
@@ -629,7 +633,7 @@ def plot_blosc_chunk_size(cname, clevel, shuffle, nthreads, chunk_sizes, block_s
         fix, ax = plt.subplots()
         
     ax.set_title('cname=%s, clevel=%s, shuffle=%s, nthreads=%s, block_size=%s' %
-                 (cname, clevel, shuffle_labels[shuffle], nthreads, humanize.naturalsize(block_size, gnu=True)),
+                 (cname, clevel, shuffle_labels[shuffle], nthreads, gnusize(block_size)),
                  va='bottom', fontsize=12)
         
     sns.despine(ax=ax, offset=10)
@@ -647,73 +651,70 @@ def plot_blosc_chunk_size(cname, clevel, shuffle, nthreads, chunk_sizes, block_s
     ax.plot(x, yr, marker='o', color=palette[1], label='compression ratio')
     ax.set_xlabel('Chunk size')
     ax.set_xticks(chunk_sizes)
-    ax.set_xticklabels([humanize.naturalsize(x, gnu=True) for x in chunk_sizes])
+    ax.set_xticklabels([gnusize(x) for x in chunk_sizes])
     ax.set_ylabel('Compression ratio')
     ax.set_ylim(0, 70)
     ax.legend(loc='upper right')
+    
+    
+def fig_blosc_chunk_size(cname, clevel, shuffle, chunk_sizes, block_size):
+    fig = plt.figure(figsize=(10, 4))
+    ax = fig.add_subplot(1, 2, 1)
+    plot_blosc_chunk_size(cname=cname, clevel=clevel, shuffle=shuffle, nthreads=1, 
+                          block_size=block_size, chunk_sizes=chunk_sizes, ax=ax)
+    ax.set_title('nthreads=1')
+    ax = fig.add_subplot(1, 2, 2)
+    plot_blosc_chunk_size(cname=cname, clevel=clevel, shuffle=shuffle, nthreads=8, 
+                          block_size=block_size, chunk_sizes=chunk_sizes, ax=ax)
+    ax.set_title('nthreads=8')
+    fig.suptitle('cname=%s, clevel=%s, shuffle=%s, block_size=%s' %
+                 (cname, clevel, shuffle_labels[shuffle], gnusize(block_size)),
+                 va='bottom', fontsize=12)
+    fig.tight_layout()
+
     
 {% endhighlight %}
 
 
 {% highlight python %}
-plot_blosc_chunk_size(cname='lz4', clevel=1, shuffle=0, nthreads=1, block_size=2**16,
-                      chunk_sizes=[2**x for x in range(18, 27)])
+fig_blosc_chunk_size(cname='lz4', clevel=1, shuffle=0, block_size=2**16,
+                     chunk_sizes=[2**x for x in range(18, 27)])
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_46_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_chunk_size(cname='lz4', clevel=1, shuffle=0, nthreads=8, block_size=2**16,
-                      chunk_sizes=[2**x for x in range(18, 27)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_47_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_45_0.png)
 
 
 So when using single-threaded Blosc, chunk size doesn't matter much. When using multiple threads chunk size has a big effect.
 
 
 {% highlight python %}
-plot_blosc_chunk_size(cname='blosclz', clevel=1, shuffle=0, nthreads=1, block_size=2**16,
-                      chunk_sizes=[2**x for x in range(18, 27)])
+fig_blosc_chunk_size(cname='blosclz', clevel=1, shuffle=0, block_size=2**16,
+                     chunk_sizes=[2**x for x in range(18, 27)])
+{% endhighlight %}
+
+
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_47_0.png)
+
+
+
+{% highlight python %}
+fig_blosc_chunk_size(cname='zstd', clevel=1, shuffle=0, block_size=2**16,
+                     chunk_sizes=[2**x for x in range(18, 27)])
+{% endhighlight %}
+
+
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_48_0.png)
+
+
+
+{% highlight python %}
+fig_blosc_chunk_size(cname='zstd', clevel=1, shuffle=2, block_size=2**16,
+                     chunk_sizes=[2**x for x in range(18, 27)])
 {% endhighlight %}
 
 
 ![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_49_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_chunk_size(cname='blosclz', clevel=1, shuffle=0, nthreads=8, block_size=2**16,
-                      chunk_sizes=[2**x for x in range(18, 27)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_50_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_chunk_size(cname='zstd', clevel=1, shuffle=2, nthreads=1, block_size=2**16,
-                      chunk_sizes=[2**x for x in range(18, 27)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_51_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_chunk_size(cname='zstd', clevel=1, shuffle=2, nthreads=8, block_size=2**16,
-                      chunk_sizes=[2**x for x in range(18, 27)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_52_0.png)
 
 
 ### Block size
@@ -738,7 +739,7 @@ def plot_blosc_block_size(cname, clevel, shuffle, nthreads, block_sizes, chunk_s
         fix, ax = plt.subplots()
         
     ax.set_title('cname=%s, clevel=%s, shuffle=%s, nthreads=%s, chunk_size=%s' %
-                 (cname, clevel, shuffle_labels[shuffle], nthreads, humanize.naturalsize(chunk_size, gnu=True)),
+                 (cname, clevel, shuffle_labels[shuffle], nthreads, gnusize(chunk_size)),
                  va='bottom', fontsize=12)
         
     sns.despine(ax=ax, offset=10)
@@ -757,17 +758,56 @@ def plot_blosc_block_size(cname, clevel, shuffle, nthreads, block_sizes, chunk_s
     ax.set_xscale('log', basex=2)
     ax.set_xlabel('Block size')
     ax.set_xticks(block_sizes)
-    ax.set_xticklabels([humanize.naturalsize(x, gnu=True) for x in block_sizes])
+    ticklabels = [gnusize(x) for x in block_sizes]
+    ax.set_xticklabels(ticklabels)
     ax.set_ylabel('Compression ratio')
     ax.set_ylim(0, 70)
     ax.legend(loc='upper right')
-        
+    
+    
+def fig_blosc_block_size(cname, clevel, shuffle, block_sizes, chunk_size):
+    fig = plt.figure(figsize=(10, 4))
+    ax = fig.add_subplot(1, 2, 1)
+    plot_blosc_block_size(cname=cname, clevel=clevel, shuffle=shuffle, nthreads=1, 
+                          block_sizes=block_sizes, chunk_size=chunk_size, ax=ax)
+    ax.set_title('nthreads=1')
+    ax = fig.add_subplot(1, 2, 2)
+    plot_blosc_block_size(cname=cname, clevel=clevel, shuffle=shuffle, nthreads=8, 
+                          block_sizes=block_sizes, chunk_size=chunk_size, ax=ax)
+    ax.set_title('nthreads=8')
+    fig.suptitle('cname=%s, clevel=%s, shuffle=%s, chunk_size=%s' %
+                 (cname, clevel, shuffle_labels[shuffle], gnusize(chunk_size)),
+                 va='bottom', fontsize=12)
+    fig.tight_layout()
+    
     
 {% endhighlight %}
 
 
 {% highlight python %}
-plot_blosc_block_size(cname='lz4', clevel=1, shuffle=0, nthreads=1, chunk_size=2**24,
+fig_blosc_block_size(cname='lz4', clevel=1, shuffle=0, chunk_size=2**24,
+                      block_sizes=[2**x for x in range(14, 25)])
+{% endhighlight %}
+
+
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_52_0.png)
+
+
+So block size matters but only when using multiple threads.
+
+
+{% highlight python %}
+fig_blosc_block_size(cname='blosclz', clevel=1, shuffle=0, chunk_size=2**24,
+                      block_sizes=[2**x for x in range(14, 25)])
+{% endhighlight %}
+
+
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_54_0.png)
+
+
+
+{% highlight python %}
+fig_blosc_block_size(cname='zstd', clevel=1, shuffle=0, chunk_size=2**24,
                       block_sizes=[2**x for x in range(14, 25)])
 {% endhighlight %}
 
@@ -777,54 +817,12 @@ plot_blosc_block_size(cname='lz4', clevel=1, shuffle=0, nthreads=1, chunk_size=2
 
 
 {% highlight python %}
-plot_blosc_block_size(cname='lz4', clevel=1, shuffle=0, nthreads=8, chunk_size=2**24,
+fig_blosc_block_size(cname='zstd', clevel=1, shuffle=2, chunk_size=2**24,
                       block_sizes=[2**x for x in range(14, 25)])
 {% endhighlight %}
 
 
 ![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_56_0.png)
-
-
-So block size matters but only when using multiple threads.
-
-
-{% highlight python %}
-plot_blosc_block_size(cname='blosclz', clevel=1, shuffle=0, nthreads=1, chunk_size=2**24,
-                      block_sizes=[2**x for x in range(14, 25)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_58_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_block_size(cname='blosclz', clevel=1, shuffle=0, nthreads=8, chunk_size=2**24,
-                      block_sizes=[2**x for x in range(14, 25)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_59_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_block_size(cname='zstd', clevel=1, shuffle=2, nthreads=1, chunk_size=2**24,
-                      block_sizes=[2**x for x in range(14, 25)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_60_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_block_size(cname='zstd', clevel=1, shuffle=2, nthreads=8, chunk_size=2**24,
-                      block_sizes=[2**x for x in range(14, 25)])
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_61_0.png)
 
 
 ### Number of threads
@@ -850,8 +848,8 @@ def plot_blosc_nthreads(cname, clevel, shuffle, chunk_size, block_size, ax=None)
         
     ax.set_title('cname=%s, clevel=%s, shuffle=%s, chunk_size=%s, block_size=%s' %
                  (cname, clevel, shuffle_labels[shuffle],  
-                  humanize.naturalsize(chunk_size, gnu=True),
-                  humanize.naturalsize(block_size, gnu=True)),
+                  gnusize(chunk_size),
+                  gnusize(block_size)),
                  va='bottom', fontsize=12)
         
     sns.despine(ax=ax, offset=10)
@@ -871,69 +869,50 @@ def plot_blosc_nthreads(cname, clevel, shuffle, chunk_size, block_size, ax=None)
     ax.legend(loc='upper right')
         
     
+def fig_blosc_nthreads(cname, clevel, shuffle, block_size):
+    fig = plt.figure(figsize=(12, 5))
+    ax = fig.add_subplot(1, 2, 1)
+    plot_blosc_nthreads(cname=cname, clevel=clevel, shuffle=shuffle, 
+                        block_size=block_size, chunk_size=2**20, ax=ax)
+    ax.set_title('chunk_size=%s' % gnusize(2**20))
+    ax = fig.add_subplot(1, 2, 2)
+    plot_blosc_nthreads(cname=cname, clevel=clevel, shuffle=shuffle, 
+                        block_size=block_size, chunk_size=2**24, ax=ax)
+    ax.set_title('chunk_size=%s' % gnusize(2**24))
+    fig.suptitle('cname=%s, clevel=%s, shuffle=%s, block_size=%s' %
+                 (cname, clevel, shuffle_labels[shuffle], gnusize(block_size)),
+                 va='bottom', fontsize=14)
+    fig.tight_layout()
+
 {% endhighlight %}
 
 
 {% highlight python %}
-plot_blosc_nthreads(cname='lz4', clevel=1, shuffle=0, chunk_size=2**20, block_size=2**16)
+fig_blosc_nthreads(cname='lz4', clevel=1, shuffle=0, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_64_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_59_0.png)
+
+
+Again this shows that multi-threading only provides good acceleration when block sizes are larger.
+
+
+{% highlight python %}
+fig_blosc_nthreads(cname='blosclz', clevel=1, shuffle=0, block_size=2**16)
+{% endhighlight %}
+
+
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_61_0.png)
 
 
 
 {% highlight python %}
-plot_blosc_nthreads(cname='lz4', clevel=1, shuffle=0, chunk_size=2**24, block_size=2**16)
+fig_blosc_nthreads(cname='zstd', clevel=1, shuffle=2, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_65_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_nthreads(cname='blosclz', clevel=1, shuffle=0, chunk_size=2**20, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_66_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_nthreads(cname='blosclz', clevel=1, shuffle=0, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_67_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_nthreads(cname='zstd', clevel=1, shuffle=2, chunk_size=2**20, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_68_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_nthreads(cname='zstd', clevel=1, shuffle=2, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_69_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_nthreads(cname='zstd', clevel=1, shuffle=0, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_70_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_62_0.png)
 
 
 ### Compression level
@@ -959,8 +938,8 @@ def plot_blosc_clevel(cname, clevels, shuffle, nthreads, chunk_size, block_size,
         
     ax.set_title('cname=%s, shuffle=%s, nthreads=%s, chunk_size=%s, block_size=%s' %
                  (cname, shuffle_labels[shuffle], nthreads,  
-                  humanize.naturalsize(chunk_size, gnu=True),
-                  humanize.naturalsize(block_size, gnu=True)),
+                  gnusize(chunk_size),
+                  gnusize(block_size)),
                  va='bottom', fontsize=12)
         
     sns.despine(ax=ax, offset=10)
@@ -984,76 +963,57 @@ def plot_blosc_clevel(cname, clevels, shuffle, nthreads, chunk_size, block_size,
     ax.legend(loc='upper right')
         
     
+def fig_blosc_clevel(cname, clevels, shuffle, chunk_size, block_size):
+    fig = plt.figure(figsize=(10, 4))
+    ax = fig.add_subplot(1, 2, 1)
+    plot_blosc_clevel(cname=cname, clevels=clevels, shuffle=shuffle, nthreads=1, 
+                      block_size=block_size, chunk_size=chunk_size, ax=ax)
+    ax.set_title('nthreads=1')
+    ax = fig.add_subplot(1, 2, 2)
+    plot_blosc_clevel(cname=cname, clevels=clevels, shuffle=shuffle, nthreads=8, 
+                      block_size=block_size, chunk_size=chunk_size, ax=ax)
+    ax.set_title('nthreads=8')
+    fig.suptitle('cname=%s, shuffle=%s, chunk_size=%s, block_size=%s' %
+                 (cname, shuffle_labels[shuffle], 
+                  gnusize(chunk_size),
+                  gnusize(block_size)),
+                 va='bottom', fontsize=12)
+    fig.tight_layout()
+
 {% endhighlight %}
 
 
 {% highlight python %}
-plot_blosc_clevel(cname='lz4', clevels=range(10), shuffle=0, nthreads=1, chunk_size=2**24, block_size=2**16)
+fig_blosc_clevel(cname='lz4', clevels=range(10), shuffle=0, chunk_size=2**24, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_73_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_65_0.png)
 
 
 
 {% highlight python %}
-plot_blosc_clevel(cname='lz4', clevels=range(10), shuffle=0, nthreads=8, chunk_size=2**24, block_size=2**16)
+fig_blosc_clevel(cname='blosclz', clevels=range(10), shuffle=0, chunk_size=2**24, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_74_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_66_0.png)
 
 
 
 {% highlight python %}
-plot_blosc_clevel(cname='blosclz', clevels=range(10), shuffle=0, nthreads=1, chunk_size=2**24, block_size=2**16)
+fig_blosc_clevel(cname='zstd', clevels=range(7), shuffle=0, chunk_size=2**24, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_75_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_67_0.png)
 
 
 
 {% highlight python %}
-plot_blosc_clevel(cname='blosclz', clevels=range(10), shuffle=0, nthreads=8, chunk_size=2**24, block_size=2**16)
+fig_blosc_clevel(cname='zstd', clevels=range(7), shuffle=2, chunk_size=2**24, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_76_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_clevel(cname='zstd', clevels=range(7), shuffle=0, nthreads=1, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_77_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_clevel(cname='zstd', clevels=range(7), shuffle=0, nthreads=8, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_78_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_clevel(cname='zstd', clevels=range(7), shuffle=2, nthreads=1, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_79_0.png)
-
-
-
-{% highlight python %}
-plot_blosc_clevel(cname='zstd', clevels=range(7), shuffle=2, nthreads=8, chunk_size=2**24, block_size=2**16)
-{% endhighlight %}
-
-
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_80_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_68_0.png)
 
