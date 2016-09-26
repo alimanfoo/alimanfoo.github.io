@@ -121,9 +121,9 @@ print('chunk shape:', chunks)
 
 ## About the compressors
 
-The Python standard library provides three compression libraries: [Zlib](https://docs.python.org/3/library/zlib.html), [BZ2](https://docs.python.org/3/library/bz2.html) and [LZMA](https://docs.python.org/3/library/lzma.html). I'm including these in the benchmark for comparison, however although they provide good compression ratios they are typically too slow for interactive data analysis. The main comparisons will be between different configurations of the [Blosc](http://blosc.org/) compression library. 
+The Python standard library provides three compression libraries: [Zlib](https://docs.python.org/3/library/zlib.html), [BZ2](https://docs.python.org/3/library/bz2.html) and [LZMA](https://docs.python.org/3/library/lzma.html). I'm including these in the benchmark for comparison, but although they provide good compression ratios, they are typically too slow for interactive data analysis. The main comparisons will be between different configurations of the [Blosc](http://blosc.org/) compression library. 
 
-[Blosc](http://blosc.org/) is a meta-compressor which accelerates compression by using multiple threads and by splitting data into smaller blocks that fit well with CPU cache architecture. There are a number of different compression algorithms which can be used within Blosc, including LZ4, Zstandard, Zlib and BloscLZ. Blosc also provides hardware-optimized implementations of shuffle filters, which can improve compression ratio for some data. Because I am dealing with single-byte data, I am particularly interested in how the bit-shuffle filter affects compression ratio and performance.
+[Blosc](http://blosc.org/) is a meta-compressor which accelerates compression by using multiple threads and by splitting data into smaller blocks that fit well with CPU cache architecture. There are a number of different compression algorithms which can be used within Blosc, including LZ4, Zstandard, Zlib and BloscLZ. Blosc also provides hardware-optimized implementations of shuffle filters, which can improve compression ratio for some data. Because I am dealing with single-byte data, I am particularly interested in how the [bit-shuffle filter](https://github.com/kiyo-masui/bitshuffle) affects compression ratio and performance.
 
 
 {% highlight python %}
@@ -383,8 +383,9 @@ colors = np.array([
     for c in compressors
 ])
 
-def plot_summary(ctimes, dtimes, xlim=(-200, 12200), ylim=(-200, 12200), annotate=[], title=None, alpha=1):
-    fig, ax = plt.subplots(figsize=(8, 8))
+def plot_summary(ctimes, dtimes, xlim=(-200, 12200), ylim=(-200, 12200), annotate=[], 
+                 title=None, alpha=1):
+    fig, ax = plt.subplots(figsize=(7, 7))
     sns.despine(ax=ax, offset=10)
     if title:
         ax.set_title(title, va='bottom')
@@ -399,7 +400,8 @@ def plot_summary(ctimes, dtimes, xlim=(-200, 12200), ylim=(-200, 12200), annotat
     y = (data.nbytes / 2**20) / y
     s = np.array(ratios) * 5
     
-    is_bitshuffle = np.array([isinstance(c, Blosc) and c.shuffle == BITSHUFFLE for c in compressors])
+    is_bitshuffle = np.array([isinstance(c, Blosc) and c.shuffle == BITSHUFFLE 
+                              for c in compressors])
     bs_marker = 'h'
     ns_marker = 'o'
     ax.scatter(x[is_bitshuffle], y[is_bitshuffle], s[is_bitshuffle], color=colors[is_bitshuffle], 
@@ -469,9 +471,9 @@ plot_summary(mt_compress_times, mt_decompress_times, annotate=annotate,
 
 ## Conclusions
 
-* For maximum all-round speed, Blosc with LZ4 and no shuffle is the best option, compressing at 11G/s and decompressing at over 7G/s.
+* For maximum all-round speed, Blosc with LZ4 and no shuffle is ludicrous, compressing at 11G/s and decompressing at over 7G/s.
 * For higher compression ratios, Blosc with Zstandard is excellent. Adding the bit-shuffle filter increases compression ratio even further to over 50X at a moderate cost to decompression speed.
-* Using Blosc with multiple threads accelerates both compression and decompression, large (16M) chunk sizes were needed to see the benefits (see also below).
+* Using Blosc with multiple threads accelerates both compression and decompression, but larger (16M) chunk sizes were needed to see the benefits (see also below).
 
 ## Caveats
 
@@ -870,7 +872,7 @@ def plot_blosc_nthreads(cname, clevel, shuffle, chunk_size, block_size, ax=None)
         
     
 def fig_blosc_nthreads(cname, clevel, shuffle, block_size):
-    fig = plt.figure(figsize=(12, 5))
+    fig = plt.figure(figsize=(10, 4))
     ax = fig.add_subplot(1, 2, 1)
     plot_blosc_nthreads(cname=cname, clevel=clevel, shuffle=shuffle, 
                         block_size=block_size, chunk_size=2**20, ax=ax)
@@ -881,7 +883,7 @@ def fig_blosc_nthreads(cname, clevel, shuffle, block_size):
     ax.set_title('chunk_size=%s' % gnusize(2**24))
     fig.suptitle('cname=%s, clevel=%s, shuffle=%s, block_size=%s' %
                  (cname, clevel, shuffle_labels[shuffle], gnusize(block_size)),
-                 va='bottom', fontsize=14)
+                 va='bottom', fontsize=12)
     fig.tight_layout()
 
 {% endhighlight %}
