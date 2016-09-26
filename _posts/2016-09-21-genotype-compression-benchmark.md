@@ -238,8 +238,6 @@ ax.set_title('Compression ratio', va='bottom');
 
 ## Compression and decompression speed
 
-For this benchmark data are compressed and decompressed to main memory.
-
 
 {% highlight python %}
 import timeit
@@ -468,8 +466,8 @@ plot_summary(mt_compress_times, mt_decompress_times, annotate=annotate,
 ## Conclusions
 
 * For maximum all-round speed, Blosc with LZ4 and no shuffle is the best option.
-* For higher compression ratios, Blosc with Zstandard is excellent. Adding the bit-shuffle filter increases compression ratio even further at a modest cost to decompression speed.
-* Using Blosc with multiple threads accelerates both compression and decompression, however you need large (16M) chunk sizes to see the benefits (see also below).
+* For higher compression ratios, Blosc with Zstandard is excellent. Adding the bit-shuffle filter increases compression ratio even further at a moderate cost to decompression speed.
+* Using Blosc with multiple threads accelerates both compression and decompression, however I needed large (16M) chunk sizes to see the benefits (see also below).
 
 ## Caveats
 
