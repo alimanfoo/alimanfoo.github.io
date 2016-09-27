@@ -8,7 +8,7 @@ title: Genotype compressor benchmark
 
 ## Why do I care about compression?
 
-Fast compression brings [interactive analysis of genome variation data](http://alimanfoo.github.io/2016/06/10/scikit-allel-tour.html) within reach of pretty much anyone with a computer. No need for a high-performance compute cluster. No need for a degree in software engineering. So it's not just a geeky obsession with making stuff go faster. It's about making the data accessible to a broader audience and a deeper kind of exploration.
+Fast compression brings [interactive analysis of genome variation data](http://alimanfoo.github.io/2016/06/10/scikit-allel-tour.html) within reach of pretty much anyone with a computer. No need for a high-performance compute cluster. No need for a degree in software engineering. So it's not just a geeky obsession with making stuff go faster. It's also about making the data accessible to a broader audience and a deeper kind of exploration.
 
 ## About the data
 
