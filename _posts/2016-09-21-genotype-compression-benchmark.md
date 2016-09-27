@@ -552,6 +552,41 @@ cpuinfo.main()
     Flags: 3dnowprefetch, abm, acpi, adx, aes, aperfmperf, apic, arat, arch_perfmon, avx, avx2, bmi1, bmi2, bts, clflush, clflushopt, cmov, constant_tsc, cx16, cx8, de, ds_cpl, dtes64, dtherm, dts, eagerfpu, epb, ept, erms, est, f16c, flexpriority, fma, fpu, fsgsbase, fxsr, hle, ht, hwp, hwp_act_window, hwp_epp, hwp_noitfy, ida, invpcid, lahf_lm, lm, mca, mce, mmx, monitor, movbe, mpx, msr, mtrr, nonstop_tsc, nopl, nx, pae, pat, pbe, pcid, pclmulqdq, pdcm, pdpe1gb, pebs, pge, pln, pni, popcnt, pse, pse36, pts, rdrand, rdseed, rdtscp, rep_good, rtm, sep, smap, smep, smx, ss, sse, sse2, sse4_1, sse4_2, ssse3, syscall, tm, tm2, tpr_shadow, tsc, tsc_adjust, tsc_deadline_timer, vme, vmx, vnmi, vpid, x2apic, xgetbv1, xsave, xsavec, xsaveopt, xtopology, xtpr
 
 
+
+{% highlight python %}
+import sys
+print(sys.version)
+{% endhighlight %}
+
+    3.5.2 | packaged by conda-forge | (default, Jul 26 2016, 01:32:08) 
+    [GCC 4.8.2 20140120 (Red Hat 4.8.2-15)]
+
+
+
+{% highlight python %}
+from distutils import sysconfig
+sysconfig.get_config_var('CC')
+{% endhighlight %}
+
+
+
+
+    'gcc -pthread'
+
+
+
+
+{% highlight python %}
+!gcc --version
+{% endhighlight %}
+
+    gcc (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4
+    Copyright (C) 2013 Free Software Foundation, Inc.
+    This is free software; see the source for copying conditions.  There is NO
+    warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    
+
+
 ## Post-script: Blosc detailed benchmarks
 
 
@@ -684,7 +719,7 @@ fig_blosc_chunk_size(cname='lz4', clevel=1, shuffle=0, block_size=2**16,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_45_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_48_0.png)
 
 
 So when using single-threaded Blosc, chunk size doesn't matter much. When using multiple threads chunk size has a big effect.
@@ -696,7 +731,7 @@ fig_blosc_chunk_size(cname='blosclz', clevel=1, shuffle=0, block_size=2**16,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_47_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_50_0.png)
 
 
 
@@ -706,7 +741,7 @@ fig_blosc_chunk_size(cname='zstd', clevel=1, shuffle=0, block_size=2**16,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_48_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_51_0.png)
 
 
 
@@ -716,7 +751,7 @@ fig_blosc_chunk_size(cname='zstd', clevel=1, shuffle=2, block_size=2**16,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_49_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_52_0.png)
 
 
 ### Block size
@@ -792,7 +827,7 @@ fig_blosc_block_size(cname='lz4', clevel=1, shuffle=0, chunk_size=2**24,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_52_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_55_0.png)
 
 
 So block size matters but only when using multiple threads.
@@ -804,7 +839,7 @@ fig_blosc_block_size(cname='blosclz', clevel=1, shuffle=0, chunk_size=2**24,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_54_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_57_0.png)
 
 
 
@@ -814,7 +849,7 @@ fig_blosc_block_size(cname='zstd', clevel=1, shuffle=0, chunk_size=2**24,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_55_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_58_0.png)
 
 
 
@@ -824,7 +859,7 @@ fig_blosc_block_size(cname='zstd', clevel=1, shuffle=2, chunk_size=2**24,
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_56_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_59_0.png)
 
 
 ### Number of threads
@@ -894,7 +929,7 @@ fig_blosc_nthreads(cname='lz4', clevel=1, shuffle=0, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_59_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_62_0.png)
 
 
 Again this shows that multi-threading only provides good acceleration when block sizes are larger.
@@ -905,7 +940,7 @@ fig_blosc_nthreads(cname='blosclz', clevel=1, shuffle=0, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_61_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_64_0.png)
 
 
 
@@ -914,7 +949,7 @@ fig_blosc_nthreads(cname='zstd', clevel=1, shuffle=2, block_size=2**16)
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_62_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_65_0.png)
 
 
 ### Compression level
@@ -990,7 +1025,7 @@ fig_blosc_clevel(cname='lz4', clevels=range(10), shuffle=0, chunk_size=2**24, bl
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_65_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_68_0.png)
 
 
 
@@ -999,7 +1034,7 @@ fig_blosc_clevel(cname='blosclz', clevels=range(10), shuffle=0, chunk_size=2**24
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_66_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_69_0.png)
 
 
 
@@ -1008,7 +1043,7 @@ fig_blosc_clevel(cname='zstd', clevels=range(7), shuffle=0, chunk_size=2**24, bl
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_67_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_70_0.png)
 
 
 
@@ -1017,5 +1052,5 @@ fig_blosc_clevel(cname='zstd', clevels=range(7), shuffle=2, chunk_size=2**24, bl
 {% endhighlight %}
 
 
-![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_68_0.png)
+![png](/assets/2016-09-21-genotype-compression-benchmark_files/2016-09-21-genotype-compression-benchmark_71_0.png)
 
