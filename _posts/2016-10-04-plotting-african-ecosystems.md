@@ -12,7 +12,7 @@ I've downloaded the data to a local directory and unzipped, here are the file co
 
 
 {% highlight python %}
-data_dir = '/kwiat/2/coluzzi/ag1000g/data/geo/af_labeled_ecosys'
+data_dir = 'data/geo/af_labeled_ecosys'
 !ls -lh {data_dir}
 {% endhighlight %}
 
