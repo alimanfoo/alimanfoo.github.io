@@ -889,6 +889,7 @@ Credit to [this SO answer](http://stackoverflow.com/questions/19043846/how-to-co
 * [Cartopy](http://scitools.org.uk/cartopy/)
 * [Matplotlib Basemap Toolkit](http://matplotlib.org/basemap/index.html)
 * [QGIS](http://www.qgis.com/)
+* [Geospatial data with Python](http://nbviewer.jupyter.org/github/mqlaql/geospatial-data/blob/master/Geospatial-Data-with-Python.ipynb) (tutorial from SciPy 2013)
 * [Reading Raster Data with Python and gdal](http://geoinformaticstutorial.blogspot.co.uk/2012/09/reading-raster-data-with-python-and-gdal.html) (blog)
 * [Plotting geotiff with cartopy](https://ocefpaf.github.io/python4oceanographers/blog/2015/03/02/geotiff/) (blog)
 * [Creating a QGIS color map from text file](https://pvanb.wordpress.com/2014/02/05/creating-a-qgis-color-map-from-text-file/) (blog)
