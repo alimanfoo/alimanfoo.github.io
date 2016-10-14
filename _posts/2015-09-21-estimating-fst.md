@@ -24,18 +24,16 @@ sns.set_style('ticks')
 import bcolz
 import pandas
 import allel; print('scikit-allel', allel.__version__)
-import time
-time_before = time.time()
 {% endhighlight %}
 
-    scikit-allel 0.20.1
+    scikit-allel 1.0.0b3
 
 
 I have a copy of the [Ag1000G phase 1 AR3 data release](http://www.malariagen.net/data/ag1000g-phase1-ar3) on a local drive. The SNP genotype data is available in an HDF5 file.
 
 
 {% highlight python %}
-callset_fn = '/data/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/hdf5/ag1000g.phase1.ar3.pass.h5'
+callset_fn = 'data/2015-09-21/ag1000g.phase1.ar3.pass.h5'
 callset = h5py.File(callset_fn, mode='r')
 callset
 {% endhighlight %}
@@ -60,8 +58,7 @@ pos_all
 
 
 
-    SortedIndex((9643193,), dtype=int32)
-    [    9790     9798     9812 ..., 41956541 41956551 41956556]
+<div class="allel allel-DisplayAs1D"><span>&lt;SortedIndex shape=(9643193,) dtype=int32&gt;</span><table><tr><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center"> ... </th><th style="text-align: center">9643188</th><th style="text-align: center">9643189</th><th style="text-align: center">9643190</th><th style="text-align: center">9643191</th><th style="text-align: center">9643192</th></tr><tr><td style="text-align: center">9790</td><td style="text-align: center">9798</td><td style="text-align: center">9812</td><td style="text-align: center">9818</td><td style="text-align: center">9829</td><td style="text-align: center"> ... </td><td style="text-align: center">41956532</td><td style="text-align: center">41956537</td><td style="text-align: center">41956541</td><td style="text-align: center">41956551</td><td style="text-align: center">41956556</td></tr></table></div>
 
 
 
@@ -76,108 +73,20 @@ genotype_all
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((9643193, 765, 2), int8, nbytes=13.7G, cbytes=548.0M, cratio=25.7, cname=gzip, clevel=3, shuffle=False, chunks=(6553, 10, 2), data=h5py._hl.dataset.Dataset)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>760</th>
-<th>761</th>
-<th>762</th>
-<th>763</th>
-<th>764</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(9643193, 765, 2) dtype=int8 chunks=(6553, 10, 2)
+   nbytes=13.7G cbytes=548.0M cratio=25.7
+   compression=gzip compression_opts=3
+   values=h5py._hl.dataset.Dataset&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center"> ... </th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">9643190</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">9643191</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">9643192</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
-This array would be 13.7G uncompressed, but genotype data compresses very well, so the actual size on disk is only 548M.
+This array would be 13.7G uncompressed, but [genotype data compress very well](http://alimanfoo.github.io/2016/09/21/genotype-compression-benchmark.html), so the actual size on disk is only 548M.
 
 There is also a table of sample metadata which we'll need because it tells us which mosquito comes from which population.
 
 
 {% highlight python %}
-df_samples = pandas.read_csv('/data/coluzzi/ag1000g/data/phase1/release/AR3/samples/samples.meta.txt',
+df_samples = pandas.read_csv('data/2015-09-21/samples.meta.txt',
                              sep='\t', index_col='index')
 df_samples.head()
 {% endhighlight %}
@@ -357,38 +266,9 @@ acs
 
 
 
-<table class='petl'>
-<caption>AlleleCountsChunkedTable(9643193, nbytes=294.3M, cbytes=24.0M, cratio=12.3, data=bcolz.ctable.ctable)</caption>
-<thead>
-<tr>
-<th>BFM</th>
-<th>AOM</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[137   1   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[135   3   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;AlleleCountsChunkedTable shape=(9643193,) dtype=[('AOM', '&lt;i4', (4,)), ('BFM', '&lt;i4', (4,))]
+   nbytes=294.3M cbytes=23.5M cratio=12.5
+   values=allel.chunked.storage_zarr.ZarrTable&gt;</span><table><tr><th></th><th style="text-align: center">AOM</th><th style="text-align: center">BFM</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="3">...</td></tr><tr><th style="text-align: center">9643190</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td></tr><tr><th style="text-align: center">9643191</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td></tr><tr><th style="text-align: center">9643192</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td></tr></table></div>
 
 
 
@@ -416,102 +296,14 @@ genotype
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((3177369, 765, 2), int8, nbytes=4.5G, cbytes=373.7M, cratio=12.4, cname=blosclz, clevel=5, shuffle=True, chunks=(1370, 765, 2), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>760</th>
-<th>761</th>
-<th>762</th>
-<th>763</th>
-<th>764</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(3177369, 765, 2) dtype=int8 chunks=(776, 765, 2)
+   nbytes=4.5G cbytes=412.7M cratio=11.2
+   compression=blosc compression_opts={'cname': 'lz4', 'shuffle': 1, 'clevel': 5}
+   values=zarr.core.Array&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center"> ... </th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">3177366</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">3177367</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">3177368</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
-Note that the new `genotype` array we have created is in-memory, however we are making use of compressed arrays (thanks to [bcolz](http://bcolz.blosc.org/)) to store these intermediate data, so the amount of memory required is small. Btw don't get confused with the name of the 'compress' method, this comes from [numpy](http://docs.scipy.org/doc/numpy-1.10.0/reference/generated/numpy.compress.html) and means making a selection along a particular axis, it has nothing to do with data compression which is handled automatically by `scikit-allel`.
+Note that the new `genotype` array we have created is in-memory, however we are making use of [compressed arrays](http://zarr.readthedocs.io/) to store these intermediate data, so the amount of memory required is small. Btw don't get confused with the name of the 'compress' method, this comes from [numpy](http://docs.scipy.org/doc/numpy-1.10.0/reference/generated/numpy.compress.html) and means making a selection along a particular axis, it has nothing to do with data compression which is handled automatically by `scikit-allel`.
 
 ## Comparing F<sub>ST</sub> estimators
 
@@ -576,7 +368,9 @@ With a couple of exceptions, the two estimators are virtually identical for all 
 # keep only 20 samples from first population
 pop1_idx_ds = subpops[pop1][:20]
 a, b, c = allel.stats.weir_cockerham_fst(genotype, subpops=[pop1_idx_ds, pop2_idx], max_allele=1)
-snp_fst_wc_ds = (a / (a + b + c))[:, 0]
+# there may be some non-segregating variants after down-sampling, suppress errors about zero division
+with np.errstate(divide='ignore', invalid='ignore'):
+    snp_fst_wc_ds = (a / (a + b + c))[:, 0]
 snp_fst_wc_ds
 {% endhighlight %}
 
@@ -590,10 +384,24 @@ snp_fst_wc_ds
 
 
 {% highlight python %}
+np.count_nonzero(np.isnan(snp_fst_wc_ds))
+{% endhighlight %}
+
+
+
+
+    1105405
+
+
+
+
+{% highlight python %}
 # recompute allele counts for downsampled population
 ac1_ds = genotype.count_alleles(subpop=pop1_idx_ds, max_allele=1)
 num, den = allel.stats.hudson_fst(ac1_ds, ac2)
-snp_fst_hudson_ds = num / den
+# there may be some non-segregating variants after down-sampling, suppress errors about zero division
+with np.errstate(divide='ignore', invalid='ignore'):
+    snp_fst_hudson_ds = num / den
 snp_fst_hudson_ds
 {% endhighlight %}
 
@@ -618,7 +426,7 @@ ax.set_title('%s (20) vs %s (%s), SNP $F_{ST}$' % (pop1, pop2, n_samples_pop2));
 {% endhighlight %}
 
 
-![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_33_0.png)
+![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_34_0.png)
 
 
 
@@ -634,7 +442,7 @@ ax.set_title('%s vs %s, SNP $F_{ST}$' % (pop1, pop2));
 {% endhighlight %}
 
 
-![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_34_0.png)
+![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_35_0.png)
 
 
 
@@ -650,7 +458,7 @@ ax.set_title('%s vs %s, SNP $F_{ST}$' % (pop1, pop2));
 {% endhighlight %}
 
 
-![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_35_0.png)
+![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_36_0.png)
 
 
 When the sample sizes are unequal, the correspondance between the two estimators is clearly much less. Also, the Weir & Cockerham estimator appears to be systematically different with and without one population down-sampled.
@@ -768,7 +576,7 @@ def plot_fst(ac1, ac2, pos, blen=2000):
     sns.despine(ax=ax, offset=5)
     ax.plot(x, y, 'k-', lw=.5)
     ax.set_ylabel('$F_{ST}$')
-    ax.set_xlabel('chromosome %s position (bp)' % chrom)
+    ax.set_xlabel('Chromosome %s position (bp)' % chrom)
     ax.set_xlim(0, pos.max())
     
 {% endhighlight %}
@@ -779,7 +587,7 @@ plot_fst(ac1, ac2, pos)
 {% endhighlight %}
 
 
-![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_54_0.png)
+![png](/assets/2015-09-21-estimating-fst_files/2015-09-21-estimating-fst_55_0.png)
 
 
 This plot suggests some genome regions where F<sub>ST</sub> is higher than the chromosome-wide average, which are interesting to follow up.
@@ -796,21 +604,3 @@ SNP ascertainment also makes a difference. It's probably a good idea to try diff
 * [`scikit-allel` F<sub>ST</sub> functions](http://scikit-allel.readthedocs.org/en/latest/stats/fst.html)
 
 <hr/>
-
-
-{% highlight python %}
-import os; print(os.environ['docker_image'])
-{% endhighlight %}
-
-    cggh/biipy:v1.1.1
-
-
-
-{% highlight python %}
-time_after = time.time()
-duration = (time_after - time_before)
-print('all done in %.1f seconds' % duration)
-{% endhighlight %}
-
-    all done in 155.5 seconds
-
