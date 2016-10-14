@@ -44,7 +44,7 @@ sns.set_style('ticks')
 %matplotlib inline
 {% endhighlight %}
 
-    scikit-allel 0.20.1
+    scikit-allel 1.0.0b2
 
 
 I'm going to use data from the [Ag1000G phase 1 AR3 release](http://www.malariagen.net/data/ag1000g-phase1-AR3). I have a copy of the data downloaded to a local drive.
@@ -53,7 +53,7 @@ The data are stored in [HDF5 files](https://www.hdfgroup.org/HDF5/). Let's take 
 
 
 {% highlight python %}
-callset_fn = '/data/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/hdf5/ag1000g.phase1.ar3.pass.h5'
+callset_fn = 'data/ag1000g.phase1.ar3.pass.h5'
 callset = h5py.File(callset_fn, mode='r')
 callset
 {% endhighlight %}
@@ -96,8 +96,7 @@ pos
 
 
 
-    SortedIndex((10377280,), dtype=int32)
-    [   44688    44691    44732 ..., 49356426 49356429 49356435]
+<div class="allel allel-DisplayAs1D"><span>&lt;SortedIndex shape=(10377280,) dtype=int32&gt;</span><table><tr><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center"> ... </th><th style="text-align: center">10377275</th><th style="text-align: center">10377276</th><th style="text-align: center">10377277</th><th style="text-align: center">10377278</th><th style="text-align: center">10377279</th></tr><tr><td style="text-align: center">44688</td><td style="text-align: center">44691</td><td style="text-align: center">44732</td><td style="text-align: center">44736</td><td style="text-align: center">44756</td><td style="text-align: center"> ... </td><td style="text-align: center">49356424</td><td style="text-align: center">49356425</td><td style="text-align: center">49356426</td><td style="text-align: center">49356429</td><td style="text-align: center">49356435</td></tr></table></div>
 
 
 
@@ -152,98 +151,7 @@ g
 
 
 
-<table class='petl'>
-<caption>GenotypeArray((1763, 765, 2), dtype=int8)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>760</th>
-<th>761</th>
-<th>762</th>
-<th>763</th>
-<th>764</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeArray shape=(1763, 765, 2) dtype=int8&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center"> ... </th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">1760</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1761</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1762</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center"> ... </td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
@@ -302,11 +210,3 @@ I will leave it there for now, but check out the [scikit-allel docs](http://scik
 It is just a beginning, but hopefully a step in a good direction.
 
 <hr/>
-
-
-{% highlight python %}
-import os; print(os.environ['docker_image'])
-{% endhighlight %}
-
-    cggh/biipy:v1.1.1
-
