@@ -41,10 +41,13 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_style('white')
 sns.set_style('ticks')
-sns.set_context('talk')
+sns.set_context('notebook')
 import h5py
-import allel
+import allel; print('scikit-allel', allel.__version__)
 {% endhighlight %}
+
+    scikit-allel 1.0.3
+
 
 The data we'll be analysing originally came from a [VCF format file](https://en.wikipedia.org/wiki/Variant_Call_Format), however these data have previously been pre-processed into an [HDF5 file](https://www.hdfgroup.org/HDF5/) which improves data access speed for a range of access patterns. I won't cover this pre-processing step here, for more information see [vcfnp](https://github.com/alimanfoo/vcfnp). 
 
@@ -52,7 +55,7 @@ Open an HDF5 file containing variant calls from the [Ag1000G project phase 1 AR3
 
 
 {% highlight python %}
-callset_fn = '/data/coluzzi/ag1000g/data/phase1/release/AR3/variation/main/hdf5/ag1000g.phase1.ar3.h5'
+callset_fn = 'data/2016-06-10/ag1000g.phase1.ar3.h5'
 callset = h5py.File(callset_fn, mode='r')
 callset
 {% endhighlight %}
@@ -88,68 +91,9 @@ variants
 
 
 
-<table class='petl'>
-<caption>VariantChunkedTable(16437135, nbytes=266.5M, cbytes=116.8M, cratio=2.3, data=h5py._hl.group.Group)</caption>
-<thead>
-<tr>
-<th>POS</th>
-<th>REF</th>
-<th>ALT</th>
-<th>DP</th>
-<th>MQ</th>
-<th>QD</th>
-<th>num_alleles</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>15</td>
-<td>b'G'</td>
-<td>[b'T' b'' b'']</td>
-<td>1</td>
-<td>14.5</td>
-<td>24.188</td>
-<td>2</td>
-</tr>
-<tr>
-<td>19</td>
-<td>b'A'</td>
-<td>[b'C' b'' b'']</td>
-<td>2</td>
-<td>14.5</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-<tr>
-<td>20</td>
-<td>b'A'</td>
-<td>[b'G' b'' b'']</td>
-<td>2</td>
-<td>14.5</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-<tr>
-<td>23</td>
-<td>b'A'</td>
-<td>[b'C' b'' b'']</td>
-<td>2</td>
-<td>13.672</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-<tr>
-<td>24</td>
-<td>b'C'</td>
-<td>[b'A' b'' b'']</td>
-<td>2</td>
-<td>13.672</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;VariantChunkedTable shape=(16437135,) dtype=[('POS', '&lt;i4'), ('REF', 'S1'), ('ALT', 'S1', (3,)), ('DP', '&lt;i4'), ('MQ', '&lt;f2'), ('QD', '&lt;f2'), ('num_alleles', 'u1')]
+   nbytes=266.5M cbytes=116.8M cratio=2.3
+   values=h5py._hl.group.Group&gt;</span><table><tr><th></th><th style="text-align: center">POS</th><th style="text-align: center">REF</th><th style="text-align: center">ALT</th><th style="text-align: center">DP</th><th style="text-align: center">MQ</th><th style="text-align: center">QD</th><th style="text-align: center">num_alleles</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">15</td><td style="text-align: center">b'G'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">1</td><td style="text-align: center">14.5</td><td style="text-align: center">24.188</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">19</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">2</td><td style="text-align: center">14.5</td><td style="text-align: center">21.672</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">20</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'G' b'' b'']</td><td style="text-align: center">2</td><td style="text-align: center">14.5</td><td style="text-align: center">21.672</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="8">...</td></tr><tr><th style="text-align: center">16437132</th><td style="text-align: center">41963184</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">10092</td><td style="text-align: center">9.8828</td><td style="text-align: center">4.5703</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">16437133</th><td style="text-align: center">41963288</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">3072</td><td style="text-align: center">4.8398</td><td style="text-align: center">0.93018</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">16437134</th><td style="text-align: center">41963345</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">1485</td><td style="text-align: center">2.9902</td><td style="text-align: center">1.5703</td><td style="text-align: center">2</td></tr></table></div>
 
 
 
@@ -413,7 +357,9 @@ def plot_ti_tv(f, downsample, bins):
     ax = ax.twinx()
     sns.despine(ax=ax, bottom=True, left=True, right=False, offset=10)
     values = mutations[::downsample]
-    y1, _, _ = scipy.stats.binned_statistic(x, values, statistic=ti_tv, bins=bins)
+    with np.errstate(over='ignore'):
+        # binned_statistic generates an annoying overflow warning which we can ignore
+        y1, _, _ = scipy.stats.binned_statistic(x, values, statistic=ti_tv, bins=bins)
     bx = (bins[1:] + bins[:-1]) / 2
     ax.plot(bx, y1, color='k')
     ax.set_ylabel('Ti/Tv')
@@ -515,68 +461,9 @@ variants
 
 
 
-<table class='petl'>
-<caption>VariantChunkedTable(16437135, nbytes=266.5M, cbytes=116.8M, cratio=2.3, data=h5py._hl.group.Group)</caption>
-<thead>
-<tr>
-<th>POS</th>
-<th>REF</th>
-<th>ALT</th>
-<th>DP</th>
-<th>MQ</th>
-<th>QD</th>
-<th>num_alleles</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>15</td>
-<td>b'G'</td>
-<td>[b'T' b'' b'']</td>
-<td>1</td>
-<td>14.5</td>
-<td>24.188</td>
-<td>2</td>
-</tr>
-<tr>
-<td>19</td>
-<td>b'A'</td>
-<td>[b'C' b'' b'']</td>
-<td>2</td>
-<td>14.5</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-<tr>
-<td>20</td>
-<td>b'A'</td>
-<td>[b'G' b'' b'']</td>
-<td>2</td>
-<td>14.5</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-<tr>
-<td>23</td>
-<td>b'A'</td>
-<td>[b'C' b'' b'']</td>
-<td>2</td>
-<td>13.672</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-<tr>
-<td>24</td>
-<td>b'C'</td>
-<td>[b'A' b'' b'']</td>
-<td>2</td>
-<td>13.672</td>
-<td>21.672</td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;VariantChunkedTable shape=(16437135,) dtype=[('POS', '&lt;i4'), ('REF', 'S1'), ('ALT', 'S1', (3,)), ('DP', '&lt;i4'), ('MQ', '&lt;f2'), ('QD', '&lt;f2'), ('num_alleles', 'u1')]
+   nbytes=266.5M cbytes=116.8M cratio=2.3
+   values=h5py._hl.group.Group&gt;</span><table><tr><th></th><th style="text-align: center">POS</th><th style="text-align: center">REF</th><th style="text-align: center">ALT</th><th style="text-align: center">DP</th><th style="text-align: center">MQ</th><th style="text-align: center">QD</th><th style="text-align: center">num_alleles</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">15</td><td style="text-align: center">b'G'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">1</td><td style="text-align: center">14.5</td><td style="text-align: center">24.188</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">19</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">2</td><td style="text-align: center">14.5</td><td style="text-align: center">21.672</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">20</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'G' b'' b'']</td><td style="text-align: center">2</td><td style="text-align: center">14.5</td><td style="text-align: center">21.672</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="8">...</td></tr><tr><th style="text-align: center">16437132</th><td style="text-align: center">41963184</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">10092</td><td style="text-align: center">9.8828</td><td style="text-align: center">4.5703</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">16437133</th><td style="text-align: center">41963288</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">3072</td><td style="text-align: center">4.8398</td><td style="text-align: center">0.93018</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">16437134</th><td style="text-align: center">41963345</td><td style="text-align: center">b'A'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">1485</td><td style="text-align: center">2.9902</td><td style="text-align: center">1.5703</td><td style="text-align: center">2</td></tr></table></div>
 
 
 
@@ -641,68 +528,9 @@ variants_pass
 
 
 
-<table class='petl'>
-<caption>VariantChunkedTable(11766616, nbytes=190.8M, cbytes=121.2M, cratio=1.6, data=bcolz.ctable.ctable)</caption>
-<thead>
-<tr>
-<th>POS</th>
-<th>REF</th>
-<th>ALT</th>
-<th>DP</th>
-<th>MQ</th>
-<th>QD</th>
-<th>num_alleles</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>9661</td>
-<td>b'G'</td>
-<td>[b'T' b'' b'']</td>
-<td>17050</td>
-<td>40.312</td>
-<td>8.2578</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9662</td>
-<td>b'C'</td>
-<td>[b'A' b'' b'']</td>
-<td>17050</td>
-<td>40.438</td>
-<td>5.3398</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9664</td>
-<td>b'T'</td>
-<td>[b'A' b'' b'']</td>
-<td>17085</td>
-<td>40.781</td>
-<td>5.6484</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9680</td>
-<td>b'A'</td>
-<td>[b'T' b'' b'']</td>
-<td>17648</td>
-<td>41.875</td>
-<td>7.6406</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9683</td>
-<td>b'T'</td>
-<td>[b'A' b'' b'']</td>
-<td>17689</td>
-<td>41.875</td>
-<td>11.227</td>
-<td>2</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;VariantChunkedTable shape=(11766616,) dtype=[('POS', '&lt;i4'), ('REF', 'S1'), ('ALT', 'S1', (3,)), ('DP', '&lt;i4'), ('MQ', '&lt;f2'), ('QD', '&lt;f2'), ('num_alleles', 'u1')]
+   nbytes=190.8M cbytes=93.0M cratio=2.1
+   values=allel.chunked.storage_zarr.ZarrTable&gt;</span><table><tr><th></th><th style="text-align: center">POS</th><th style="text-align: center">REF</th><th style="text-align: center">ALT</th><th style="text-align: center">DP</th><th style="text-align: center">MQ</th><th style="text-align: center">QD</th><th style="text-align: center">num_alleles</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">9661</td><td style="text-align: center">b'G'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">17050</td><td style="text-align: center">40.312</td><td style="text-align: center">8.2578</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">9662</td><td style="text-align: center">b'C'</td><td style="text-align: center">[b'A' b'' b'']</td><td style="text-align: center">17050</td><td style="text-align: center">40.438</td><td style="text-align: center">5.3398</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">9664</td><td style="text-align: center">b'T'</td><td style="text-align: center">[b'A' b'' b'']</td><td style="text-align: center">17085</td><td style="text-align: center">40.781</td><td style="text-align: center">5.6484</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="8">...</td></tr><tr><th style="text-align: center">11766613</th><td style="text-align: center">41962902</td><td style="text-align: center">b'T'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">23070</td><td style="text-align: center">43.125</td><td style="text-align: center">8.3984</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">11766614</th><td style="text-align: center">41962911</td><td style="text-align: center">b'C'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">22399</td><td style="text-align: center">41.219</td><td style="text-align: center">9.0938</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">11766615</th><td style="text-align: center">41962914</td><td style="text-align: center">b'T'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">22190</td><td style="text-align: center">40.531</td><td style="text-align: center">9.2422</td><td style="text-align: center">2</td></tr></table></div>
 
 
 
@@ -748,98 +576,10 @@ genotypes
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((16437135, 765, 2), int8, nbytes=23.4G, cbytes=1.2G, cratio=19.1, cname=gzip, clevel=3, shuffle=False, chunks=(6553, 10, 2), data=h5py._hl.dataset.Dataset)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>760</th>
-<th>761</th>
-<th>762</th>
-<th>763</th>
-<th>764</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(16437135, 765, 2) dtype=int8 chunks=(6553, 10, 2)
+   nbytes=23.4G cbytes=1.2G cratio=19.1
+   compression=gzip compression_opts=3
+   values=h5py._hl.dataset.Dataset&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">16437132</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">16437133</th><td style="text-align: center">0/0</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">0/0</td><td style="text-align: center">./.</td><td style="text-align: center">0/0</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">16437134</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr></table></div>
 
 
 
@@ -851,7 +591,7 @@ Before we go any furter, let's also pull in some data about the 765 samples we'v
 
 
 {% highlight python %}
-samples_fn = '/data/coluzzi/ag1000g/data/phase1/release/AR3/samples/samples.meta.txt'
+samples_fn = 'data/2016-06-10/samples.meta.txt'
 samples = pandas.DataFrame.from_csv(samples_fn, sep='\t')
 samples.head()
 {% endhighlight %}
@@ -1187,8 +927,8 @@ Now let's subset the genotype calls to keep only variants that pass our quality 
 genotypes_subset = genotypes.subset(variant_selection, sample_selection)
 {% endhighlight %}
 
-    CPU times: user 1min 42s, sys: 852 ms, total: 1min 43s
-    Wall time: 1min 37s
+    CPU times: user 3min 5s, sys: 1.5 s, total: 3min 6s
+    Wall time: 3min 9s
 
 
 This takes a couple of minutes, so time for a quick tea break.
@@ -1201,98 +941,10 @@ genotypes_subset
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((11766616, 129, 2), int8, nbytes=2.8G, cbytes=168.0M, cratio=17.2, cname=blosclz, clevel=5, shuffle=1, chunks=(8128, 129, 2), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>124</th>
-<th>125</th>
-<th>126</th>
-<th>127</th>
-<th>128</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(11766616, 129, 2) dtype=int8 chunks=(2873, 129, 2)
+   nbytes=2.8G cbytes=174.7M cratio=16.6
+   compression=blosc compression_opts={'clevel': 5, 'shuffle': 1, 'cname': 'lz4'}
+   values=zarr.core.Array&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">124</th><th style="text-align: center">125</th><th style="text-align: center">126</th><th style="text-align: center">127</th><th style="text-align: center">128</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">11766613</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">11766614</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">11766615</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
@@ -1312,8 +964,8 @@ pc_missing = genotypes_subset.count_missing(axis=0)[:] * 100 / n_variants
 pc_het = genotypes_subset.count_het(axis=0)[:] * 100 / n_variants
 {% endhighlight %}
 
-    CPU times: user 48 s, sys: 408 ms, total: 48.4 s
-    Wall time: 19.5 s
+    CPU times: user 46 s, sys: 996 ms, total: 47 s
+    Wall time: 38.8 s
 
 
 Define a function to plot genotype frequencies for each sample.
@@ -1374,50 +1026,10 @@ g_strange
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((11766616, 3, 2), int8, nbytes=67.3M, cbytes=6.1M, cratio=11.0, cname=blosclz, clevel=5, shuffle=1, chunks=(87381, 3, 2), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/0</td>
-<td>0/1</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(11766616, 3, 2) dtype=int8 chunks=(45964, 3, 2)
+   nbytes=67.3M cbytes=6.2M cratio=10.8
+   compression=blosc compression_opts={'clevel': 5, 'shuffle': 1, 'cname': 'lz4'}
+   values=zarr.core.Array&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="4">...</td></tr><tr><th style="text-align: center">11766613</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">11766614</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">11766615</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
@@ -1513,8 +1125,8 @@ Now perform the allele count.
 ac_subpops = genotypes_subset.count_alleles_subpops(subpops, max_allele=3)
 {% endhighlight %}
 
-    CPU times: user 33.1 s, sys: 196 ms, total: 33.3 s
-    Wall time: 24.3 s
+    CPU times: user 37.3 s, sys: 2.01 s, total: 39.3 s
+    Wall time: 22.2 s
 
 
 
@@ -1525,44 +1137,9 @@ ac_subpops
 
 
 
-<table class='petl'>
-<caption>AlleleCountsChunkedTable(11766616, nbytes=538.6M, cbytes=89.1M, cratio=6.0, data=bcolz.ctable.ctable)</caption>
-<thead>
-<tr>
-<th>BFM</th>
-<th>all</th>
-<th>AOM</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[258   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[258   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[258   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[258   0   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[256   2   0   0]</td>
-<td>[118   2   0   0]</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;AlleleCountsChunkedTable shape=(11766616,) dtype=[('AOM', '&lt;i4', (4,)), ('BFM', '&lt;i4', (4,)), ('all', '&lt;i4', (4,))]
+   nbytes=538.6M cbytes=62.0M cratio=8.7
+   values=allel.chunked.storage_zarr.ZarrTable&gt;</span><table><tr><th></th><th style="text-align: center">AOM</th><th style="text-align: center">BFM</th><th style="text-align: center">all</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td><td style="text-align: center">[258   0   0   0]</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td><td style="text-align: center">[258   0   0   0]</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[138   0   0   0]</td><td style="text-align: center">[258   0   0   0]</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="4">...</td></tr><tr><th style="text-align: center">11766613</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[136   0   0   0]</td><td style="text-align: center">[256   0   0   0]</td></tr><tr><th style="text-align: center">11766614</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[136   0   0   0]</td><td style="text-align: center">[256   0   0   0]</td></tr><tr><th style="text-align: center">11766615</th><td style="text-align: center">[120   0   0   0]</td><td style="text-align: center">[136   0   0   0]</td><td style="text-align: center">[256   0   0   0]</td></tr></table></div>
 
 
 
@@ -1570,62 +1147,13 @@ Each column in the table above has allele counts for a population, where "all" m
 
 
 {% highlight python %}
-ac_subpops['AOM']
+ac_subpops['AOM'][:5]
 {% endhighlight %}
 
 
 
 
-<table class='petl'>
-<caption>AlleleCountsChunkedArray((11766616, 4), int32, nbytes=179.5M, cbytes=14.5M, cratio=12.4, cname=blosclz, clevel=5, shuffle=1, chunks=(65536, 4), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>120</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>120</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>120</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>120</td>
-<td>0</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>118</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;AlleleCountsArray shape=(5, 4) dtype=int32&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">120</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">120</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">120</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">3</th><td style="text-align: center">120</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">4</th><td style="text-align: center">118</td><td style="text-align: center">  2</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr></table></div>
 
 
 
@@ -1674,98 +1202,10 @@ genotypes_seg
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((5240001, 129, 2), int8, nbytes=1.3G, cbytes=153.5M, cratio=8.4, cname=blosclz, clevel=5, shuffle=1, chunks=(8128, 129, 2), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>124</th>
-<th>125</th>
-<th>126</th>
-<th>127</th>
-<th>128</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>1/1</td>
-<td>1/1</td>
-<td>1/1</td>
-<td>1/1</td>
-<td>1/1</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/1</td>
-<td>0/0</td>
-<td>0/1</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/1</td>
-<td>0/1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/1</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(5240001, 129, 2) dtype=int8 chunks=(2559, 129, 2)
+   nbytes=1.3G cbytes=161.5M cratio=8.0
+   compression=blosc compression_opts={'clevel': 5, 'shuffle': 1, 'cname': 'lz4'}
+   values=zarr.core.Array&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">124</th><th style="text-align: center">125</th><th style="text-align: center">126</th><th style="text-align: center">127</th><th style="text-align: center">128</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">5239998</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td></tr><tr><th style="text-align: center">5239999</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/1</td><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td><td style="text-align: center">1/1</td></tr><tr><th style="text-align: center">5240000</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
@@ -1780,68 +1220,9 @@ variants_seg
 
 
 
-<table class='petl'>
-<caption>VariantChunkedTable(5240001, nbytes=85.0M, cbytes=56.3M, cratio=1.5, data=bcolz.ctable.ctable)</caption>
-<thead>
-<tr>
-<th>POS</th>
-<th>REF</th>
-<th>ALT</th>
-<th>DP</th>
-<th>MQ</th>
-<th>QD</th>
-<th>num_alleles</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>9683</td>
-<td>b'T'</td>
-<td>[b'A' b'' b'']</td>
-<td>17689</td>
-<td>41.875</td>
-<td>11.227</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9691</td>
-<td>b'C'</td>
-<td>[b'T' b'' b'']</td>
-<td>17675</td>
-<td>41.75</td>
-<td>22.281</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9712</td>
-<td>b'C'</td>
-<td>[b'T' b'' b'']</td>
-<td>19548</td>
-<td>45.75</td>
-<td>11.992</td>
-<td>2</td>
-</tr>
-<tr>
-<td>9729</td>
-<td>b'G'</td>
-<td>[b'A' b'T' b'']</td>
-<td>20282</td>
-<td>49.188</td>
-<td>12.32</td>
-<td>3</td>
-</tr>
-<tr>
-<td>9773</td>
-<td>b'G'</td>
-<td>[b'A' b'T' b'']</td>
-<td>22609</td>
-<td>54.031</td>
-<td>19.047</td>
-<td>3</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;VariantChunkedTable shape=(5240001,) dtype=[('POS', '&lt;i4'), ('REF', 'S1'), ('ALT', 'S1', (3,)), ('DP', '&lt;i4'), ('MQ', '&lt;f2'), ('QD', '&lt;f2'), ('num_alleles', 'u1')]
+   nbytes=85.0M cbytes=43.2M cratio=2.0
+   values=allel.chunked.storage_zarr.ZarrTable&gt;</span><table><tr><th></th><th style="text-align: center">POS</th><th style="text-align: center">REF</th><th style="text-align: center">ALT</th><th style="text-align: center">DP</th><th style="text-align: center">MQ</th><th style="text-align: center">QD</th><th style="text-align: center">num_alleles</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">9683</td><td style="text-align: center">b'T'</td><td style="text-align: center">[b'A' b'' b'']</td><td style="text-align: center">17689</td><td style="text-align: center">41.875</td><td style="text-align: center">11.227</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">9691</td><td style="text-align: center">b'C'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">17675</td><td style="text-align: center">41.75</td><td style="text-align: center">22.281</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">9712</td><td style="text-align: center">b'C'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">19548</td><td style="text-align: center">45.75</td><td style="text-align: center">11.992</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="8">...</td></tr><tr><th style="text-align: center">5239998</th><td style="text-align: center">41962809</td><td style="text-align: center">b'T'</td><td style="text-align: center">[b'C' b'' b'']</td><td style="text-align: center">27618</td><td style="text-align: center">52.531</td><td style="text-align: center">17.266</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">5239999</th><td style="text-align: center">41962836</td><td style="text-align: center">b'C'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">27772</td><td style="text-align: center">51.406</td><td style="text-align: center">23.703</td><td style="text-align: center">2</td></tr><tr><th style="text-align: center">5240000</th><td style="text-align: center">41962845</td><td style="text-align: center">b'C'</td><td style="text-align: center">[b'T' b'' b'']</td><td style="text-align: center">27407</td><td style="text-align: center">51.125</td><td style="text-align: center">15.578</td><td style="text-align: center">2</td></tr></table></div>
 
 
 
@@ -1854,44 +1235,9 @@ ac_seg
 
 
 
-<table class='petl'>
-<caption>AlleleCountsChunkedTable(5240001, nbytes=239.9M, cbytes=62.9M, cratio=3.8, data=bcolz.ctable.ctable)</caption>
-<thead>
-<tr>
-<th>BFM</th>
-<th>all</th>
-<th>AOM</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>[138   0   0   0]</td>
-<td>[256   2   0   0]</td>
-<td>[118   2   0   0]</td>
-</tr>
-<tr>
-<td>[  1 137   0   0]</td>
-<td>[ 86 172   0   0]</td>
-<td>[85 35  0  0]</td>
-</tr>
-<tr>
-<td>[137   1   0   0]</td>
-<td>[244  14   0   0]</td>
-<td>[107  13   0   0]</td>
-</tr>
-<tr>
-<td>[137   0   1   0]</td>
-<td>[257   0   1   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-<tr>
-<td>[115  23   0   0]</td>
-<td>[235  23   0   0]</td>
-<td>[120   0   0   0]</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAsTable"><span>&lt;AlleleCountsChunkedTable shape=(5240001,) dtype=[('AOM', '&lt;i4', (4,)), ('BFM', '&lt;i4', (4,)), ('all', '&lt;i4', (4,))]
+   nbytes=239.9M cbytes=39.6M cratio=6.1
+   values=allel.chunked.storage_zarr.ZarrTable&gt;</span><table><tr><th></th><th style="text-align: center">AOM</th><th style="text-align: center">BFM</th><th style="text-align: center">all</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">[118   2   0   0]</td><td style="text-align: center">[138   0   0   0]</td><td style="text-align: center">[256   2   0   0]</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">[85 35  0  0]</td><td style="text-align: center">[  1 137   0   0]</td><td style="text-align: center">[ 86 172   0   0]</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">[107  13   0   0]</td><td style="text-align: center">[137   1   0   0]</td><td style="text-align: center">[244  14   0   0]</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="4">...</td></tr><tr><th style="text-align: center">5239998</th><td style="text-align: center">[98 22  0  0]</td><td style="text-align: center">[136   0   0   0]</td><td style="text-align: center">[234  22   0   0]</td></tr><tr><th style="text-align: center">5239999</th><td style="text-align: center">[ 16 104   0   0]</td><td style="text-align: center">[135   1   0   0]</td><td style="text-align: center">[151 105   0   0]</td></tr><tr><th style="text-align: center">5240000</th><td style="text-align: center">[117   3   0   0]</td><td style="text-align: center">[136   0   0   0]</td><td style="text-align: center">[253   3   0   0]</td></tr></table></div>
 
 
 
@@ -1971,7 +1317,7 @@ To do this we really do need to restrict to biallelic SNPs, so let's do that fir
 
 
 {% highlight python %}
-is_biallelic_01 = (ac_seg['all'].allelism()[:] == 2) & (ac_seg['all'].max_allele()[:] == 1)
+is_biallelic_01 = ac_seg['all'].is_biallelic_01()[:]
 ac1 = ac_seg['BFM'].compress(is_biallelic_01, axis=0)[:, :2]
 ac2 = ac_seg['AOM'].compress(is_biallelic_01, axis=0)[:, :2]
 ac1
@@ -2057,56 +1403,7 @@ ac
 
 
 
-<table class='petl'>
-<caption>AlleleCountsArray((5240001, 4), dtype=int32)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>256</td>
-<td>2</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>86</td>
-<td>172</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>244</td>
-<td>14</td>
-<td>0</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>257</td>
-<td>0</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>235</td>
-<td>23</td>
-<td>0</td>
-<td>0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;AlleleCountsArray shape=(5240001, 4) dtype=int32&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">256</td><td style="text-align: center">  2</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center"> 86</td><td style="text-align: center">172</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">244</td><td style="text-align: center"> 14</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="5">...</td></tr><tr><th style="text-align: center">5239998</th><td style="text-align: center">234</td><td style="text-align: center"> 22</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">5239999</th><td style="text-align: center">151</td><td style="text-align: center">105</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr><tr><th style="text-align: center">5240000</th><td style="text-align: center">253</td><td style="text-align: center">  3</td><td style="text-align: center">  0</td><td style="text-align: center">  0</td></tr></table></div>
 
 
 
@@ -2174,7 +1471,7 @@ indices_ds
 
 
 
-    array([     20,      85,     299, ..., 5239378, 5239635, 5239957])
+    array([    156,     168,     242, ..., 5239421, 5239616, 5239887])
 
 
 
@@ -2189,98 +1486,10 @@ genotypes_pca
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((50000, 129, 2), int8, nbytes=12.3M, cbytes=2.7M, cratio=4.5, cname=blosclz, clevel=5, shuffle=1, chunks=(2032, 129, 2), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>124</th>
-<th>125</th>
-<th>126</th>
-<th>127</th>
-<th>128</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>1/1</td>
-<td>1/1</td>
-<td>1/1</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>./.</td>
-<td>./.</td>
-<td>0/0</td>
-<td>./.</td>
-<td>1/1</td>
-<td>...</td>
-<td>0/0</td>
-<td>./.</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>./.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(50000, 129, 2) dtype=int8 chunks=(782, 129, 2)
+   nbytes=12.3M cbytes=2.5M cratio=4.9
+   compression=blosc compression_opts={'clevel': 5, 'shuffle': 1, 'cname': 'lz4'}
+   values=zarr.core.Array&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">124</th><th style="text-align: center">125</th><th style="text-align: center">126</th><th style="text-align: center">127</th><th style="text-align: center">128</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">49997</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">49998</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">49999</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
@@ -2299,8 +1508,8 @@ gn
            [0, 0, 0, ..., 0, 0, 0],
            [0, 0, 0, ..., 0, 0, 0],
            ..., 
-           [2, 2, 2, ..., 2, 2, 2],
-           [0, 0, 0, ..., 0, 1, 0],
+           [0, 0, 0, ..., 1, 0, 0],
+           [0, 0, 0, ..., 0, 0, 0],
            [0, 0, 0, ..., 0, 0, 0]], dtype=int8)
 
 
@@ -2482,34 +1691,7 @@ g
 
 
 
-<table class='petl'>
-<caption>GenotypeArray((3, 2, 2), dtype=int8)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/1</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/1</td>
-<td>1/1</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/2</td>
-<td>./.</td>
-</tr>
-</tbody>
-</table>
-
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeArray shape=(3, 2, 2) dtype=int8&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/1</td><td style="text-align: center">1/1</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/2</td><td style="text-align: center">./.</td></tr></table></div>
 
 
 
@@ -2523,7 +1705,7 @@ isinstance(g, np.ndarray)
 
 
 
-    True
+    False
 
 
 
@@ -2562,8 +1744,7 @@ g[1, :]
 
 
 
-    array([[0, 1],
-           [1, 1]], dtype=int8)
+<div class="allel allel-DisplayAs1D"><span>&lt;GenotypeVector shape=(2, 2) dtype=int8&gt;</span><table><tr><th style="text-align: center">0</th><th style="text-align: center">1</th></tr><tr><td style="text-align: center">0/1</td><td style="text-align: center">1/1</td></tr></table></div>
 
 
 
@@ -2576,9 +1757,7 @@ g[:, 1]
 
 
 
-    array([[ 0,  1],
-           [ 1,  1],
-           [-1, -1]], dtype=int8)
+<div class="allel allel-DisplayAs1D"><span>&lt;GenotypeVector shape=(3, 2) dtype=int8&gt;</span><table><tr><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th></tr><tr><td style="text-align: center">0/1</td><td style="text-align: center">1/1</td><td style="text-align: center">./.</td></tr></table></div>
 
 
 
@@ -2604,29 +1783,7 @@ g.take([0, 2], axis=0)
 
 
 
-<table class='petl'>
-<caption>GenotypeArray((2, 2, 2), dtype=int8)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/1</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/2</td>
-<td>./.</td>
-</tr>
-</tbody>
-</table>
-
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeArray shape=(2, 2, 2) dtype=int8&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/1</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/2</td><td style="text-align: center">./.</td></tr></table></div>
 
 
 
@@ -2667,38 +1824,7 @@ g.count_alleles()
 
 
 
-<table class='petl'>
-<caption>AlleleCountsArray((3, 3), dtype=int32)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>3</td>
-<td>1</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>1</td>
-<td>3</td>
-<td>0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>1</td>
-<td>0</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-
+<div class="allel allel-DisplayAs2D"><span>&lt;AlleleCountsArray shape=(3, 3) dtype=int32&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">3</td><td style="text-align: center">1</td><td style="text-align: center">0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">1</td><td style="text-align: center">3</td><td style="text-align: center">0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">1</td><td style="text-align: center">0</td><td style="text-align: center">1</td></tr></table></div>
 
 
 
@@ -2720,98 +1846,10 @@ genotypes
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((16437135, 765, 2), int8, nbytes=23.4G, cbytes=1.2G, cratio=19.1, cname=gzip, clevel=3, shuffle=False, chunks=(6553, 10, 2), data=h5py._hl.dataset.Dataset)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>760</th>
-<th>761</th>
-<th>762</th>
-<th>763</th>
-<th>764</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>...</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-<td>./.</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(16437135, 765, 2) dtype=int8 chunks=(6553, 10, 2)
+   nbytes=23.4G cbytes=1.2G cratio=19.1
+   compression=gzip compression_opts=3
+   values=h5py._hl.dataset.Dataset&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">16437132</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">16437133</th><td style="text-align: center">0/0</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">0/0</td><td style="text-align: center">./.</td><td style="text-align: center">0/0</td><td style="text-align: center">./.</td></tr><tr><th style="text-align: center">16437134</th><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">...</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td><td style="text-align: center">./.</td></tr></table></div>
 
 
 
@@ -2847,98 +1885,10 @@ genotypes_subset
 
 
 
-<table class='petl'>
-<caption>GenotypeChunkedArray((11766616, 129, 2), int8, nbytes=2.8G, cbytes=168.0M, cratio=17.2, cname=blosclz, clevel=5, shuffle=1, chunks=(8128, 129, 2), data=bcolz.carray_ext.carray)</caption>
-<thead>
-<tr>
-<th></th>
-<th>0</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>...</th>
-<th>124</th>
-<th>125</th>
-<th>126</th>
-<th>127</th>
-<th>128</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style='font-weight: bold'>0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>1</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>2</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>3</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-<tr>
-<td style='font-weight: bold'>4</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>...</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-<td>0/0</td>
-</tr>
-</tbody>
-</table>
-<p><strong>...</strong></p>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeChunkedArray shape=(11766616, 129, 2) dtype=int8 chunks=(2873, 129, 2)
+   nbytes=2.8G cbytes=174.7M cratio=16.6
+   compression=blosc compression_opts={'clevel': 5, 'shuffle': 1, 'cname': 'lz4'}
+   values=zarr.core.Array&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">124</th><th style="text-align: center">125</th><th style="text-align: center">126</th><th style="text-align: center">127</th><th style="text-align: center">128</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">11766613</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">11766614</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">11766615</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
 
 
 
@@ -2957,4 +1907,13 @@ To perform some operation over a chunked arrays, the best way is to compute the 
 * [numpy](http://www.numpy.org/)
 * [matplotlib](http://matplotlib.org/)
 * [pandas](http://pandas.pydata.org/)
+
+
+
+{% highlight python %}
+import datetime
+print(datetime.datetime.now().isoformat())
+{% endhighlight %}
+
+    2016-11-01T20:12:59.720075
 
