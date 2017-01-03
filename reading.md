@@ -41,9 +41,12 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
       </span>
       <a href="https://www.ncbi.nlm.nih.gov/pubmed/25371432">
         <span class="title">Estimation of the spontaneous mutation rate in 
-Heliconius melpomene</span>
+Heliconius melpomene.</span>
       </a>
-      [<span class="read">2017-01-03</span>]
+      <span class="meta">
+        <span class="read">2017-01-03</span> 
+        <span class="tags"></span>
+      </span>
       <blockquote class="abstract" style="display: none">We estimated the spontaneous mutation rate in Heliconius 
 melpomene by genome sequencing of a pair of parents and 30 of their offspring, 
 based on the ratio of number of de novo heterozygotes to the number of 
@@ -67,6 +70,10 @@ based on a local molecular clock.</blockquote>
 .citation {
   font-weight: bold;
 }
+.meta {
+/*  font-style: italic;*/
+  color: #777;
+}
 </style>
 
 <script type="text/javascript" src="/assets/list.min.js"></script>
@@ -74,7 +81,7 @@ based on a local molecular clock.</blockquote>
 <script type="text/javascript">
 
 var options = {
-  valueNames: [ 'author', 'year', 'title', 'abstract', 'read' ]
+  valueNames: [ 'author', 'year', 'title', 'abstract', 'read', 'tags' ]
 };
 
 var userList = new List('papers', options);
@@ -91,3 +98,5 @@ function abstracts() {
   }  
 }
 </script>
+
+This page uses [List.js](https://github.com/javve/list.js).
