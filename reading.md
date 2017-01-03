@@ -37,12 +37,49 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
     <li>
       <span class="citation">
         <span class="author">Keightley et al.</span>
+        (<span class="year">2014</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/24214343">
+        <span class="title">Estimation of the spontaneous mutation rate per nucleotide 
+site in a Drosophila melanogaster full-sib family.</span>
+      </a>
+      <span class="journal">Genetics.</span>
+      <span class="meta">
+        <span class="read">2017-01-03</span> 
+        <span class="tags"></span>
+      </span>
+      <blockquote class="abstract" style="display: none"> We employed deep genome 
+sequencing of two parents and 12 of their offspring to estimate the mutation rate per 
+site per generation in a full-sib family of Drosophila melanogaster recently sampled 
+from a natural population. Sites that were homozygous for the same allele in the 
+parents and heterozygous in one or more offspring were categorized as candidate 
+mutations and subjected to detailed analysis. In 1.23 × 10(9) callable sites from 12 
+individuals, we confirmed six single nucleotide mutations. We estimated the false 
+negative rate in the experiment by generating synthetic mutations using the empirical 
+distributions of numbers of nonreference bases at heterozygous sites in the offspring. 
+The proportion of synthetic mutations at callable sites that we failed to detect was 
+<1%, implying that the false negative rate was extremely low. Our estimate of the 
+point mutation rate is 2.8 × 10(-9) (95% confidence interval = 1.0 × 10(-9) - 6.1 × 
+10(-9)) per site per generation, which is at the low end of the range of previous 
+estimates, and suggests an effective population size for the species of ∼1.4 × 10(6). 
+At one site, point mutations were present in two individuals, indicating that there 
+had been a premeiotic mutation cluster, although surprisingly one individual had a G→A 
+transition and the other a G→T transversion, possibly associated with error-prone 
+mismatch repair. We also detected three short deletion mutations and no insertions, 
+giving a deletion mutation rate of 1.2 × 10(-9) (95% confidence interval = 0.7 × 
+10(-9) - 11 × 10(-9)).</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
+        <span class="author">Keightley et al.</span>
         (<span class="year">2015</span>)
       </span>
       <a href="https://www.ncbi.nlm.nih.gov/pubmed/25371432">
         <span class="title">Estimation of the spontaneous mutation rate in 
 Heliconius melpomene.</span>
       </a>
+      <span class="journal">Mol Biol Evol.</span>
       <span class="meta">
         <span class="read">2017-01-03</span> 
         <span class="tags"></span>
