@@ -55,6 +55,33 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Eckhoff et al.</span>
+        (<span class="year">2016</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/28028208">
+        <span class="title">Impact of mosquito gene drive on malaria elimination in a computational model with explicit spatial and temporal dynamics.</span>
+      </a>
+      <span class="journal">Proc Natl Acad Sci USA.</span>
+      <span class="meta">
+        <span class="read">2017-01-05</span> 
+        <span class="tags"></span>
+      </span>
+      <blockquote class="abstract display_none"> The renewed effort to eliminate malaria and permanently remove its tremendous burden highlights questions of what 
+combination of tools would be sufficient in various settings and what new tools need to be developed. Gene drive mosquitoes constitute a promising set of tools, with 
+multiple different possible approaches including population replacement with introduced genes limiting malaria transmission, driving-Y chromosomes to collapse a 
+mosquito population, and gene drive disrupting a fertility gene and thereby achieving population suppression or collapse. Each of these approaches has had recent 
+success and advances under laboratory conditions, raising the urgency for understanding how each could be deployed in the real world and the potential impacts of 
+each. New analyses are needed as existing models of gene drive primarily focus on nonseasonal or nonspatial dynamics. We use a mechanistic, spatially explicit, 
+stochastic, individual-based mathematical model to simulate each gene drive approach in a variety of sub-Saharan African settings. Each approach exhibits a broad 
+region of gene construct parameter space with successful elimination of malaria transmission due to the targeted vector species. The introduction of realistic 
+seasonality in vector population dynamics facilitates gene drive success compared with nonseasonal analyses. Spatial simulations illustrate constraints on release 
+timing, frequency, and spatial density in the most challenging settings for construct success. Within its parameter space for success, each gene drive approach 
+provides a tool for malaria elimination unlike anything presently available. Provided potential barriers to success are surmounted, each achieves high efficacy at 
+reducing transmission potential and lower delivery requirements in logistically challenged settings. </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Hu et al.</span>
         (<span class="year">2016</span>)
       </span>
