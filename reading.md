@@ -34,6 +34,47 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
   <ul class="list">
 
+    <!--
+    <li>
+      <span class="citation">
+        <span class="author">@</span>
+        (<span class="year">@</span>)
+      </span>
+      <a href="@">
+        <span class="title">@</span>
+      </a>
+      <span class="journal">@</span>
+      <span class="meta">
+        <span class="read">2017-@</span> 
+        <span class="tags"></span>
+      </span>
+      <blockquote class="abstract display_none">
+      </blockquote>
+    </li>
+    -->
+
+    <li>
+      <span class="citation">
+        <span class="author">Hu et al.</span>
+        (<span class="year">2016</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/28008067">
+        <span class="title">Mass seasonal bioflows of high-flying insect migrants.</span>
+      </a>
+      <span class="journal">Science.</span>
+      <span class="meta">
+        <span class="read">2017-01-04</span> 
+        <span class="tags"></span>
+      </span>
+      <blockquote class="abstract display_none"> Migrating animals have an impact on ecosystems directly via influxes of predators, prey, and competitors 
+and indirectly by vectoring nutrients, energy, and pathogens. Although linkages between vertebrate movements and ecosystem processes have been established, the 
+effects of mass insect "bioflows" have not been described. We quantified biomass flux over the southern United Kingdom for high-flying (>150 meters) insects and show 
+that ~3.5 trillion insects (3200 tons of biomass) migrate above the region annually. These flows are not randomly directed in insects larger than 10 milligrams, 
+which exploit seasonally beneficial tailwinds. Large seasonal differences in the southward versus northward transfer of biomass occur in some years, although flows 
+were balanced over the 10-year period. Our long-term study reveals a major transport process with implications for ecosystem services, processes, and 
+biogeochemistry. </blockquote>
+    </li>
+
     <li>
       <span class="citation">
         <span class="author">Keightley et al.</span>
@@ -48,7 +89,7 @@ site in a Drosophila melanogaster full-sib family.</span>
         <span class="read">2017-01-03</span> 
         <span class="tags"></span>
       </span>
-      <blockquote class="abstract" style="display: none"> We employed deep genome 
+      <blockquote class="abstract display_none"> We employed deep genome 
 sequencing of two parents and 12 of their offspring to estimate the mutation rate per 
 site per generation in a full-sib family of Drosophila melanogaster recently sampled 
 from a natural population. Sites that were homozygous for the same allele in the 
@@ -84,7 +125,7 @@ Heliconius melpomene.</span>
         <span class="read">2017-01-03</span> 
         <span class="tags"></span>
       </span>
-      <blockquote class="abstract" style="display: none">We estimated the spontaneous mutation rate in Heliconius 
+      <blockquote class="abstract display_none">We estimated the spontaneous mutation rate in Heliconius 
 melpomene by genome sequencing of a pair of parents and 30 of their offspring, 
 based on the ratio of number of de novo heterozygotes to the number of 
 callable site-individuals. We detected nine new mutations, each one affecting 
@@ -111,6 +152,12 @@ based on a local molecular clock.</blockquote>
 /*  font-style: italic;*/
   color: #777;
 }
+.display_block {
+  display: block;
+}
+.display_none {
+  display: none;
+}
 </style>
 
 <script type="text/javascript" src="/assets/list.min.js"></script>
@@ -125,13 +172,13 @@ var userList = new List('papers', options);
 
 function abstracts() {
   if (document.getElementById('abstracts').checked) {
-    var display = "block";
+    var cls = "abstract display_block";
   } else {
-    var display = "none";
+    var cls = "abstract display_none";
   }
   var nodes = document.querySelectorAll(".abstract");
   for (var i=0; i < nodes.length; i++) {
-    nodes[i].style.display = display;
+    nodes[i].className = cls;
   }  
 }
 </script>
