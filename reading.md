@@ -55,6 +55,29 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Gatton et al.</span>
+        (<span class="year">2013</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/23550770">
+        <span class="title">The importance of mosquito behavioural adaptations to malaria control in Africa.</span>
+      </a>
+      <span class="journal">Evolution.</span>
+      <span class="meta">
+        <span class="read">2017-01-09</span> 
+        <span class="tags">journal club</span>
+      </span>
+      <blockquote class="abstract display_none"> Over the past decade the use of long-lasting insecticidal nets (LLINs), in combination with improved drug therapies, 
+indoor residual spraying (IRS), and better health infrastructure, has helped reduce malaria in many African countries for the first time in a generation. However, 
+insecticide resistance in the vector is an evolving threat to these gains. We review emerging and historical data on behavioral resistance in response to LLINs and 
+IRS. Overall the current literature suggests behavioral and species changes may be emerging, but the data are sparse and, at times unconvincing. However, preliminary 
+modeling has demonstrated that behavioral resistance could have significant impacts on the effectiveness of malaria control. We propose seven recommendations to 
+improve understanding of resistance in malaria vectors. Determining the public health impact of physiological and behavioral insecticide resistance is an urgent 
+priority if we are to maintain the significant gains made in reducing malaria morbidity and mortality.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Eckhoff et al.</span>
         (<span class="year">2016</span>)
       </span>
