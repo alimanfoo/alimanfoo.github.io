@@ -56,6 +56,29 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Ranson and Lissenden</span>
+        (<span class="year">2016</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/26826784">
+        <span class="title">Insecticide Resistance in African Anopheles Mosquitoes: A Worsening Situation that Needs Urgent Action to Maintain Malaria
+Control.</span>
+      </a>
+      <span class="journal">Trends Parasitol.</span>
+      <span class="meta">
+        <span class="read">2017-01-10</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">insecticide resistance; anopheles gambiae; anopheles funestus</span>
+      </span>
+      <blockquote class="abstract display_none"> Malaria control is reliant on insecticides to control the mosquito vector. As efforts to control the disease have 
+intensified, so has the selection pressure on mosquitoes to develop resistance to these insecticides. The distribution and strength of this resistance has increased 
+dramatically in recent years and now threatens the success of control programs. This review provides an update on the current status of resistance to the major 
+insecticide classes in African malaria vectors, considers the evidence that this resistance is already compromising malaria control efforts, and looks to the future 
+to highlight some of the new insecticide-based tools under development and the challenges in ensuring they are most effectively deployed to manage resistance.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Lynd et al.</span>
         (<span class="year">2010</span>)
       </span>
@@ -65,7 +88,7 @@ gambiae s.s.</span>
       </a>
       <span class="journal">Mol Biol Evol.</span>
       <span class="meta">
-        <span class="read">2017-09-10</span> 
+        <span class="read">2017-01-10</span> 
         <span class="tags"></span>
         <span class="hidden_tags">anopheles gambiae; anopheles coluzzii; insecticide resistance; target-site resistance; vgsc; kdr; selection</span>
       </span>
