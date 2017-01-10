@@ -47,11 +47,37 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
       <span class="meta">
         <span class="read">2017-@</span> 
         <span class="tags"></span>
+        <span class="hidden_tags"></span>
       </span>
       <blockquote class="abstract display_none">
       </blockquote>
     </li>
     -->
+
+    <li>
+      <span class="citation">
+        <span class="author">Lynd et al.</span>
+        (<span class="year">2010</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/20056691">
+        <span class="title">Field, genetic, and modeling approaches show strong positive selection acting upon an insecticide resistance mutation in Anopheles 
+gambiae s.s.</span>
+      </a>
+      <span class="journal">Mol Biol Evol.</span>
+      <span class="meta">
+        <span class="read">2017-09-10</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">anopheles gambiae; anopheles coluzzii; insecticide resistance; target-site resistance; vgsc; kdr; selection</span>
+      </span>
+      <blockquote class="abstract display_none"> Alleles subject to strong, recent positive selection will be swept toward fixation together with contiguous sections 
+of the genome. Whether the genomic signatures of such selection will be readily detectable in outbred wild populations is unclear. In this study, we employ haplotype 
+diversity analysis to examine evidence for selective sweeps around knockdown resistance (kdr) mutations associated with resistance to dichlorodiphenyltrichloroethane 
+and pyrethroid insecticides in the mosquito Anopheles gambiae. Both kdr mutations have significantly lower haplotype diversity than the wild-type (nonresistant) 
+allele, with kdr L1014F showing the most pronounced footprint of selection. We complement these data with a time series of collections showing that the L1014F allele 
+has increased in frequency from 0.05 to 0.54 in 5 years, consistent with a maximum likelihood-fitted selection coefficient of 0.16 and a dominance coefficient of 
+0.25. Our data show that strong, recent positive selective events, such as those caused by insecticide resistance, can be identified in wild insect populations.
+      </blockquote>
+    </li>
 
     <li>
       <span class="citation">
@@ -65,6 +91,7 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
       <span class="meta">
         <span class="read">2017-01-09</span> 
         <span class="tags">journal club</span>
+        <span class="hidden_tags">anopheles gambiae; insecticide resistance; behavioural resistance</span>
       </span>
       <blockquote class="abstract display_none"> Over the past decade the use of long-lasting insecticidal nets (LLINs), in combination with improved drug therapies, 
 indoor residual spraying (IRS), and better health infrastructure, has helped reduce malaria in many African countries for the first time in a generation. However, 
@@ -88,6 +115,7 @@ priority if we are to maintain the significant gains made in reducing malaria mo
       <span class="meta">
         <span class="read">2017-01-05</span> 
         <span class="tags"></span>
+        <span class="hidden_tags">gene drive; modelling; anopheles gambiae; anopheles arabiensis</span>
       </span>
       <blockquote class="abstract display_none"> The renewed effort to eliminate malaria and permanently remove its tremendous burden highlights questions of what 
 combination of tools would be sufficient in various settings and what new tools need to be developed. Gene drive mosquitoes constitute a promising set of tools, with 
@@ -115,6 +143,7 @@ reducing transmission potential and lower delivery requirements in logistically 
       <span class="meta">
         <span class="read">2017-01-04</span> 
         <span class="tags"></span>
+        <span class="hidden_tags">migration</span>
       </span>
       <blockquote class="abstract display_none"> Migrating animals have an impact on ecosystems directly via influxes of predators, prey, and competitors 
 and indirectly by vectoring nutrients, energy, and pathogens. Although linkages between vertebrate movements and ecosystem processes have been established, the 
@@ -138,6 +167,7 @@ site in a Drosophila melanogaster full-sib family.</span>
       <span class="meta">
         <span class="read">2017-01-03</span> 
         <span class="tags"></span>
+        <span class="hidden_tags">mutation rate; drosophila melanogaster</span>
       </span>
       <blockquote class="abstract display_none"> We employed deep genome 
 sequencing of two parents and 12 of their offspring to estimate the mutation rate per 
@@ -174,6 +204,7 @@ Heliconius melpomene.</span>
       <span class="meta">
         <span class="read">2017-01-03</span> 
         <span class="tags"></span>
+        <span class="hidden_tags">mutation rate; heliconius melpomene</span>
       </span>
       <blockquote class="abstract display_none">We estimated the spontaneous mutation rate in Heliconius 
 melpomene by genome sequencing of a pair of parents and 30 of their offspring, 
@@ -208,6 +239,9 @@ based on a local molecular clock.</blockquote>
 .display_none {
   display: none;
 }
+.hidden_tags {
+  display: none;
+}
 </style>
 
 <script type="text/javascript" src="/assets/list.min.js"></script>
@@ -215,7 +249,7 @@ based on a local molecular clock.</blockquote>
 <script type="text/javascript">
 
 var options = {
-  valueNames: [ 'author', 'year', 'title', 'abstract', 'read', 'tags' ]
+  valueNames: [ 'author', 'year', 'title', 'abstract', 'read', 'tags', 'hidden_tags' ]
 };
 
 var userList = new List('papers', options);
