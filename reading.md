@@ -56,6 +56,35 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Dong et al.</span>
+        (<span class="year">2014</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4484874/">
+        <span class="title">Molecular Biology of Insect Sodium Channels and Pyrethroid Resistance.</span>
+      </a>
+      <span class="journal">Insect Biochem Mol Biol.</span>
+      <span class="meta">
+        <span class="read">2017-01-11</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">insecticide resistance; target-site resistance; vgsc; kdr; anopheles gambiae; drosophila melanogaster; musca domestica; plutella 
+xylostella; blatella germanica</span>
+      </span>
+      <blockquote class="abstract display_none"> Voltage-gated sodium channels are essential for the initiation and propagation of the action potential in neurons 
+and other excitable cells. Because of their critical roles in electrical signaling, sodium channels are targets of a variety of naturally occurring and synthetic 
+neurotoxins, including several classes of insecticides. This review is intended to provide an update on the molecular biology of insect sodium channels and the 
+molecular mechanism of pyrethroid resistance. Although mammalian and insect sodium channels share fundamental topological and functional properties, most insect 
+species carry only one sodium channel gene, compared to multiple sodium channel genes found in each mammalian species. Recent studies showed that two 
+posttranscriptional mechanisms, alternative splicing and RNA editing, are involved in generating functional diversity of sodium channels in insects. More than 50 
+sodium channel mutations have been identified to be responsible for or associated with knockdown resistance (kdr) to pyrethroids in various arthropod pests and 
+disease vectors. Elucidation of molecular mechanism of kdr led to the identification of dual receptor sites of pyrethroids on insect sodium channels. Most of the kdr 
+mutations appear to be located within or close to the two receptor sites. The accumulating knowledge of insect sodium channels and their interactions with 
+insecticides provides a foundation for understanding the neurophysiology of sodium channels in vivo and the development of new and safer insecticides for effective 
+control of arthropod pests and human disease vectors.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Ranson and Lissenden</span>
         (<span class="year">2016</span>)
       </span>
