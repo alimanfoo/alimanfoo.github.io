@@ -56,6 +56,34 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Davies et al.</span>
+        (<span class="year">2007</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/17433068">
+        <span class="title">A comparative study of voltage-gated sodium channels in the Insecta: implications for pyrethroid resistance in 
+Anopheline and other Neopteran species.</span>
+      </a>
+      <span class="journal">Insect Mol Biol.</span>
+      <span class="meta">
+        <span class="read">2017-01-16</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">anopheles gambiae; insecticide resistance; target-site resistance; vgsc; kdr</span>
+      </span>
+      <blockquote class="abstract display_none"> We report the complete cDNA sequence of the Anopheles gambiae voltage-gated sodium 
+channel (VGSC) alpha-subunit isolated from mature adult mosquitoes. The genomic DNA contains 35 deduced exons with a predicted translation 
+of <or= 2139 amino acid cDNAs. The transcription of the gene is, however, complex, alternate splicing being evident for at least five 
+optional exons (or exon segments) and two sets of mutually exclusive exons. Overall gene organization was also compared with that of other 
+VGSCs within the Insecta. Several insecticides used in mosquito control (including DDT and synthetic pyrethroids) target the VGSC. 
+Isolation of the sodium channel cDNA for An. gambiae: (1) allows prediction of likely single nucleotide polymorphisms that may arise at 
+residue L1014 to cause resistance to insecticides; (2) defines An. gambiae exon usage in key areas of the VGSC protein that are known 
+(from previous studies in a range of different pest species) to have roles in altering insecticide susceptibility and in generating 
+resistance; and (3) is a critical first step towards development of refined malarial control strategies and of new diagnostics for 
+resistance monitoring.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Dong et al.</span>
         (<span class="year">2014</span>)
       </span>
