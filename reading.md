@@ -56,6 +56,34 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Norris et al.</span>
+        (<span class="year">2015</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/25561525">
+        <span class="title">Adaptive introgression in an African malaria mosquito coincident with the increased usage of insecticide-treated bed nets.</span>
+      </a>
+      <span class="journal">Proc Natl Acad Sci USA.</span>
+      <span class="meta">
+        <span class="read">2017-01-25</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; anopheles gambiae; anopheles coluzzii; vgsc; kdr; insecticide resistance; target-site resistance; mali</span>
+      </span>
+      <blockquote class="abstract display_none"> Animal species adapt to changes in their environment, including man-made changes such as the introduction of 
+insecticides, through selection for advantageous genes already present in populations or newly arisen through mutation. A possible alternative mechanism is the 
+acquisition of adaptive genes from related species via a process known as adaptive introgression. Differing levels of insecticide resistance between two African 
+malaria vectors, Anopheles coluzzii and Anopheles gambiae, have been attributed to assortative mating between the two species. In a previous study, we reported two 
+bouts of hybridization observed in the town of Selinkenyi, Mali in 2002 and 2006. These hybridization events did not appear to be directly associated with 
+insecticide-resistance genes. We demonstrate that during a brief breakdown in assortative mating in 2006, A. coluzzii inherited the entire A. gambiae-associated 2L 
+divergence island, which includes a suite of insecticide-resistance alleles. In this case, introgression was coincident with the start of a major insecticide-treated 
+bed net distribution campaign in Mali. This suggests that insecticide exposure altered the fitness landscape, favoring the survival of A. coluzzii/A. gambiae 
+hybrids, and provided selection pressure that swept the 2L divergence island through A. coluzzii populations in Mali. We propose that the work described herein 
+presents a unique description of the temporal dynamics of adaptive introgression in an animal species and represents a mechanism for the rapid evolution of 
+insecticide resistance in this important vector of human malaria in Africa.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Davies et al.</span>
         (<span class="year">2007</span>)
       </span>
@@ -67,7 +95,7 @@ Anopheline and other Neopteran species.</span>
       <span class="meta">
         <span class="read">2017-01-16</span> 
         <span class="tags"></span>
-        <span class="hidden_tags">anopheles gambiae; insecticide resistance; target-site resistance; vgsc; kdr</span>
+        <span class="hidden_tags">anopheles gambiae; insecticide resistance; target-site resistance; vgsc; kdr; tanzania</span>
       </span>
       <blockquote class="abstract display_none"> We report the complete cDNA sequence of the Anopheles gambiae voltage-gated sodium 
 channel (VGSC) alpha-subunit isolated from mature adult mosquitoes. The genomic DNA contains 35 deduced exons with a predicted translation 
@@ -170,8 +198,8 @@ has increased in frequency from 0.05 to 0.54 in 5 years, consistent with a maxim
       <span class="journal">Evolution.</span>
       <span class="meta">
         <span class="read">2017-01-09</span> 
-        <span class="tags">journal club</span>
-        <span class="hidden_tags">anopheles gambiae; insecticide resistance; behavioural resistance</span>
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; anopheles gambiae; insecticide resistance; behavioural resistance</span>
       </span>
       <blockquote class="abstract display_none"> Over the past decade the use of long-lasting insecticidal nets (LLINs), in combination with improved drug therapies, 
 indoor residual spraying (IRS), and better health infrastructure, has helped reduce malaria in many African countries for the first time in a generation. However, 
