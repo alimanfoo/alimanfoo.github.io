@@ -11,7 +11,8 @@ nbconvert.sh 2016-06-21-understanding-pbwt "Understanding PBWT"
 nbconvert.sh 2016-09-09-zarr-2-groups-filters "Zarr 2 - groups, filters and Zstandard"
 nbconvert.sh 2016-09-21-genotype-compressor-benchmark "Genotype compressor benchmark"
 nbconvert.sh 2016-10-04-plotting-african-ecosystems "Plotting African ecosystems"
-
+nbconvert.sh 2017-01-23-go-faster-python "Go faster Python"
+nbconvert.sh 2017-01-25-vgsc-gene-models "VGSC gene models"
 
 
 
