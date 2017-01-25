@@ -387,7 +387,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start-100, start+5000,
 
 Exon 2 (also known as optional exon *j*) is observed in Davies cDNA C8 but not in any AgamP4.4 transcripts. 
 
-Exon 3 is also longer in all Davies cDNAs (156 bp) than the AgamP4.4 transcripts (138 bp).
+Exon 3 is longer in all Davies cDNAs (156 bp) than the AgamP4.4 transcripts (138 bp).
 
 ### Exons 4-6
 
