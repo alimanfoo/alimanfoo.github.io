@@ -354,7 +354,7 @@ highlight_exons = [
 ]
 {% endhighlight %}
 
-## Compare VectorBase and Davies gene models
+## Compare AgamP4.4 and Davies gene models
 
 Here's a plot of the entire gene, showing all transcripts together. Exons that are either optional or variable in size between transcripts are highlighted in red.
 
@@ -372,7 +372,7 @@ Let's work through the gene in detail, taking a few exons at a time. In the plot
 
 In the text below I will refer to exons using the exon numbering according to Davies et al. table S1.
 
-### Exons 1-3
+### Exons 1, 2 (*j*), 3
 
 
 {% highlight python %}
@@ -385,7 +385,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start-100, start+5000,
 ![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_19_0.png)
 
 
-Exon 2 (also known as optional exon *j*) is observed in Davies cDNA C8 but not in any AgamP4.4 transcripts. 
+Exon 2 (also known as optional exon ***j***) is observed in Davies cDNA C8 but not in any AgamP4.4 transcripts. 
 
 Exon 3 is longer in all Davies cDNAs (156 bp) than the AgamP4.4 transcripts (138 bp).
 
@@ -419,7 +419,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+31500, start+34000,
 
 Exon 10 is missing in Davies cDNA C5. Davies et al. state this should also render the channel non-functional because it would eliminate a key region of the channel pore.
 
-### Exons 11-14
+### Exons 11 (*i*+), 12, 13 (*a*), 14
 
 
 {% highlight python %}
@@ -434,7 +434,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+41000, start+46000,
 
 Exon 12 is present in Davies cDNA C1 but is not in any other transcripts. 
 
-Exon 13 (also known as optional exon *a*) is present in Davies cDNA C1 and in all AgamP4.4 transcripts but missing from other Davies cDNAs.
+Exon 13 (also known as optional exon ***a***) is present in Davies cDNA C1 and in all AgamP4.4 transcripts but missing from other Davies cDNAs.
 
 ### Exons 15-17
 
@@ -451,7 +451,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+49000, start+52000,
 
 No splice variation.
 
-### Exons 18-20
+### Exons 18 (*b*+), 19, 20 (*c/d*)
 
 
 {% highlight python %}
@@ -464,9 +464,150 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+57500, start+64000,
 ![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_34_0.png)
 
 
-For exon 20, Davies cDNAs and AgamP4.4 transcripts have evidence for mutually exclusive splice variants, also known as exons *c/d*.
+For exon 20, Davies finds alternative exon ***c*** in the genomic sequence but does not observe it in any cDNAs (the "Davies-C1N9ck" transcript is a hypothetical transcript I've invented to represent the alternative splice variants for which Davies et al. only find genomic evidence). Two AgamP4.4 transcripts use exon ***c*** and one uses exon ***d***.
 
-### Exons 21-26 
+Out of interest, how similar are exons ***c*** and ***d***?
+
+
+{% highlight python %}
+import itertools
+
+
+def pair_seq_comp(a, b):
+    h1 = ''
+    h2 = ''
+    for x, y in itertools.zip_longest(a, b):
+        if x == y:
+            s = '<span style="background-color: black; color: white">%s</span>' % x
+            h1 += s
+            h2 += s
+        else:
+            if x:
+                h1 += x
+            if y:
+                h2 += y
+    from IPython.display import display_html
+    html = '<pre>' + h1 + '\n' + h2 + '</pre>'
+    display_html(html, raw=True)
+
+{% endhighlight %}
+
+
+{% highlight python %}
+import pyfasta
+genome = pyfasta.Fasta('data/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa')
+{% endhighlight %}
+
+
+{% highlight python %}
+geneset_davies.query('ID == "20c" and type == "exon"')
+{% endhighlight %}
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seqid</th>
+      <th>source</th>
+      <th>type</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>ID</th>
+      <th>Parent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>342</th>
+      <td>2L</td>
+      <td>Davies et al. (2007)</td>
+      <td>exon</td>
+      <td>2417637</td>
+      <td>2417799</td>
+      <td>-1</td>
+      <td>+</td>
+      <td>-1</td>
+      <td>20c</td>
+      <td>Davies-C1N9ck</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+{% highlight python %}
+geneset_davies.query('ID == "20d" and type == "exon"').head(1)
+{% endhighlight %}
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seqid</th>
+      <th>source</th>
+      <th>type</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>ID</th>
+      <th>Parent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>344</th>
+      <td>2L</td>
+      <td>Davies et al. (2007)</td>
+      <td>exon</td>
+      <td>2421385</td>
+      <td>2421547</td>
+      <td>-1</td>
+      <td>+</td>
+      <td>-1</td>
+      <td>20d</td>
+      <td>Davies-C1N2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+{% highlight python %}
+from Bio.Seq import Seq
+from Bio.Alphabet import generic_dna
+# trim stop index by 1 to make DNA sequence a multiple of 3
+seq_c_dna = Seq(genome['2L'][2417637-1:2417799-1], generic_dna)
+seq_d_dna = Seq(genome['2L'][2421385-1:2421547-1], generic_dna)
+{% endhighlight %}
+
+
+{% highlight python %}
+pair_seq_comp(seq_c_dna.translate(), seq_d_dna.translate())
+{% endhighlight %}
+
+
+<pre><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">V</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">K</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">K</span><span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">W</span><span style="background-color: black; color: white">P</span><span style="background-color: black; color: white">T</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">N</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">T</span>V<span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">N</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">T</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">V</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">C</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">V</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">Q</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">K</span><span style="background-color: black; color: white">N</span><span style="background-color: black; color: white">Y</span>T
+<span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">V</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">K</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">K</span><span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">W</span><span style="background-color: black; color: white">P</span><span style="background-color: black; color: white">T</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">N</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">T</span>M<span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">N</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">T</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">V</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">C</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">V</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">Q</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">F</span><span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">K</span><span style="background-color: black; color: white">N</span><span style="background-color: black; color: white">Y</span>V</pre>
+
+
+### Exons 21, 22, 23 (*f*+/-), 24 (*h*+/-), 25, 26 
 
 
 {% highlight python %}
@@ -476,14 +617,14 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+63500, start+67500,
 {% endhighlight %}
 
 
-![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_37_0.png)
+![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_43_0.png)
 
 
-Exon 23 has an optional region (also known as region *f*) which is missing in Davies cDNAs C5 and C7. All AgamP4.4 transcripts include this region.
+Exon 23 has an optional region (*f*) which is missing in Davies cDNAs C5 and C7. All AgamP4.4 transcripts include this region.
 
-Exon 24 has an optional region (also known as region *h*) which is missing in some Davies cDNAs and in two of the three AgamP4.4 transcripts.
+Exon 24 has an optional region (*h*) which is missing in some Davies cDNAs and in two of the three AgamP4.4 transcripts.
 
-### Exon 27
+### Exon 27 (*k/l*)
 
 
 {% highlight python %}
@@ -493,10 +634,114 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+67300, start+70700,
 {% endhighlight %}
 
 
-![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_40_0.png)
+![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_46_0.png)
 
 
-Davies et al. report finding a potential alternative exon 27 (also known as mutually exclusive exon *k/l*) within the genomic DNA sequence, although they do not find any evidence for it in their cDNAs.
+For exon 27, Davies et al. finding a potential mutually exclusive alternative exon (***k***) within the genomic DNA sequence, although all their cDNAs use exon ***l***, as do all AgamP4.4 transcripts.
+
+Out of interest, how similar are exons ***k***/***l***?
+
+
+{% highlight python %}
+geneset_davies.query('ID == "27k" and type == "exon"')
+{% endhighlight %}
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seqid</th>
+      <th>source</th>
+      <th>type</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>ID</th>
+      <th>Parent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>482</th>
+      <td>2L</td>
+      <td>Davies et al. (2007)</td>
+      <td>exon</td>
+      <td>2425770</td>
+      <td>2425892</td>
+      <td>-1</td>
+      <td>+</td>
+      <td>-1</td>
+      <td>27k</td>
+      <td>Davies-C1N9ck</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+{% highlight python %}
+geneset_davies.query('ID == "27l" and type == "exon"').head(1)
+{% endhighlight %}
+
+
+
+
+<div>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>seqid</th>
+      <th>source</th>
+      <th>type</th>
+      <th>start</th>
+      <th>end</th>
+      <th>score</th>
+      <th>strand</th>
+      <th>phase</th>
+      <th>ID</th>
+      <th>Parent</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>484</th>
+      <td>2L</td>
+      <td>Davies et al. (2007)</td>
+      <td>exon</td>
+      <td>2427988</td>
+      <td>2428110</td>
+      <td>-1</td>
+      <td>+</td>
+      <td>-1</td>
+      <td>27l</td>
+      <td>Davies-C1N2</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
+
+{% highlight python %}
+seq_k_dna = Seq(genome['2L'][2425770-1:2425892], generic_dna)
+seq_l_dna = Seq(genome['2L'][2427988-1:2428110], generic_dna)
+pair_seq_comp(seq_k_dna.translate(), seq_l_dna.translate())
+{% endhighlight %}
+
+
+<pre>L<span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">N</span>LA<span style="background-color: black; color: white">A</span>IWV<span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">A</span>AD<span style="background-color: black; color: white">I</span>P<span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">F</span>RS<span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">T</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">P</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">A</span>V<span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">R</span>WE<span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">R</span>
+V<span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">I</span><span style="background-color: black; color: white">N</span>FV<span style="background-color: black; color: white">A</span>SLC<span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">A</span>GG<span style="background-color: black; color: white">I</span>Q<span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">F</span>KT<span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">T</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">A</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">P</span><span style="background-color: black; color: white">L</span><span style="background-color: black; color: white">R</span><span style="background-color: black; color: white">A</span>M<span style="background-color: black; color: white">S</span><span style="background-color: black; color: white">R</span>MQ<span style="background-color: black; color: white">G</span><span style="background-color: black; color: white">M</span><span style="background-color: black; color: white">R</span></pre>
+
 
 ### Exons 28-33
 
@@ -508,7 +753,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+70500, start+73500,
 {% endhighlight %}
 
 
-![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_43_0.png)
+![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_52_0.png)
 
 
 No splice variation.
