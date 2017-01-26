@@ -9,17 +9,19 @@ The *Anopheles gambiae* voltage-gated sodium channel gene (a.k.a. *vgsc*, *para*
 
 In 2007, [Emyr Davies et al.](https://www.ncbi.nlm.nih.gov/pubmed/17433068) published a complete cDNA sequence for the *An. gambiae* *vgsc* gene. They inferred 35 exons and found evidence for alternate splicing involving at least five optional exons and two sets of mutually exclusive exons. 
 
-The official source for *An. gambiae* gene annotations is [VectorBase](@@TODO). The AgamP4.4 gene annotations include three transcripts for *vgsc*. However, these transcripts were derived from a different source and do not represent the larger set of exons and splice variants reported by Davies et al. 
+The canonical source for *An. gambiae* gene annotations is [VectorBase](https://www.vectorbase.org/). The [AgamP4.4 gene annotations](https://www.vectorbase.org/organisms/anopheles-gambiae/pest/agamp44) include [three transcripts for *vgsc*](https://www.vectorbase.org/Anopheles_gambiae/Gene/Summary?db=core;g=AGAP004707;r=2L:2331993-2451994). However, these transcripts were derived from a different source and do not represent the larger set of exons and splice variants reported by Davies et al. 
 
-In our analyses for the [Ag1000G project](@@TODO) we've been using the VectorBase gene model, and I was concerned we could be missing important functional variation. So I went back to the Davies et al. paper and constructed a [GFF file](@@TODO) with a set of 10 putative transcripts based on the cDNAs they observed.
+In our analyses of *vgsc* for the [Ag1000G project](http://www.malariagen.net/ag1000g) we've been using the AgamP4.4 gene model. I was concerned we could be missing important functional variation, so I went back to the Davies et al. paper and constructed a [GFF file](/assets/davies_vgsc_model_20170125.gff3) with a set of 10 putative transcripts based on the cDNAs they observed.
 
-The first part of this article compares the exons and splice variants observed by Davies et al. with the transcripts in the VectorBase gene annotations. At the end of the article I'll explain the steps I went through to build a GFF from the information given in the Davies et al. paper.
+The first part of this article compares the exons and splice variants observed by Davies et al. with the transcripts in the AgamP4.4 gene annotations. At the end of the article I'll explain the steps I went through to build a GFF from the information given in the Davies et al. paper.
+
+If there are any mistakes in what's below, or there are other sources of information on *vgsc* splice variation in *An. gambiae* that we should also be considering, I'd be very grateful if you could [send me an email](mailto:alimanfoo@googlemail.com) or drop a comment in at the bottom of the article.
 
 This article was generated from a [Jupyter notebook](@@TODO). It includes some Python code used to load data and generate plots. If you're only interested in the biology you can safely skip over the code.
 
 ## Setup
 
-Use [scikit-allel](@@TODO) and [pandas](@@TODO) to load the AgamP4.4 gene annotations which I've [downloaded from VectorBase](@@TODO).
+Use [scikit-allel](http://scikit-allel.readthedocs.io/en/latest/) and [pandas](http://pandas.pydata.org/pandas-docs/stable/) to load the AgamP4.4 gene annotations which I've [downloaded from VectorBase](https://www.vectorbase.org/download/anopheles-gambiae-pestbasefeaturesagamp44gff3gz).
 
 
 {% highlight python %}
@@ -368,7 +370,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start-1000, stop+1000, highlight_
 ![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_16_0.png)
 
 
-Let's work through the gene in detail, taking a few exons at a time. In the plots below, the text **above** the exons (e.g., "3 (156)") show the index of the exon within the transcript (e.g., 3rd exon) and the exon length (e.g., 156 bp long). The text **within** the exons shows the exon number **according to Davies et al.** supplementary table S1, along with a lower-case letter if the exon corresponds to a variable sequence previously identified in *Drosophila* (for a review of *vgsc* studies across insect species see [Dong et al. (2014)](@@TODO)).
+Let's work through the gene in detail, taking a few exons at a time. In the plots below, the text **above** the exons (e.g., "3 (156)") show the index of the exon within the transcript (e.g., 3rd exon) and the exon length (e.g., 156 bp long). The text **within** the exons shows the exon number **according to Davies et al.** supplementary table S1, along with a lower-case letter if the exon corresponds to a variable sequence previously identified in *Drosophila* (for a review of *vgsc* studies across insect species see [Dong et al. (2014)](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4484874/)).
 
 In the text below I will refer to exons using the exon numbering according to Davies et al. table S1.
 
@@ -760,9 +762,338 @@ No splice variation.
 
 ## Methods
 
-TODO move this to next section: There is a bit of inconsistency in Davies et al. between the text and Figure 2C regarding whether exon 10 is also missing in cDNA C3. 
+### Exon coordinates
+
+Davies et al. Table S1 gives coordinates for all of the exons they infer, both from the cDNAs and from comparative analysis of the genome sequence. The genomic coordinates are based on some previous version of the *An. gambiae* reference sequence and do not match the current (AgamP3/4) coordinates for the *vgsc* gene. The Davies coordinates look like they're based on a region of the reference sequence that was subsequently inverted, so I transformed the exon coordinates to the AgamP3/4 reference sequence by assuming the AgamP4.4 start coordinate of 2,358,158 for the *vgsc* gene then using the relative exon positions given by Davies. 
+
+I cross-checked the coordinates by comparing the DNA sequence for each exon obtained using the genomic coordinates and the AgamP3/4 reference sequence against the DNA sequence obtained using the mRNA coordinates from Davies et al. Table S1 and the [Davies complete cDNA sequence in GenBank](https://www.ncbi.nlm.nih.gov/nuccore/AM422833.1). For the optional exons, I also compared with the amino acid sequences given in Table S2.
+
+To obtain the best possible concordance between all sources I made the following manual corrections to the exon coordinates:
+
+* I changed the mRNA coordinates for exon 13 to 1645-1707 as the coordinates given in Table S1 are out of sequence and look like a mistaken repetition of the coordinates for exon 15.
+* I changed the end coordinate for exon 20c so the translated DNA sequence matched Table S2 and the exon length matched 20d.
+* I changed the start and end coordinates for exon 27k so the translated DNA sequence matched Table S2 and the exon length matched 27l.
+
+Here are the AgamP3/4 coordinates for all exons after applying these transformations:
 
 
 {% highlight python %}
-
+import petl as etl
+tbl_davies_exons = (
+    etl
+    .fromdataframe(geneset_davies)
+    .eq('type', 'CDS')
+    .cutout('Parent', 'source', 'type', 'score', 'strand')
+    .merge(key=('start', 'end'))
+    .movefield('ID', 0)
+    .rename('ID', 'exon')
+    .movefield('seqid', 1)
+)
+tbl_davies_exons.displayall()
 {% endhighlight %}
+
+
+<table class='petl'>
+<thead>
+<tr>
+<th>exon</th>
+<th>seqid</th>
+<th>start</th>
+<th>end</th>
+<th>phase</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2L</td>
+<td style='text-align: right'>2358158</td>
+<td style='text-align: right'>2358304</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>2j</td>
+<td>2L</td>
+<td style='text-align: right'>2359640</td>
+<td style='text-align: right'>2359672</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>2L</td>
+<td style='text-align: right'>2361989</td>
+<td style='text-align: right'>2362144</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>2L</td>
+<td style='text-align: right'>2381065</td>
+<td style='text-align: right'>2381270</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>5</td>
+<td>2L</td>
+<td style='text-align: right'>2382270</td>
+<td style='text-align: right'>2382398</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>6</td>
+<td>2L</td>
+<td style='text-align: right'>2385694</td>
+<td style='text-align: right'>2385785</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>7</td>
+<td>2L</td>
+<td style='text-align: right'>2390129</td>
+<td style='text-align: right'>2390341</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>8</td>
+<td>2L</td>
+<td style='text-align: right'>2390425</td>
+<td style='text-align: right'>2390485</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>9</td>
+<td>2L</td>
+<td style='text-align: right'>2390594</td>
+<td style='text-align: right'>2390738</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>10</td>
+<td>2L</td>
+<td style='text-align: right'>2391156</td>
+<td style='text-align: right'>2391320</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>11i+</td>
+<td>2L</td>
+<td style='text-align: right'>2399898</td>
+<td style='text-align: right'>2400173</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>12</td>
+<td>2L</td>
+<td style='text-align: right'>2401549</td>
+<td style='text-align: right'>2401569</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>13a</td>
+<td>2L</td>
+<td style='text-align: right'>2402447</td>
+<td style='text-align: right'>2402509</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>14</td>
+<td>2L</td>
+<td style='text-align: right'>2403086</td>
+<td style='text-align: right'>2403269</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>15</td>
+<td>2L</td>
+<td style='text-align: right'>2407622</td>
+<td style='text-align: right'>2407818</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>16</td>
+<td>2L</td>
+<td style='text-align: right'>2407894</td>
+<td style='text-align: right'>2407993</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>17</td>
+<td>2L</td>
+<td style='text-align: right'>2408071</td>
+<td style='text-align: right'>2408139</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>18b+</td>
+<td>2L</td>
+<td style='text-align: right'>2416794</td>
+<td style='text-align: right'>2417071</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>19</td>
+<td>2L</td>
+<td style='text-align: right'>2417185</td>
+<td style='text-align: right'>2417358</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>20c</td>
+<td>2L</td>
+<td style='text-align: right'>2417637</td>
+<td style='text-align: right'>2417799</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>20d</td>
+<td>2L</td>
+<td style='text-align: right'>2421385</td>
+<td style='text-align: right'>2421547</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>21</td>
+<td>2L</td>
+<td style='text-align: right'>2422468</td>
+<td style='text-align: right'>2422655</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>22</td>
+<td>2L</td>
+<td style='text-align: right'>2422713</td>
+<td style='text-align: right'>2422920</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>23f+</td>
+<td>2L</td>
+<td style='text-align: right'>2424207</td>
+<td style='text-align: right'>2424418</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>23f-</td>
+<td>2L</td>
+<td style='text-align: right'>2424237</td>
+<td style='text-align: right'>2424418</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>24h+</td>
+<td>2L</td>
+<td style='text-align: right'>2424651</td>
+<td style='text-align: right'>2424870</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>24h-</td>
+<td>2L</td>
+<td style='text-align: right'>2424729</td>
+<td style='text-align: right'>2424870</td>
+<td style='text-align: right'>0</td>
+</tr>
+<tr>
+<td>25</td>
+<td>2L</td>
+<td style='text-align: right'>2424946</td>
+<td style='text-align: right'>2425211</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>26</td>
+<td>2L</td>
+<td style='text-align: right'>2425278</td>
+<td style='text-align: right'>2425451</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>27k</td>
+<td>2L</td>
+<td style='text-align: right'>2425770</td>
+<td style='text-align: right'>2425892</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>27l</td>
+<td>2L</td>
+<td style='text-align: right'>2427988</td>
+<td style='text-align: right'>2428110</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>28</td>
+<td>2L</td>
+<td style='text-align: right'>2429097</td>
+<td style='text-align: right'>2429219</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>29</td>
+<td>2L</td>
+<td style='text-align: right'>2429282</td>
+<td style='text-align: right'>2429476</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>30</td>
+<td>2L</td>
+<td style='text-align: right'>2429556</td>
+<td style='text-align: right'>2429801</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>31</td>
+<td>2L</td>
+<td style='text-align: right'>2429872</td>
+<td style='text-align: right'>2430142</td>
+<td style='text-align: right'>2</td>
+</tr>
+<tr>
+<td>32</td>
+<td>2L</td>
+<td style='text-align: right'>2430224</td>
+<td style='text-align: right'>2430528</td>
+<td style='text-align: right'>1</td>
+</tr>
+<tr>
+<td>33</td>
+<td>2L</td>
+<td style='text-align: right'>2430601</td>
+<td style='text-align: right'>2431617</td>
+<td style='text-align: right'>2</td>
+</tr>
+</tbody>
+</table>
+
+
+
+### Inferring transcripts from Davies et al. cDNAs
+
+Davies et al. (Figure 2) report two sets of cDNAs, one set (prefix 'C') covering the first two domains of the protein (exons 1-22) and a second set (prefix 'N') covering the second two domains (exons 23-33). Because they did not have any cDNAs covering the entire *vgsc* gene, they could not infer any complete transcripts. To make it easier to compare the results from Davies et al. with the AgamP4.4 gene annotations, I invented 9 putative transcripts by combining all unique combinations of exon usage observed in the first (C) set of cDNAs with all unique combinations from the second (N) set of cDNAs. I also invented a 10th transcript ("Davies-C1N9ck") to represent the ***c*** and ***k*** exons inferred from the genomic sequence.
+
+Note that there is a bit of inconsistency in Davies et al. between the text and Figure 2C regarding whether exon 10 is also missing in cDNA C3. In Figure 2C it looks like C3 might be missing some other bits as well, and so maybe C3 was incomplete or data quality was poor. To construct the putative transcripts I have assumed C3 is as described in the text, i.e., is missing exon 5 but is otherwise complete.
+
+I formed the transcript IDs by concatenating the cDNA IDs from the first and second regions of the gene. So, i.e., "Davies-C1N2" is a putative transcript assuming exon usage observed in cDNAs C1 and N2.
+
+
+{% highlight python %}
+print('\n'.join(geneset_davies.query('type == "mRNA"').ID.values))
+{% endhighlight %}
+
+    Davies-C1N2
+    Davies-C3N2
+    Davies-C5N2
+    Davies-C7N2
+    Davies-C8N2
+    Davies-C10N2
+    Davies-C11N2
+    Davies-C1N9
+    Davies-C8N9
+    Davies-C1N9ck
+
+
+## Further reading
+
+* **Davies et al. (2007)** [A comparative study of voltage-gated sodium channels in the Insecta: implications for pyrethroid resistance in Anopheline and other Neopteran species](https://www.ncbi.nlm.nih.gov/pubmed/17433068). Insect Mol Biol.
+* **Dong et al. (2014)** [Molecular Biology of Insect Sodium Channels and Pyrethroid Resistance](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4484874/). Insect Biochem Mol Biol.
