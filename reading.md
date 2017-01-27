@@ -56,6 +56,30 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Berget</span>
+        (<span class="year">1995</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/7852296">
+        <span class="title">Exon Recognition in Vertebrate Splicing.</span>
+      </a>
+      <span class="journal">J Biol Chem.</span>
+      <span class="meta">
+        <span class="read">2017-01-27</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">splicing; review</span>
+      </span>
+      <blockquote class="abstract display_none"> The average vertebrate gene consists of multiple small exons (average size, 137 nucleotides) separated by introns 
+that are considerably larger(1). Thus, the vertebrate splicing machinery has the task of finding small desired exons amid much longer introns. The splice site 
+consensus sequences that drive exon recognition are located at the very termini of introns(2, 3). Despite the discriminatory challenge faced during exon recognition 
+in large multiexon premessenger RNAs, vertebrate splice sites are short and poorly conserved. In fact, splice site sequences in mammals are less conserved than their 
+yeast counterparts despite the fact that only a minority of genes in Saccharomyces cerevisiae have introns; and those genes that are split by introns usually have 
+only a single intron(4, 5). Thus, vertebrate splicing contends with a more complex specificity problem via recognition of less precise consensus sequences. Any 
+mechanism for the orchestration of splicing in multiexon vertebrate genes must provide an explanation for this puzzle.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Norris et al.</span>
         (<span class="year">2015</span>)
       </span>
