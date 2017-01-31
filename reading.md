@@ -56,6 +56,88 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Prapanthadara et al.</span>
+        (<span class="year">1995</span>)
+      </span>
+      <a 
+href="https://www.cambridge.org/core/journals/bulletin-of-entomological-research/article/ddt-resistance-in-anopheles-gambiae-diptera-culicidae-from-zanzibar-tanzania-based-on-increased-ddt-dehydrochlorinase-activity-of-glutathione-s-transferases/BC6B86556732E55E42A44AC9347CDDCE">
+        <span class="title">DDT-resistance in Anopheles gambiae (Diptera: 
+Culicidae) from Zanzibar, Tanzania, based on increased DDT-dehydrochlorinase 
+activity of glutathione S-transferases</span>
+      </a>
+      <span class="journal">Bulletin of Entomological Research.</span>
+      <span class="meta">
+        <span class="read">2017-01-31</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">anopheles gambiae; insecticide resistance; DDT; metabolic resistance; GST</span>
+      </span>
+      <blockquote class="abstract display_none"> DDT-resistant Anopheles 
+gambiae Giles from Zanzibar, Tanzania, had increased levels of 
+DDT-dehydrochlorination compared to a DDT-susceptible strain. Glutathione 
+S-transferases (GSTs) are responsible for conversion of DDT to DDE in both the 
+susceptible and resistant strains. Sequential column chromatography, including 
+Q-Sepharose, S-hexylglutathione agarose, hydroxylapatite and phenyl Sepharose, 
+allowed the partial purification of seven GSTs. All seven GSTs possessed 
+different degrees of DDTase activity. There was an eight-fold increase in 
+total DDTase activity in the resistant compared to the susceptible enzymes. 
+Characterization with three substrates, 1-chloro-2,4-dinitrobenzene (CDNB), 
+1,2-dichloro-4-nitrobenzene (DCNB) and DDT, revealed the different substrate 
+specificity for each isolated GST indicating different isoenzymes. GST Va 
+possessed 60% of total DDTase activity suggesting that it contributed most to 
+DDT-metabolism in this insect species. The DDTase activity of the GSTs in both 
+strains of A. gambiae were found to be correlated with the GST activities 
+toward DCNB. Preliminary studies on DDT-resistant and susceptible A. gambiae 
+showed that both DDT-resistance and the increased levels of GST activity were 
+stage specific which suggested that different GSTs may be involved in 
+DDT-resistance in adults and larvae of A. gambiae.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
+        <span class="author">Ranson et al.</span>
+        (<span class="year">2000</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/11029667">
+        <span class="title">Identification of a point mutation in the 
+voltage-gated sodium channel gene of Kenyan Anopheles gambiae associated with 
+resistance to DDT and pyrethroids.</span>
+      </a>
+      <span class="journal">Insect Mol Biol.</span>
+      <span class="meta">
+        <span class="read">2017-01-31</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; anopheles gambiae; insecticide 
+resistance; target-site resistance; DDT; pyrethroids; kdr; vgsc</span>
+      </span>
+      <blockquote class="abstract display_none"> A field trial of 
+permethrin-impregnated bednets and curtains was initiated in Western Kenya in 
+1990, and a strain of Anopheles gambiae showing reduced susceptibility to 
+permethrin was colonized from this site in 1992. A leucine-phenylalanine 
+substitution at position 1014 of the voltage-gated sodium channel is 
+associated with resistance to permethrin and DDT in many insect species, 
+including Anopheles gambiae from West Africa. We cloned and sequenced a 
+partial sodium channel cDNA from the Kenyan permethrin-resistant strain and we 
+identified an alternative substitution (leucine to serine) at the same 
+position, which is linked to the inheritance of permethrin resistance in the 
+F(2) progeny of genetic crosses between susceptible and resistant individuals. 
+The diagnostic polymerase chain reaction (PCR) developed by Martinez-Torres et 
+al. [(1998) Insect Mol Biol 7: 179-184] to detect kdr alleles in field 
+populations of An. gambiae will not detect the Kenyan allele and hence 
+reliance on this assay may lead to an underestimate of the prevalence of 
+pyrethroid resistance in this species. We adapted the diagnostic PCR to detect 
+the leucine-serine mutation and with this diagnostic we were able to 
+demonstrate that this kdr allele was present in individuals collected from the 
+Kenyan trial site in 1986, prior to the introduction of pyrethroid-impregnated 
+bednets. The An. gambiae sodium channel was physically mapped to chromosome 
+2L, division 20C. This position corresponds to the location of a major 
+quantitative trait locus determining resistance to permethrin in the Kenyan 
+strain of An. gambiae.
+      </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Berget</span>
         (<span class="year">1995</span>)
       </span>
