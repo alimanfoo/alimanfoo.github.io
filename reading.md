@@ -41,18 +41,50 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
         (<span class="year">@</span>)
       </span>
       <a href="@">
-        <span class="title">@</span>
+        <span class="title">@.</span>
       </a>
-      <span class="journal">@</span>
+      <span class="journal">@.</span>
       <span class="meta">
-        <span class="read">2017-@</span> 
+        <span class="read">2017-02-@</span> 
         <span class="tags"></span>
-        <span class="hidden_tags"></span>
+        <span class="hidden_tags">@</span>
       </span>
-      <blockquote class="abstract display_none">
-      </blockquote>
+      <blockquote class="abstract display_none">@</blockquote>
     </li>
     -->
+
+    <li>
+      <span class="citation">
+        <span class="author">Lee et al.</span>
+        (<span class="year">2013</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3856788/">
+        <span class="title">Spatiotemporal dynamics of gene flow and hybrid fitness between the M and S forms of the malaria mosquito, Anopheles gambiae.</span>
+      </a>
+      <span class="journal">Proc Natl Acad Sci USA.</span>
+      <span class="meta">
+        <span class="read">2017-02-06</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; anopheles gambiae; anopheles coluzzii; speciation; mali; goundry; guinea-bissau</span>
+      </span>
+      <blockquote class="abstract display_none"> The M and S forms of 
+Anopheles gambiae have been the focus of intense study by malaria researchers 
+and evolutionary biologists interested in ecological speciation. Divergence 
+occurs at three discrete islands in genomes that are otherwise nearly 
+identical. An “islands of speciation” model proposes that diverged regions 
+contain genes that are maintained by selection in the face of gene flow. An 
+alternative “incidental island” model maintains that gene flow between M and S 
+is effectively zero and that divergence islands are unrelated to speciation. A 
+“divergence island SNP” assay was used to explore the spatial and temporal 
+distributions of hybrid genotypes. Results revealed that hybrid individuals 
+occur at frequencies ranging between 5% and 97% in every population examined. 
+A temporal analysis revealed that assortative mating is unstable and 
+periodically breaks down, resulting in extensive hybridization. Results 
+suggest that hybrids suffer a fitness disadvantage, but at least some hybrid 
+genotypes are viable. Stable introgression of the 2L speciation island 
+occurred at one site following a hybridization event.
+      </blockquote>
+    </li>
 
     <li>
       <span class="citation">
