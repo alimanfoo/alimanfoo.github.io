@@ -55,6 +55,33 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Ranson et al.</span>
+        (<span class="year">2001</span>)
+      </span>
+      <a href="http://www.ncbi.nlm.nih.gov/pubmed/11583575">
+        <span class="title">Identification of a novel class of insect glutathione S-transferases involved in resistance to DDT in the malaria vector Anopheles 
+gambiae.</span>
+      </a>
+      <span class="journal">Biochem J.</span>
+      <span class="meta">
+        <span class="read">2017-02-08</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; anopheles gambiae; insecticide resistance; metabolic resistance; gste; ddt</span>
+      </span>
+      <blockquote class="abstract display_none">The sequence and cytological location of five Anopheles gambiae glutathione S-transferase (GST) genes are described. 
+Three of these genes, aggst1-8, aggst1-9 and aggst1-10, belong to the insect class I family and are located on chromosome 2R, in close proximity to previously 
+described members of this gene family. The remaining two genes, aggst3-1 and aggst3-2, have a low sequence similarity to either of the two previously recognized 
+classes of insect GSTs and this prompted a re-evaluation of the classification of insect GST enzymes. We provide evidence for seven possible classes of insect 
+protein with GST-like subunits. Four of these contain sequences with significant similarities to mammalian GSTs. The largest novel insect GST class, class III, 
+contains functional GST enzymes including two of the A. gambiae GSTs described in this report and GSTs from Drosophila melanogaster, Musca domestica, Manduca sexta 
+and Plutella xylostella. The genes encoding the class III GST of A. gambiae map to a region of the genome on chromosome 3R that contains a major DDT 
+[1,1,1-trichloro-2,2-bis-(p-chlorophenyl)ethane] resistance gene, suggesting that this gene family is involved in GST-based resistance in this important malaria 
+vector. In further support of their role in resistance, we show that the mRNA levels of aggst3-2 are approx. 5-fold higher in a DDT resistant strain than in the 
+susceptible strain and demonstrate that recombinant AgGST3-2 has very high DDT dehydrochlorinase activity.</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Lee et al.</span>
         (<span class="year">2013</span>)
       </span>
