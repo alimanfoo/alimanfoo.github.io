@@ -55,6 +55,31 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Hamilton et al.</span>
+        (<span class="year">2016</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/27994033">
+        <span class="title">Extreme mutation bias and high AT content in Plasmodium falciparum.</span>
+      </a>
+      <span class="journal">Nucleic Acids Res.</span>
+      <span class="meta">
+        <span class="read">2017-02-08</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">plasmodium falciparum; mutation rate; indel; var</span>
+      </span>
+      <blockquote class="abstract display_none">For reasons that remain unknown, the Plasmodium falciparum genome has an exceptionally high AT content compared to 
+other Plasmodium species and eukaryotes in general - nearly 80% in coding regions and approaching 90% in non-coding regions. Here, we examine how this phenomenon 
+relates to genome-wide patterns of de novo mutation. Mutation accumulation experiments were performed by sequential cloning of six P. falciparum isolates growing in 
+human erythrocytes in vitro for 4 years, with 279 clones sampled for whole genome sequencing at different time points. Genome sequence analysis of these samples 
+revealed a significant excess of G:C to A:T transitions compared to other types of nucleotide substitution, which would naturally cause AT content to equilibrate 
+close to the level seen across the P. falciparum reference genome (80.6% AT). These data also uncover an extremely high rate of small indel mutation relative to 
+other species, primarily associated with repetitive AT-rich sequences, in addition to larger-scale structural rearrangements focused in antigen-coding var genes. In 
+conclusion, high AT content in P. falciparum is driven by a systematic mutational bias and ultimately leads to an unusual level of microstructural plasticity, 
+raising the question of whether this contributes to adaptive evolution.</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Ranson et al.</span>
         (<span class="year">2001</span>)
       </span>
