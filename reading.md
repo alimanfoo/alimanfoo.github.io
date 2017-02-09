@@ -55,6 +55,33 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Mitchell et al.</span>
+        (<span class="year">2014</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/24675797">
+        <span class="title">Metabolic and target-site mechanisms combine to confer strong DDT resistance in Anopheles gambiae.</span>
+      </a>
+      <span class="journal">PLoS One.</span>
+      <span class="meta">
+        <span class="read">2017-02-09</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; anopheles gambiae; anopheles coluzzii; gste2 I114T; ddt; insecticide resistance; metabolic resistance; vgsc; kdr</span>
+      </span>
+      <blockquote class="abstract display_none">The development of resistance to insecticides has become a classic exemplar of evolution occurring within human time 
+scales. In this study we demonstrate how resistance to DDT in the major African malaria vector Anopheles gambiae is a result of both target-site resistance 
+mechanisms that have introgressed between incipient species (the M- and S-molecular forms) and allelic variants in a DDT-detoxifying enzyme. Sequencing of the 
+detoxification enzyme, Gste2, from DDT resistant and susceptible strains of An. gambiae, revealed a non-synonymous polymorphism (I114T), proximal to the DDT binding 
+domain, which segregated with strain phenotype. Recombinant protein expression and DDT metabolism analysis revealed that the proteins from the susceptible strain 
+lost activity at higher DDT concentrations, characteristic of substrate inhibition. The effect of I114T on GSTE2 protein structure was explored through X-ray 
+crystallography. The amino acid exchange in the DDT-resistant strain introduced a hydroxyl group nearby the hydrophobic DDT-binding region. The exchange does not 
+result in structural alterations but is predicted to facilitate local dynamics and enzyme activity. Expression of both wild-type and 114T alleles the allele in 
+Drosophila conferred an increase in DDT tolerance. The 114T mutation was significantly associated with DDT resistance in wild caught M-form populations and acts in 
+concert with target-site mutations in the voltage gated sodium channel (Vgsc-1575Y and Vgsc-1014F) to confer extreme levels of DDT resistance in wild caught An. 
+gambiae.</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Hamilton et al.</span>
         (<span class="year">2016</span>)
       </span>
