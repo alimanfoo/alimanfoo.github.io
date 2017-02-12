@@ -55,6 +55,34 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Templeton et al.</span>
+        (<span class="year">1992</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/1385266">
+        <span class="title">A cladistic analysis of phenotypic associations with haplotypes inferred from restriction endonuclease mapping and DNA sequence data. 
+III. Cladogram estimation.</span>
+      </a>
+      <span class="journal">Genetics.</span>
+      <span class="meta">
+        <span class="read">2017-02-12</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">drosophila melanogaster; phylogeny; recombination; methods</span>
+      </span>
+      <blockquote class="abstract display_none">We previously developed a cladistic approach to identify subsets of haplotypes defined by restriction endonuclease 
+mapping or DNA sequencing that are associated with significant phenotypic deviations. Our approach was limited to segments of DNA in which little recombination 
+occurs. In such cases, a cladogram can be constructed from the restriction site or sequence data that represents the evolutionary steps that interrelate the observed 
+haplotypes. The cladogram is used to define a nested statistical design to identify mutational steps associated with significant phenotypic deviations. The central 
+assumption behind this strategy is that any undetected mutation causing a phenotypic effect is embedded within the same evolutionary history that is represented by 
+the cladogram. The power of this approach depends upon the confidence one has in the particular cladogram used to draw inferences. In this paper, we present a 
+strategy for estimating the set of cladograms that are consistent with a particular sample of either restriction site or nucleotide sequence data and that includes 
+the possibility of recombination. We first evaluate the limits of parsimony in constructing cladograms. Once these limits have been determined, we construct the set 
+of parsimonious and nonparsimonious cladograms that is consistent with these limits. Our estimation procedure also identifies haplotypes that are candidates for 
+being products of recombination. If recombination is extensive, our algorithm subdivides the DNA region into two or more subsections, each having little or no 
+internal recombination. We apply this estimation procedure to three data sets to illustrate varying degrees of cladogram ambiguity and recombination.</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Mitchell et al.</span>
         (<span class="year">2014</span>)
       </span>
