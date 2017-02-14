@@ -9,4 +9,4 @@ github_username:  alimanfoo
 
 # Build settings
 markdown: kramdown
-exclude: ['*.ipynb', '*.sh']
+exclude: ['*.ipynb', '*.sh', '_posts/data']
