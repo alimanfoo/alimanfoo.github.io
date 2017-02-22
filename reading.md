@@ -55,6 +55,105 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Slatkin</span>
+        (<span class="year">2008</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/18427557">
+        <span class="title">
+		
+		Linkage disequilibrium--understanding the evolutionary past
+        and mapping the medical future.
+		
+		</span>
+      </a>
+      <span class="journal">Nat Rev Genet.</span>
+      <span class="meta">
+        <span class="read">2017-02-22</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">linkage disequilibrium; review</span>
+      </span>
+      <blockquote class="abstract display_none">
+	  
+	  Linkage disequilibrium--the nonrandom association of alleles at
+      different loci--is a sensitive indicator of the population
+      genetic forces that structure a genome. Because of the explosive
+      growth of methods for assessing genetic variation at a fine
+      scale, evolutionary biologists and human geneticists are
+      increasingly exploiting linkage disequilibrium in order to
+      understand past evolutionary and demographic events, to map
+      genes that are associated with quantitative characters and
+      inherited diseases, and to understand the joint evolution of
+      linked sets of genes. This article introduces linkage
+      disequilibrium, reviews the population genetic processes that
+      affect it and describes some of its uses. At present, linkage
+      disequilibrium is used much more extensively in the study of
+      humans than in non-humans, but that is changing as technological
+      advances make extensive genomic studies feasible in other
+      species.
+	  
+	  </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
+        <span class="author">Riveron et al.</span>
+        (<span class="year">2014</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/24565444">
+        <span class="title">
+		
+		A single mutation in the GSTe2 gene allows tracking of
+        metabolically based insecticide resistance in a major malaria
+        vector.
+		
+		</span>
+      </a>
+      <span class="journal">Genome Biol.</span>
+      <span class="meta">
+        <span class="read">2017-02-22</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">anopheles funestus; gste2; insecticide resistance; metabolic resistance; benin; cameroon; journal club; ddt; pyrethroids; permethrin; deltamethrin</span>
+      </span>
+      <blockquote class="abstract display_none">
+	  
+	  BACKGROUND: Metabolic resistance to insecticides is the biggest
+	  threat to the continued effectiveness of malaria vector
+	  control. However, its underlying molecular basis, crucial for
+	  successful resistance management, remains poorly characterized.
+	  RESULTS: Here, we demonstrate that the single amino acid change
+	  L119F in an upregulated glutathione S-transferase gene, GSTe2,
+	  confers high levels of metabolic resistance to DDT in the
+	  malaria vector Anopheles funestus. Genome-wide transcription
+	  analysis revealed that GSTe2 was the most over-expressed
+	  detoxification gene in DDT and permethrin-resistant mosquitoes
+	  from Benin. Transgenic expression of GSTe2 in Drosophila
+	  melanogaster demonstrated that over-transcription of this gene
+	  alone confers DDT resistance and cross-resistance to
+	  pyrethroids. Analysis of GSTe2 polymorphism established that the
+	  point mutation is tightly associated with metabolic resistance
+	  to DDT and its geographical distribution strongly correlates
+	  with DDT resistance patterns across Africa. Functional
+	  characterization of recombinant GSTe2 further supports the role
+	  of the L119F mutation, with the resistant allele being more
+	  efficient at metabolizing DDT than the susceptible
+	  one. Importantly, we also show that GSTe2 directly metabolizes
+	  the pyrethroid permethrin. Structural analysis reveals that the
+	  mutation confers resistance by enlarging the GSTe2 DDT-binding
+	  cavity, leading to increased DDT access and
+	  metabolism. Furthermore, we show that GSTe2 is under strong
+	  directional selection in resistant populations, and a
+	  restriction of gene flow is observed between African regions,
+	  enabling the prediction of the future spread of this resistance.
+	  CONCLUSIONS: This first DNA-based metabolic resistance marker in
+	  mosquitoes provides an essential tool to track the evolution of
+	  resistance and to design suitable resistance management
+	  strategies.
+	  
+	  </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Lewontin</span>
         (<span class="year">1964</span>)
       </span>
