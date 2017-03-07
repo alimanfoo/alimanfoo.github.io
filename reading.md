@@ -55,6 +55,31 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Gower and Ross</span>
+        (<span class="year">1969</span>)
+      </span>
+      <a href="https://www.jstor.org/stable/2346439">
+        <span class="title">Minimum Spanning Trees and Single Linkage Cluster Analysis.</span>
+      </a>
+      <span class="journal">Journal of the Royal Statistical Society. Series C (Applied Statistics).</span>
+      <span class="meta">
+        <span class="read">2017-03-07</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">statistics; clustering; networks</span>
+      </span>
+      <blockquote class="abstract display_none">Minimum spanning trees (MST) and 
+single linkage cluster analysis (SLCA) are explained and it is shown that all the 
+information required for the SLCA of a set of points is contained in their MST. Known 
+algorithms for finding the MST are discussed. They are efficient even when there are 
+very many points; this makes a SLCA practicable when other methods of cluster analysis 
+are not. The relevant computing procedures are published in the Algorithm section of 
+the same issue of Applied Statistics. The use of the MST in the interpretation of 
+vector diagrams arising in multivariate analysis is illustrated by an 
+example.</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Wolf and Ellegren</span>
         (<span class="year">2017</span>)
       </span>
