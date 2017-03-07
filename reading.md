@@ -55,6 +55,35 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Wolf and Ellegren</span>
+        (<span class="year">2017</span>)
+      </span>
+      <a href="https://www.ncbi.nlm.nih.gov/pubmed/27840429">
+        <span class="title">Making sense of genomic islands of differentiation in light of speciation..</span>
+      </a>
+      <span class="journal">Nat Rev Genet.</span>
+      <span class="meta">
+        <span class="read">2017-03-07</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">journal club; speciation; heliconius; crows; sticklebacks; review</span>
+      </span>
+      <blockquote class="abstract display_none">As populations diverge, 
+genetic differences accumulate across the genome. Spurred by rapid 
+developments in sequencing technology, genome-wide population surveys of 
+natural populations promise insights into the evolutionary processes and the 
+genetic basis underlying speciation. Although genomic regions of elevated 
+differentiation are the focus of searches for 'speciation genes', there is an 
+increasing realization that such genomic signatures can also arise by 
+alternative processes that are not related to population divergence, such as 
+linked selection. In this Review, we explore methodological trends in 
+speciation genomic studies, highlight the difficulty in separating processes 
+related to speciation from those emerging from genome-wide properties that are 
+not related to reproductive isolation, and provide a set of suggestions for 
+future work in this area.</blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Slatkin</span>
         (<span class="year">2008</span>)
       </span>
