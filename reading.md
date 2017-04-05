@@ -55,6 +55,31 @@ This page is a reading diary, inspired by [#365papers](https://twitter.com/hasht
 
     <li>
       <span class="citation">
+        <span class="author">Mathieson and McVean</span>
+        (<span class="year">2014</span>)
+      </span>
+      <a href="http://dx.doi.org/10.1371/journal.pgen.1004528">
+        <span class="title">Demography and the Age of Rare Variants.</span>
+      </a>
+      <span class="journal">PLoS Genet.</span>
+      <span class="meta">
+        <span class="read">2017-04-05</span> 
+        <span class="tags"></span>
+        <span class="hidden_tags">demography</span>
+      </span>
+      <blockquote class="abstract display_none"> Large whole-genome sequencing projects have provided access to much rare variation in human populations, which is 
+highly informative about population structure and recent demography. Here, we show how the age of rare variants can be estimated from patterns of haplotype sharing 
+and how these ages can be related to historical relationships between populations. We investigate the distribution of the age of variants occurring exactly twice 
+(ƒ(2) variants) in a worldwide sample sequenced by the 1000 Genomes Project, revealing enormous variation across populations. The median age of haplotypes carrying 
+ƒ(2) variants is 50 to 160 generations across populations within Europe or Asia, and 170 to 320 generations within Africa. Haplotypes shared between continents are 
+much older with median ages for haplotypes shared between Europe and Asia ranging from 320 to 670 generations. The distribution of the ages of ƒ(2) haplotypes is 
+informative about their demography, revealing recent bottlenecks, ancient splits, and more modern connections between populations. We see the effect of selection in 
+the observation that functional variants are significantly younger than nonfunctional variants of the same frequency. This approach is relatively insensitive to 
+mutation rate and complements other nonparametric methods for demographic inference. </blockquote>
+    </li>
+
+    <li>
+      <span class="citation">
         <span class="author">Gower and Ross</span>
         (<span class="year">1969</span>)
       </span>
