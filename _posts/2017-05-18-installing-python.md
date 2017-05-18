@@ -10,7 +10,7 @@ installing a Python interpreter, installing some useful Python packages, and run
 some basic code.
 
 The screenshots in this article assume you are installing Python on a computer with a 
-Windows 10 operating system. However, you should be able to follow the same 
+Windows 10 operating system. However, you should be able to follow similar 
 instructions to install on Mac or Linux.
 
 ## Installing a Python interpreter
@@ -185,9 +185,9 @@ You're ready now to do some real work.
 ## Using Jupyter notebooks
 
 If you're planning on doing interactive data analysis then I highly recommend using 
-Jupyter notebooks. A Jupyter notebook is a bit like the Python interpreter on 
-steroids. You can issue commands in the same way, using the Python programming 
-language, but you can also make plots and do lots more besides.
+Jupyter notebooks. A Jupyter notebook is a bit like a Python interactive session. You 
+can issue commands in the same way, using the Python programming language, but you can 
+also make plots and do lots more besides.
 
 To start using Jupyter, run the command "``jupyter notebook``" from the command 
 prompt:
