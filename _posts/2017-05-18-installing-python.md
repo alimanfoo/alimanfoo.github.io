@@ -247,6 +247,21 @@ please let me know if there's anything I should add:
 * [Pandas docs](http://pandas.pydata.org/)
 * [Various pandas tutorials](http://pandas.pydata.org/pandas-docs/stable/tutorials.html)
 
-N.B., if you are using matplotlib within a jupyter notebook, and you want to see plots 
+## Post-script: matplotlib backends
+
+To use matplotlib within a jupyter notebook, you have to first execute a "magic" 
+command to tell matplotlib which backend to use. A "backend" is something behind the 
+scenes which handles drawing and displaying graphics. The magic command "``%matplotlib 
+notebook``" tells matplotlib to use the "notebook" backend. An alternative is the 
+"inline" backend.
+
+If you are using matplotlib within a jupyter notebook, and you want to see plots 
 displayed inline within the notebook, then you can use either "``%matplotlib inline``" 
-or "``%matplotlib notebook``", and you don't need to ever call "``plt.show()``".
+or "``%matplotlib notebook``", and you don't need to ever call "``plt.show()``" (which 
+is a command you might see in some older matplotlib tutorials).
+
+If you use "``%matplotlib inline``" then all of the code relating to a single 
+figure needs to be within a single code cell, whereas if you use "``%matplotlib 
+notebook``" then you can change or add to a figure from different code cells. Also 
+"``%matplotlib notebook``" allows you to zoom and pan a figure, so it's generally 
+better for interactive work.
