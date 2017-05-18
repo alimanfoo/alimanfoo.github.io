@@ -265,3 +265,17 @@ figure needs to be within a single code cell, whereas if you use "``%matplotlib
 notebook``" then you can change or add to a figure from different code cells. Also 
 "``%matplotlib notebook``" allows you to zoom and pan a figure, so it's generally 
 better for interactive work.
+
+## Post-script: installing packages with pip
+
+If you are new to Python, the easiest way to install packages is via the "``conda install``" command. However, not all packages can be installed via conda. There is 
+an even larger repository of Python packages available from something called the [Python Package Index](https://pypi.python.org/pypi), or PyPI for short. Packages 
+from PyPI can be installed via a different command called "pip". For example, from the command prompt you can type "``pip install [package]``" replacing "[package]" 
+with the name of the package to install.
+
+To find out if a package is available from conda, try the command "``conda search [package]``". If the package you want is not available via conda, try "``pip search 
+[package]``" to see if it is available from PyPI.
+
+The reason why conda is generally the preferred installation command is because some packages (e.g., that include C extensions) require special compilation if 
+installed via pip, but packages from conda are pre-compiled binaries and so can be installed easily on multiple operating systems without having to first install a 
+compiler.
