@@ -247,6 +247,31 @@ please let me know if there's anything I should add:
 * [Pandas docs](http://pandas.pydata.org/)
 * [Various pandas tutorials](http://pandas.pydata.org/pandas-docs/stable/tutorials.html)
 
+## Post-script: getting help
+
+There a couple of ways you can get access to helpful documentation while you are working interactively with Python.
+
+If you are using the Python interpreter in interactive mode, you can type the command "``help(...)``" at any time, replacing "..." with the name of a module, 
+function or method that you want to access documentation about. For example, here's how to get documentation on the ``np.arange`` function:
+
+![](/assets/2017-05-18-installing-python/capture-help-prompt.PNG)
+
+If you are working in a Jupyter notebook, here are three ways to get help. First, you can get a list of all available functions in a module (or methods on an object) 
+by typing the name of the module (or object) followed by the dot (".") character, then press the "Tab" key on your keyboard:
+
+![](/assets/2017-05-18-installing-python/capture-help-notebook-1.PNG)
+
+You can get help on a function or method by typing the function name, then open brackets "(", then hold down the "Shift" key and press the "Tab" key:
+
+![](/assets/2017-05-18-installing-python/capture-help-notebook-2.PNG)
+
+If you want to see more of the documentation, click on the "^" or "+" buttons.
+
+You can also just type the name of a function or method followed by a question mark "?" and execute the cell, which will bring up the full documentation at the 
+bottom of the window:
+
+![](/assets/2017-05-18-installing-python/capture-help-notebook-3.PNG)
+
 ## Post-script: matplotlib backends
 
 To use matplotlib within a jupyter notebook, you have to first execute a "magic" 
