@@ -3,3 +3,5 @@ _site
 *~
 Gemfile.lock
 __pycache__
+.idea
+
