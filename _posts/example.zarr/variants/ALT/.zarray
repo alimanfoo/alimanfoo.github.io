@@ -1,0 +1,26 @@
+{
+    "chunks": [
+        65536,
+        3
+    ],
+    "compressor": {
+        "clevel": 5,
+        "cname": "lz4",
+        "id": "blosc",
+        "shuffle": 1
+    },
+    "dtype": "|O",
+    "fill_value": 0,
+    "filters": [
+        {
+            "encoding": "utf-8",
+            "id": "msgpack"
+        }
+    ],
+    "order": "C",
+    "shape": [
+        5,
+        3
+    ],
+    "zarr_format": 2
+}

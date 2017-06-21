@@ -1,0 +1,6 @@
+{
+    "Description": "Allele Frequency",
+    "ID": "AF",
+    "Number": "A",
+    "Type": "Float"
+}

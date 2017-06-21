@@ -1,0 +1,6 @@
+{
+    "Description": "Read Depth",
+    "ID": "DP",
+    "Number": "1",
+    "Type": "Integer"
+}
