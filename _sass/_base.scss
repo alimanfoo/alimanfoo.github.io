@@ -11,17 +11,31 @@ dl, dd, ol, ul, figure {
 
 table {
     border-collapse: collapse;
-    border: 1px solid black;
+    border: none;
+/*    border: 1px solid black; */
     font-size: 12px;
     margin-bottom: $spacing-unit / 2;
 }
 table td {
-    border: 1px solid black;
-    padding: 3px;
+    border: none;
+/*    border: 1px solid black; */
+    padding: 0.5em;
 }
 table th {
-    border: 1px solid black;
-    padding: 3px;
+    border: none;
+/*    border: 1px solid black; */
+    padding: 0.5em;
+}
+thead {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+}
+tbody tr:nth-child(odd) {
+    background: #f5f5f5;
+}
+table.dataframe td,th {
+    text-align: right;
+
 }
 
 div.bk-plot table {
