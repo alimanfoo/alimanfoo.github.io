@@ -70,3 +70,15 @@ production release, as well as improving the data import process and
 providing new capabilities in the user interface. The new version is
 still in beta, but please feel free to get in touch if you are
 interested in trying it out.
+
+I should add that although Panoptes has been deployed in production
+for a while, I still don't think of it as a finished product by any
+stretch. Rather it is an exploration of some ideas about how to
+visualise, explore and interact with large genome variation
+datasets. Working with large and complex data is a major challenge,
+and I'm very conscious that there are many questions people might like
+to ask of the Ag1000G data that are very difficult or impossible to
+answer with the current Ag1000G browser. All of us involved in ongoing
+development of Panoptes would love to make connections with others
+working on similar problems, and to hear from anyone who has ideas,
+comments or frustrations about the software as it stands.
