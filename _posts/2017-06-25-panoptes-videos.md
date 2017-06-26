@@ -3,19 +3,20 @@ layout: post
 title: Web-based exploration of genome variation data
 ---
 
-Last week our paper on [Panoptes](https://github.com/cggh/panoptes),
-the software we use to power several web applications on the
-[MalariaGEN](http://www.malariagen.net) site including the
-[Ag1000G browser](https://www.malariagen.net/apps/ag1000g/), was
-[published in Bionformatics](https://doi.org/10.1093/bioinformatics/btx410). Although
-it's taken us a while to get this in print, these web applications
-have been in production for a couple of years now. To celebrate, I
-thought I'd post links to some screencasts featuring the Ag1000G
-browser which we made around the time it was first launched back in
-2014/2015. We've made some updates to the Ag1000G browser since these
-videos were made, but they're still relevant, and hopefully provide a
-useful introduction to some of the capabilities of the Panoptes
-framework.
+Last week our paper on [Panoptes](https://github.com/cggh/panoptes)
+was
+[published in Bioinformatics](https://doi.org/10.1093/bioinformatics/btx410). Panoptes
+is the software we use to power several web applications on the
+[MalariaGEN](http://www.malariagen.net) site, including the
+[Ag1000G browser](https://www.malariagen.net/apps/ag1000g/). Although
+it's taken us a while to get this paper in print, these web
+applications have been in production for a couple of years now. To
+celebrate, I thought I'd post links to some screencasts featuring the
+Ag1000G browser which we made around the time it was first launched
+back in 2014/2015. We've made some updates to the Ag1000G browser
+since these videos were made, but they're still relevant, and
+hopefully provide a useful introduction to some of the capabilities of
+the Panoptes framework.
 
 ## 5 minute tour
 
