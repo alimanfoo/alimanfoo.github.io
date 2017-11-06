@@ -14,6 +14,4 @@ nbconvert.sh 2016-10-04-plotting-african-ecosystems "Plotting African ecosystems
 nbconvert.sh 2017-01-23-go-faster-python "Go faster Python"
 nbconvert.sh 2017-01-25-vgsc-gene-models "VGSC gene models"
 nbconvert.sh 2017-02-14-mendelian-transmission "Mendelian transmission"
-
-
-
+nbconvert.sh 2017-11-06-ag1000g-phase2 "A tour of Ag1000G phase2"
