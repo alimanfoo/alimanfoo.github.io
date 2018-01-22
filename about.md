@@ -4,8 +4,7 @@ title: About
 permalink: /about/
 ---
 
-I work in Professor [Dominic Kwiatkowski](https://www.ndm.ox.ac.uk/principal-investigators/researcher/dominic-kwiatkowski)'s group at the [Wellcome Trust Centre for 
-Human Genetics](http://www.well.ox.ac.uk), [University of Oxford](http://www.ox.ac.uk/), as a member of the [Centre for Genomics and Global 
+I work in Professor [Dominic Kwiatkowski](https://www.ndm.ox.ac.uk/principal-investigators/researcher/dominic-kwiatkowski)'s group at the [Big Data Institute](http://www.bdi.ox.ac.uk), [University of Oxford](http://www.ox.ac.uk/), as a member of the [Centre for Genomics and Global 
 Health](http://www.cggh.org). I am also affiliated with the [Malaria Programme](http://www.sanger.ac.uk/science/programmes/malaria) at the [Wellcome Trust Sanger 
 Institute](http://www.sanger.ac.uk/) near Cambridge.
 

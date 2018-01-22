@@ -16,6 +16,7 @@ vectors. It's not systematic or complete. If you'd like to suggest a paper, plea
   <a href='@@'>
     <span class='title'>@@.</span>
   </a>
+  <span class="journal">@@.</span>
   <span class='abstract'>
     <span class='display_inline'>
        <button onclick='show_abstract(this)'>show abstract</button>
@@ -43,6 +44,7 @@ vectors. It's not systematic or complete. If you'd like to suggest a paper, plea
   <a href='https://doi.org/10.1186/s12936-017-2168-2'>
     <span class='title'>An observational analysis of the impact of indoor residual spraying with non-pyrethroid insecticides on the incidence of malaria in Ségou Region, Mali: 2012–2015.</span>
   </a>
+  <span class="journal">Malaria Journal.</span>
   <span class='abstract'>
     <span class='display_inline'>
        <button onclick='show_abstract(this)'>show abstract</button>

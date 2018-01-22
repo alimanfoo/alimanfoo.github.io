@@ -3,8 +3,6 @@ layout: page
 permalink: /reading/
 ---
 
-# Reading
-
 This page is a reading diary, inspired by [#365papers](https://twitter.com/hashtag/365papers?src=hash) (or 
 [#230papers](https://twitter.com/hashtag/230papers?src=hash) realistically).
 
