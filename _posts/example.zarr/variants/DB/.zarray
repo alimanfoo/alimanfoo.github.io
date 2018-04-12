@@ -3,13 +3,14 @@
         65536
     ],
     "compressor": {
+        "blocksize": 0,
         "clevel": 5,
         "cname": "lz4",
         "id": "blosc",
         "shuffle": 1
     },
     "dtype": "|b1",
-    "fill_value": 0,
+    "fill_value": false,
     "filters": null,
     "order": "C",
     "shape": [

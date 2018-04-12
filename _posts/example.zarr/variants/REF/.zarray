@@ -3,6 +3,7 @@
         65536
     ],
     "compressor": {
+        "blocksize": 0,
         "clevel": 5,
         "cname": "lz4",
         "id": "blosc",
@@ -12,8 +13,7 @@
     "fill_value": 0,
     "filters": [
         {
-            "encoding": "utf-8",
-            "id": "msgpack"
+            "id": "vlen-utf8"
         }
     ],
     "order": "C",
