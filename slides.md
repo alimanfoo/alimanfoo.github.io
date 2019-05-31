@@ -4,5 +4,4 @@ title: Slides
 permalink: /slides/
 ---
 
-* [reveal.js demo](demo.html)
-
+* [Tracking the spread of insecticide resistance in *Anopheles gambiae* populations](20190606-who-geneva.html) - 6 June 2019 - WHO/Global Malaria Programme technical consultation on the role of parasite and Anopheline genetics in malaria
