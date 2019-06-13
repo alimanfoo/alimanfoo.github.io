@@ -37,31 +37,76 @@ Here's a quick illustration of a couple of features.
 import numpy as np
 import allel; print('scikit-allel', allel.__version__)
 import matplotlib.pyplot as plt
-import h5py
+import zarr
+import urllib
+import shutil
+from pathlib import Path
+import zipfile
 import seaborn as sns
 sns.set_style('white')
 sns.set_style('ticks')
 %matplotlib inline
 {% endhighlight %}
 
-    scikit-allel 1.0.3
+    scikit-allel 1.2.0
 
 
-I'm going to use data from the [Ag1000G phase 1 AR3 release](http://www.malariagen.net/data/ag1000g-phase1-AR3). I have a copy of the data downloaded to a local drive.
-
-The data are stored in [HDF5 files](https://www.hdfgroup.org/HDF5/). Let's take a look.
+I'm going to use data from the [Ag1000G phase 1 AR3 release](http://www.malariagen.net/data/ag1000g-phase1-AR3). Let's download some data from the [Ag1000G public FTP site](ftp://ngs.sanger.ac.uk/production/ag1000g/). The files we're downloading are ~200-400 Mb so this may take a little while, depending on your internet connection.
 
 
 {% highlight python %}
-callset_fn = 'data/2015-09-15/ag1000g.phase1.ar3.pass.h5'
-callset = h5py.File(callset_fn, mode='r')
+def download(source_url, dest_path):
+    """Helper function to download a remote file to the local file system."""
+    with urllib.request.urlopen(source_url) as source:
+        with open(dest_path, mode='wb') as dest:
+            shutil.copyfileobj(source, dest)
+
+            
+# base URL for files to be downloaded
+base_url = 'ftp://ngs.sanger.ac.uk/production/ag1000g/phase1/AR3/variation/main/zarr/'
+# download files to a local directory called "data"
+dest_dir = Path('data')
+dest_dir.mkdir(exist_ok=True)
+
+# files to be downloaded
+files = [
+    'ag1000g.phase1.ar3.pass.biallelic.metadata.zip',
+    'ag1000g.phase1.ar3.pass.biallelic.2L.variants.zip',
+    'ag1000g.phase1.ar3.pass.biallelic.2L.calldata.GT.zip',
+]
+
+for f in files:
+    print('downloading', f)
+    dest_path = dest_dir / f
+    if not dest_path.exists():
+        source_url = base_url + f
+        download(source_url, dest_path)
+    print('extracting', f)
+    with zipfile.ZipFile(dest_path, mode='r') as z:
+        z.extractall(dest_dir)
+
+{% endhighlight %}
+
+    downloading ag1000g.phase1.ar3.pass.biallelic.metadata.zip
+    extracting ag1000g.phase1.ar3.pass.biallelic.metadata.zip
+    downloading ag1000g.phase1.ar3.pass.biallelic.2L.variants.zip
+    extracting ag1000g.phase1.ar3.pass.biallelic.2L.variants.zip
+    downloading ag1000g.phase1.ar3.pass.biallelic.2L.calldata.GT.zip
+    extracting ag1000g.phase1.ar3.pass.biallelic.2L.calldata.GT.zip
+
+
+The data are stored in [Zarr files](https://zarr.readthedocs.io). Let's take a look.
+
+
+{% highlight python %}
+callset = zarr.open_consolidated('data/ag1000g.phase1.ar3.pass.biallelic')
 callset
 {% endhighlight %}
 
 
 
 
-    <HDF5 file "ag1000g.phase1.ar3.pass.h5" (mode r)>
+    <zarr.hierarchy.Group '/'>
 
 
 
@@ -81,11 +126,11 @@ variants
 
 
 
-    <HDF5 group "/2L/variants" (66 members)>
+    <zarr.hierarchy.Group '/2L/variants'>
 
 
 
-Every genetic variant (in this case they are all SNPs) has a position on the genome. Working with these positions is a very common operation.
+Every genetic variant (in this case they are all SNPs) has a position on the genome. Working with these positions is a very common task.
 
 
 {% highlight python %}
@@ -96,7 +141,7 @@ pos
 
 
 
-<div class="allel allel-DisplayAs1D"><span>&lt;SortedIndex shape=(10377280,) dtype=int32&gt;</span><table><tr><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">10377275</th><th style="text-align: center">10377276</th><th style="text-align: center">10377277</th><th style="text-align: center">10377278</th><th style="text-align: center">10377279</th></tr><tr><td style="text-align: center">44688</td><td style="text-align: center">44691</td><td style="text-align: center">44732</td><td style="text-align: center">44736</td><td style="text-align: center">44756</td><td style="text-align: center">...</td><td style="text-align: center">49356424</td><td style="text-align: center">49356425</td><td style="text-align: center">49356426</td><td style="text-align: center">49356429</td><td style="text-align: center">49356435</td></tr></table></div>
+<div class="allel allel-DisplayAs1D"><span>&lt;SortedIndex shape=(8296600,) dtype=int32&gt;</span><table><thead><tr><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">8296595</th><th style="text-align: center">8296596</th><th style="text-align: center">8296597</th><th style="text-align: center">8296598</th><th style="text-align: center">8296599</th></tr></thead><tbody><tr><td style="text-align: center">44688</td><td style="text-align: center">44691</td><td style="text-align: center">44732</td><td style="text-align: center">44736</td><td style="text-align: center">44756</td><td style="text-align: center">...</td><td style="text-align: center">49356424</td><td style="text-align: center">49356425</td><td style="text-align: center">49356426</td><td style="text-align: center">49356429</td><td style="text-align: center">49356435</td></tr></tbody></table></div>
 
 
 
@@ -112,16 +157,16 @@ x = (bins[1:] + bins[:-1])/2
 h, _ = np.histogram(pos, bins=bins)
 y = h / bin_width
 # plot
-fig, ax = plt.subplots(figsize=(8, 2))
+fig, ax = plt.subplots(figsize=(9, 2))
 sns.despine(ax=ax, offset=5)
 ax.plot(x, y)
-ax.set_xlabel('position (bp)')
-ax.set_ylabel('density (bp$^{-1}$)')
+ax.set_xlabel('Position (bp)')
+ax.set_ylabel('Density (bp$^{-1}$)')
 ax.set_title('Variant density');
 {% endhighlight %}
 
 
-![png](/assets/2015-09-15-introducing-scikit-allel_files/2015-09-15-introducing-scikit-allel_9_0.png)
+![png](/assets/2015-09-15-introducing-scikit-allel_files/2015-09-15-introducing-scikit-allel_11_0.png)
 
 
 Let's say I have a gene of interest. I know what position it starts and ends, and I want to find variants within the gene.
@@ -136,7 +181,7 @@ loc
 
 
 
-    slice(25091, 26854, None)
+    slice(24471, 26181, None)
 
 
 
@@ -144,14 +189,15 @@ I can use this slice to load genotype data for the region of interest.
 
 
 {% highlight python %}
-g = allel.GenotypeArray(callset[chrom]['calldata']['genotype'][loc])
+calldata = callset[chrom]['calldata']
+g = allel.GenotypeArray(calldata['GT'][loc])
 g
 {% endhighlight %}
 
 
 
 
-<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeArray shape=(1763, 765, 2) dtype=int8&gt;</span><table><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr><tr><th style="text-align: center">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center">1760</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1761</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center">1762</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></table></div>
+<div class="allel allel-DisplayAs2D"><span>&lt;GenotypeArray shape=(1710, 765, 2) dtype=int8&gt;</span><table><thead><tr><th></th><th style="text-align: center">0</th><th style="text-align: center">1</th><th style="text-align: center">2</th><th style="text-align: center">3</th><th style="text-align: center">4</th><th style="text-align: center">...</th><th style="text-align: center">760</th><th style="text-align: center">761</th><th style="text-align: center">762</th><th style="text-align: center">763</th><th style="text-align: center">764</th></tr></thead><tbody><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">0</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">1</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">2</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">...</th><td style="text-align: center" colspan="12">...</td></tr><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">1707</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">1708</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr><tr><th style="text-align: center; background-color: white; border-right: 1px solid black; ">1709</th><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">...</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td><td style="text-align: center">0/0</td></tr></tbody></table></div>
 
 
 
@@ -169,7 +215,7 @@ gn
     array([[0, 0, 0, ..., 0, 0, 0],
            [0, 0, 0, ..., 0, 0, 0],
            [0, 0, 0, ..., 0, 0, 0],
-           ..., 
+           ...,
            [0, 0, 0, ..., 0, 0, 0],
            [0, 0, 0, ..., 0, 0, 0],
            [0, 0, 0, ..., 0, 0, 0]], dtype=int8)
@@ -180,15 +226,15 @@ From there we could compute genetic distance between each pair of individuals...
 
 
 {% highlight python %}
-dist = allel.stats.pairwise_distance(gn, metric='euclidean')
+dist = allel.pairwise_distance(gn, metric='euclidean')
 dist
 {% endhighlight %}
 
 
 
 
-    array([ 12.9614814 ,   1.41421356,   2.        , ...,   2.        ,
-             2.        ,   0.        ])
+    array([12.4498996 ,  1.41421356,  2.        , ...,  2.        ,
+            2.        ,  0.        ])
 
 
 
@@ -196,16 +242,16 @@ dist
 
 
 {% highlight python %}
-allel.plot.pairwise_distance(dist);
+allel.plot_pairwise_distance(dist);
 {% endhighlight %}
 
 
-![png](/assets/2015-09-15-introducing-scikit-allel_files/2015-09-15-introducing-scikit-allel_19_0.png)
+![png](/assets/2015-09-15-introducing-scikit-allel_files/2015-09-15-introducing-scikit-allel_21_0.png)
 
 
 ## Further reading
 
-I will leave it there for now, but check out the [scikit-allel docs](http://scikit-allel.readthedocs.org/en/latest/index.html) for more information. There is a section on [data structures](http://scikit-allel.readthedocs.org/en/latest/model.html), which includes both contiguous in-memory and compressed data structures for dealing with very large arrays (made possible thanks to [h5py](http://www.h5py.org/) and [bcolz](http://bcolz.blosc.org/)). There is also a [statistics](http://scikit-allel.readthedocs.org/en/latest/stats.html) section with various functions for computing diversity, Fst, LD, running PCA, and doing admixture tests, as well as a few useful plotting functions.
+I will leave it there for now, but check out the [scikit-allel docs](http://scikit-allel.readthedocs.org/en/latest/index.html) for more information. There is a section on [data structures](http://scikit-allel.readthedocs.org/en/latest/model.html), which includes both contiguous in-memory and compressed data structures for dealing with large arrays. There is also a [statistics](http://scikit-allel.readthedocs.org/en/latest/stats.html) section with various functions for computing diversity, Fst, LD, running PCA, and doing admixture tests, as well as a few useful plotting functions.
 
 It is just a beginning, but hopefully a step in a good direction.
 
@@ -217,5 +263,5 @@ import datetime
 print(datetime.datetime.now().isoformat())
 {% endhighlight %}
 
-    2016-11-01T19:24:43.602762
+    2019-06-13T22:59:13.953334
 
