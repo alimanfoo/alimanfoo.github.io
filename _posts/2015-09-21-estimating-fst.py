@@ -43,7 +43,7 @@ import allel; print('scikit-allel', allel.__version__)
 
 
 # %% [markdown]
-# I'm going to use data from the Ag1000G phase 1 AR3 release. Let's download some data from the Ag1000G public FTP site. The files we're downloading are a few hundred Mb each so this may take a little while, depending on your internet connection.
+# I'm going to use data from the [Ag1000G phase 1 AR3 release](http://www.malariagen.net/data/ag1000g-phase1-AR3). Let's download some data from the [Ag1000G public FTP site](ftp://ngs.sanger.ac.uk/production/ag1000g/). The files we're downloading are ~200-400 Mb so this may take a little while, depending on your internet connection.
 
 # %%
 def download(source_url, dest_path):
@@ -142,7 +142,7 @@ pop2_idx = df_samples[df_samples.population == pop2].index
 with ProgressBar():
     ac1_all = gt_all.count_alleles(max_allele=1, subpop=pop1_idx).compute()
     ac2_all = gt_all.count_alleles(max_allele=1, subpop=pop2_idx).compute()
-    
+
 
 # %% [markdown]
 # Finally, we can filter out variants that aren't segregating in the union of our two populations.
