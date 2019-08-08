@@ -1,0 +1,3 @@
+[submodule "binder"]
+	path = binder
+	url = git@github.com:malariagen/binder.git
