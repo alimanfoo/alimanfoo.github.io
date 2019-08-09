@@ -102,7 +102,6 @@ When we have mosquitoes collected from multiple geographical locations, we can u
 
 We found a number of other examples of CNVs that have spread to multiple countries. For example, here's a list of some of the other the spreading CNVs, and the populations in which they were found (population frequency shown in brackets):
 
-* Dup1 - Burkina Faso *An. coluzzii* (8%), Uganda *An. gambiae* (58%)
 * Dup7 - Burkina Faso *An. coluzzii* (44%), Cote d'Ivoire *An. coluzzii* (32%), Ghana *An. coluzzii* (5%), Guinea *An. coluzzii* (75%)
 * Dup8 - Burkina Faso *An. gambiae* (3%), Guinea *An. gambiae* (3%)
 * Dup10 - Burkina Faso *An. coluzzii* (49%), Ghana *An. coluzzii* (5%)
@@ -110,7 +109,7 @@ We found a number of other examples of CNVs that have spread to multiple countri
 * Dup14 - Burkina Faso *An. coluzzii* (3%), Cote d'Ivoire *An. coluzzii* (46%)
 * Dup15 - Burkina Faso *An. coluzzii* (1%), Cote d'Ivoire *An. coluzzii* (39%)
 
-Clearly there is a lot of gene flow connecting the *An. coluzzii* populations in West Africa, with Dup7, Dup10, Dup11, Dup14 and Dup15 all having spread to multiple countries. Dup1 also provides a rather dramatic example of gene flow, having found its way into populations of two different mosquito species, and into both West and East Africa. 
+Clearly there is a lot of gene flow connecting the *An. coluzzii* populations in West Africa, with Dup7, Dup10, Dup11, Dup14 and Dup15 all having spread to multiple countries.
 
 ## Challenges and opportunities
 
