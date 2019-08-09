@@ -6,252 +6,14 @@ title: Insecticide resistance gene copy number variation in malaria mosquitoes
 
 <!-- Title: Insecticide resistance gene copy number variation in Anopheles gambiae -->
 
-This blog post introduces recent work by the [*Anopheles gambiae* 1000 Genomes Project](https://www.malariagen.net/projects/ag1000g) to study gene copy number variation, published in ["Whole-genome sequencing reveals high complexity of copy number variation at insecticide resistance loci in malaria mosquitoes" (Lucas et al. 2019)](https://genome.cshlp.org/content/29/8/1250.full?rss=1).
+*This blog post introduces recent work by the [Anopheles gambiae 1000 Genomes Project](https://www.malariagen.net/projects/ag1000g) to study gene copy number variation, published in ["Whole-genome sequencing reveals high complexity of copy number variation at insecticide resistance loci in malaria mosquitoes" (Lucas et al. 2019)](https://genome.cshlp.org/content/29/8/1250.full?rss=1).*
 
 ## Changes in bed net technology
 
 In 2018, 172 million long-lasting insecticidal nets (LLINs) were given out for free in Africa to help control malaria. Here's a breakdown of LLINs distributed by country and year, courtesy of the [AMP Net Mapping Project](https://allianceformalariaprevention.com/net-mapping-project/) (hover over the bars to see details for each country): 
 
 
-
-{% highlight python %}
-import pandas as pd
-df_nets = pd.read_excel(
-    'https://allianceformalariaprevention.com/wp-content/uploads/2019/07/Net-Mapping-1st-Q-2019.xlsx', 
-    sheet_name='SSA',
-    skiprows=2,
-    skipfooter=1,
-    names=['Country'] + list(range(2004, 2019)),
-    usecols=list(range(16)))
-df_nets.set_index('Country', inplace=True)
-df_nets['all_years'] = df_nets.sum(axis=1)
-df_nets.sort_values(by='all_years', inplace=True, ascending=False)
-del df_nets['all_years']
-df_nets.head()
-{% endhighlight %}
-
-
-
-
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>2004</th>
-      <th>2005</th>
-      <th>2006</th>
-      <th>2007</th>
-      <th>2008</th>
-      <th>2009</th>
-      <th>2010</th>
-      <th>2011</th>
-      <th>2012</th>
-      <th>2013</th>
-      <th>2014</th>
-      <th>2015</th>
-      <th>2016</th>
-      <th>2017</th>
-      <th>2018</th>
-    </tr>
-    <tr>
-      <th>Country</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Nigeria</th>
-      <td>71400</td>
-      <td>262000</td>
-      <td>2147404</td>
-      <td>2724304</td>
-      <td>15310222</td>
-      <td>19813977</td>
-      <td>29908286</td>
-      <td>2555096</td>
-      <td>5452563</td>
-      <td>26355032</td>
-      <td>42973544</td>
-      <td>23794214</td>
-      <td>11240307</td>
-      <td>35498731</td>
-      <td>18686909</td>
-    </tr>
-    <tr>
-      <th>Congo (Democratic Republic of the)</th>
-      <td>713053</td>
-      <td>1089997</td>
-      <td>1750841</td>
-      <td>3317755</td>
-      <td>8506216</td>
-      <td>7129370</td>
-      <td>12154287</td>
-      <td>17873788</td>
-      <td>775690</td>
-      <td>13418804</td>
-      <td>20795345</td>
-      <td>26793394</td>
-      <td>13635628</td>
-      <td>13031191</td>
-      <td>28432276</td>
-    </tr>
-    <tr>
-      <th>Ethiopia</th>
-      <td>642210</td>
-      <td>2432635</td>
-      <td>12294218</td>
-      <td>4639411</td>
-      <td>1935148</td>
-      <td>2196289</td>
-      <td>15146406</td>
-      <td>1302400</td>
-      <td>5349703</td>
-      <td>11625273</td>
-      <td>9457032</td>
-      <td>23563000</td>
-      <td>16000</td>
-      <td>10470950</td>
-      <td>5855870</td>
-    </tr>
-    <tr>
-      <th>Kenya</th>
-      <td>391883</td>
-      <td>2814594</td>
-      <td>8700429</td>
-      <td>1555150</td>
-      <td>3235173</td>
-      <td>4293195</td>
-      <td>7305749</td>
-      <td>9869447</td>
-      <td>5816422</td>
-      <td>4866832</td>
-      <td>6886113</td>
-      <td>6720361</td>
-      <td>3288720</td>
-      <td>17430066</td>
-      <td>2146646</td>
-    </tr>
-    <tr>
-      <th>Uganda</th>
-      <td>144000</td>
-      <td>420887</td>
-      <td>2438134</td>
-      <td>1603181</td>
-      <td>1870846</td>
-      <td>1633302</td>
-      <td>8257164</td>
-      <td>1105520</td>
-      <td>3118001</td>
-      <td>13242962</td>
-      <td>10509079</td>
-      <td>4364151</td>
-      <td>20984657</td>
-      <td>6210233</td>
-      <td>5785560</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-
-
 <script src="https://cdn.pydata.org/bokeh/release/bokeh-1.3.4.min.js"></script>
-
-{% highlight python %}
-import bokeh as bk
-import bokeh.plotting
-import bokeh.models
-import bokeh.io
-bk.io.output_notebook()
-{% endhighlight %}
-
-
-
-    <div class="bk-root">
-        <a href="https://bokeh.pydata.org" target="_blank" class="bk-logo bk-logo-small bk-logo-notebook"></a>
-        <span id="1001">Loading BokehJS ...</span>
-    </div>
-
-
-
-
-
-{% highlight python %}
-# setup figure
-fig = bk.plotting.figure(x_range=(2003, 2019), plot_height=400, plot_width=700,
-                         title="LLINs distributed in sub-Saharan Africa by country and year")
-
-# setup colors
-countries = df_nets.index.tolist()
-from itertools import cycle, islice
-colors = list(islice(cycle(bk.palettes.d3['Category20'][20]), len(countries)))
-
-# plot bars
-renderers = fig.vbar_stack(countries, x='index', source=df_nets.T, width=0.9, 
-                           color=colors, name=countries)
-
-# add tooltips
-ht = bk.models.HoverTool(tooltips=[("Country", "$name"),
-                                   ("Year", "$x{int}"), 
-                                   ("Nets", "@$name{0,0}"),])
-fig.add_tools(ht)
-
-# style axes
-fig.xaxis.axis_label = "Year"
-fig.yaxis.axis_label = "No. nets"
-fig.yaxis.formatter = bk.models.NumeralTickFormatter(format="0,0")
-
-bk.plotting.show(fig)
-{% endhighlight %}
-
-
-
-
-
-
-
-
-  <div class="bk-root" id="22d63a50-305a-4031-a4e2-341e8ca8e5c8" data-root-id="3711"></div>
-
-
-
-
-
-
-{% highlight python %}
-from IPython.core.display import HTML, display
-script, div = bk.embed.components(fig)
-display(HTML(script))
-display(HTML(div))
-{% endhighlight %}
-
 
 
 <script type="text/javascript">
@@ -296,7 +58,7 @@ display(HTML(div))
 <div class="bk-root" id="4544039d-fa3a-477f-8e32-eb102e79ba80" data-root-id="1002"></div>
 
 
-The total cost of distributing LLINs varies, but [can be around \\$6 per net]((https://malariajournal.biomedcentral.com/articles/10.1186/s12936-016-1671-1)), which includes around \\$2-3 dollars to buy the net itself, and around \\$3 for the logistics required to distribute nets to communities. I don't know the exact number, but it seems reasonable to assume that more than \\$1 billion is spent on distributing LLINs in Africa each year. More than half of that is paid for by the [Global Fund](https://www.theglobalfund.org/en/malaria/), and the remainder by other donors including [PMI](https://www.pmi.gov/how-we-work/technical-areas/insecticide-treated-mosquito-nets-(itns)-pmi), [UNICEF](https://www.unicef.org/supply/index_39977.html) and [AMF](https://www.againstmalaria.com/).
+The total cost of distributing LLINs varies, but [can be around $6 per net]((https://malariajournal.biomedcentral.com/articles/10.1186/s12936-016-1671-1)), which includes around $2-3 to buy the net itself, and around $3 for the logistics required to distribute nets to communities. I don't know the exact number, but it seems reasonable to assume that more than $1 billion is spent on distributing LLINs in Africa each year. More than half of that is paid for by the [Global Fund](https://www.theglobalfund.org/en/malaria/), and the remainder by other donors including [PMI](https://www.pmi.gov/how-we-work/technical-areas/insecticide-treated-mosquito-nets-(itns)-pmi), [UNICEF](https://www.unicef.org/supply/index_39977.html) and [AMF](https://www.againstmalaria.com/).
 
 The current generation of LLINs are impregnated with a [pyrethroid insecticide](https://en.wikipedia.org/wiki/Pyrethroid) (e.g., [PermaNet® 2.0](https://www.vestergaard.com/permanet-2-0) uses deltamethrin, [Olyset Net](https://sumivector.com/mosquito-nets/olyset-net) uses permethrin). Over the past 20 years, [mosquito populations across Africa have become resistant to pyrethroids](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6215693/). Some studies have shown that [LLINs remain effective despite pyrethroid resistance](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5968369/). However, other studies have shown that a new generation of LLINs which combine a pyrethroid insecticide with "resistance-breaking" compound called [piperonyl butoxide (PBO)](https://en.wikipedia.org/wiki/Piperonyl_butoxide) are [more effective than standard nets at preventing malaria transmission](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5910376/). 
 
@@ -306,9 +68,9 @@ The debate about efficacy is still open, but [PBO LLINs have been approved for u
 
 Clearly we need more data, but what type of data should we collect? Most countries in sub-Saharan Africa have a programme of [entomological monitoring](https://www.pmi.gov/how-we-work/technical-areas/entomological-monitoring), where data about mosquito populations are regularly collected from sentinel sites. This includes [insecticide resistance testing](https://www.who.int/neglected_diseases/vector_ecology/resistance/en/), where mosquitoes are exposed to a controlled dose of an insecticide under standardised conditions and survival rates are recorded. These tests can tell you **if** a mosquito population is resistant to pyrethroids, and can also tell you **how strong** the resistance is. However, they **cannot tell you why** the mosquitoes are resistant. I.e., they cannot tell you which **molecular mechanisms of resistance** are present in the mosquito population.
 
-Insects can become resistant to insecticides via several different molecular mechanisms, each of which is due to changes in a different set of genes. That's been known for more than 40 years. I have on my bookshelf a copy of "Pest Resistance to Pesticides" which contains the proceedings of a conference held in December 1979. I wasn't there myself -- I was busy figuring out how to walk and talk at that time -- but it was clearly an exceptional meeting. There were 11 papers presented on molecular mechanisms of insecticide resistance, including two papers on the role of mixed-function oxidases (MFOs), also known as Cytochrome P450 enzymes.
+Insects can become resistant to insecticides via several different molecular mechanisms, each of which is due to changes in a different set of genes. That's been known for more than 40 years. I happen to have on my bookshelf a copy of "[Pest Resistance to Pesticides](https://books.google.co.uk/books?id=SavaBwAAQBAJ&printsec=frontcover&source=gbs_ge_summary_r&cad=0#v=onepage&q&f=false)" which contains the proceedings of a conference held in December 1979. I believe it was only a one-off conference, which is a shame because it was clearly an amazing meeting, and there was a lot of cross-over between work on disease vectors and crop pests - we could really use a conference like that today. There were 11 papers presented on molecular mechanisms of insecticide resistance, including two papers on the role of mixed-function oxidases (MFOs), also known as Cytochrome P450 enzymes.
 
-@@TODO image
+![bookshelf](/assets/bookshelf.jpg)
 
 MFOs cause pyrethroid resistance by breaking down pyrethroid molecules before they have a chance to act. MFOs are naturally present in all mosquitoes, but resistant mosquitoes have genetic changes that either increase the amount of specific MFO molecules in their system, or change an MFO protein sequence so it is better at breaking down insecticides. PBO specifically blocks the action of MFOs. So, if a mosquito population **does** have pyrethroid resistance due to MFOs, then PBO LLINs ought to be more effective than standard LLINs. But if a mosquito population **does not** have MFO-based resistance, then PBO LLINs may be no better than standard LLINs (although there are important caveats, see discussion later).
 
