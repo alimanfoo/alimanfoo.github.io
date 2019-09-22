@@ -47,10 +47,61 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 ### Outline
 
 * Pyrethroid resistance
- * Target-site resistance
  * Metabolic resistance
+ * Target-site resistance
 * Organophosphate resistance
 * Emerging/unknown resistance
+
+====
+
+### Pyrethroid metabolic resistance
+
+* Pyrethroids are metabolised by cytochrome P450 enzymes (a.k.a. mixed-function oxidases; MFOs)
+* Increased expression of certain P450 genes causes resistance
+* Genetic basis of metabolic resistance previously unknown in *An. gambiae* complex
+ * Although long suspected that CNVs play a role
+ * More gene copies &rarr; more protein &rarr; faster metabolism &rarr; resistance
+* N.B. PBO LLINs work by inhibiting P450s
+
+===
+
+### Genome-wide scan for CNVs
+
+@@TODO CNV paper
+
+===
+
+### CNVs at *Cyp6p/aa*
+
+<p class="stretch"><img src="cyp6p_cnvs.png"/></p>
+
+===
+
+### CNVs at *Cyp9k1*
+
+<p class="stretch"><img src="cyp9k1_cnvs.png"/></p>
+
+===
+
+### Prevalence and spread of metabolic resistance (e.g., *Cyp6p/aa*)
+
+* Dup1 - <em>An. gambiae</em>: Uganda (58%)
+* Dup7 - <em>An. coluzzii</em>: Burkina Faso (44%), Cote d'Ivoire (32%), Ghana (5%), Guinea (75%)
+* Dup10 - <em>An. coluzzii</em>: Burkina Faso (49%), Ghana (5%)
+* Dup11 - <em>An. coluzzii</em>: Burkina Faso (41%), Ghana (5%)
+* Dup14 - <em>An. coluzzii</em>: Burkina Faso (3%), Cote d'Ivoire (46%)
+* Dup15 - <em>An. coluzzii</em>: Burkina Faso (1%), Cote d'Ivoire (39%)
+
+<small>Some CNVs are very common and spreading, especially in West African *An. coluzzii*.</small>
+
+===
+
+### Surveillance of metabolic resistance
+
+* P450 CNVs are likely to be a good marker of metabolic resistance
+ * Although, N.B., there could be other genetic causes
+* Surveillance of P450 CNVs could provide valuable information about mechanisms of resistance
+ * Especially if considering deployment of next-generation LLINs (how many, what type, where to deploy, ...)
 
 ====
 
@@ -116,53 +167,48 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 
 ====
 
-### Pyrethroid metabolic resistance
-
-* Pyrethroids are metablised by cytochrome P450 enzyomes (a.k.a. mixed-function oxidases; MFOs)
-* Increased expression of certain P450s causes resistance
-* Genetic basis of metabolic resistance unknown
- * (Although long suspected that CNVs play a role)
-* Important because PBO LLINs designed to neutralise P450s
-
-===
-
-### CNVs at *Cyp9p/aa*
-
-<p class="stretch"><img src="cyp6p_cnvs.png"/></p>
-
-===
-
-### CNVs at *Cyp9k1*
-
-<p class="stretch"><img src="cyp9k1_cnvs.png"/></p>
-
-===
-
-### Prevalence and spread of metabolic resistance (Cyp6p/aa)
-
-<div style="font-size: 0.8em;">
-<ul>
-<li>Dup7 - <em>An. coluzzii</em>: Burkina Faso (44%), Cote d'Ivoire (32%), Ghana (5%), Guinea (75%)
-<li>Dup8 - <em>An. gambiae</em>: Burkina Faso (3%), Guinea (3%)
-<li>Dup10 - <em>An. coluzzii</em>: Burkina Faso (49%), Ghana (5%)
-<li>Dup11 - <em>An. coluzzii</em>: Burkina Faso (41%), Ghana (5%)
-<li>Dup14 - <em>An. coluzzii</em>: Burkina Faso (3%), Cote d'Ivoire (46%)
-<li>Dup15 - <em>An. coluzzii</em>: Burkina Faso (1%), Cote d'Ivoire (39%)
-</div>
-
-<small>Some CNVs are very common and spreading, especially in West African *An. coluzzii*.</small>
-
-===
-
-@@TODO link to CNV paper and blog post
-
-====
-
 ### Pyrethroid resistance mechanisms
 
 <p class="stretch"><img src="pyrethroid_resistance.jpg"/></p>
 
 <small>Possible to combine data on target-site and metabolic resistance, to show which molecular mechanisms are present in which populations.</small>
+
+====
+
+### Organophosphate resistance
+
+* Organophosphates bind to acetylcholinesterase (ACE1) enzyme
+* Genetic changes in ACE1 gene associated with resistance
+ * SNPs (G119S) and CNVs
+
+===
+
+### Prevalence of ACE1 SNPs and CNVs
+
+<p class="stretch"><img src="ace1_resistance_simplified.jpg"/></p>
+
+<small>G119S and CNV always found together. Spreading in West Africa, both *An. gambiae* and *An. coluzzii*.</small>
+
+====
+
+### Unknown/emerging resistance mechanisms
+
+* GSTE CNVs - major role in metabolic resistance of pyrethroids?
+* Carboxylesterases - role in organophosphate resistance?
+* Emerging signals at other genes in acetylcholine regulation pathway?
+
+====
+
+### Translation to surveillance
+
+* Use cases in insecticide resistance management
+ * Deployment of next-generation LLINs
+ * Rotation of next-generation IRS
+* Need contemporary data
+* Need better geographical coverage
+* Scale up whole-genome sequencing at genome centres
+ * N.B., Wellcome Sanger Institute can sequence 10,000 mosquitoes/year
+* Scale up targeted (amplicon) sequencing at local/region labs
 
 ====
 
