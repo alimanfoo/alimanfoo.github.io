@@ -49,8 +49,10 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 * Pyrethroid resistance
  * Metabolic resistance
  * Target-site resistance
+ * Combined view
 * Organophosphate resistance
 * Emerging/unknown resistance
+* Translation to surveillance
 
 ====
 
@@ -206,13 +208,23 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
  * Rotation of next-generation IRS
 * Need contemporary data
 * Need better geographical coverage
+* Need to cover more species (e.g., *An. arabiensis*, *An. funestus*)
 * Scale up whole-genome sequencing at genome centres
- * N.B., Wellcome Sanger Institute can sequence 10,000 mosquitoes/year
+ * N.B., Wellcome Sanger Institute can now sequence 10,000 mosquitoes/year
 * Scale up targeted (amplicon) sequencing at local/region labs
 
 ====
 
-@@TODO acknowledgments
+### Acknowledgments
+
+<p class="stretch">
+<small>This work was carried out by the <em>Anopheles gambiae</em> 1000 Genomes Consortium:</small>
+<img src="ack.png"/>
+<small>Thank you to the staff of the Wellcome Sanger Institute Sample
+Logistics, Sequencing and Informatics facilities.</small>
+<small>Thank you to Wellcome Trust, MRC UK, DFID UK, NIH, NIAID, Bill and Melinda Gates Foundation.</small>
+</p>
+
 
 ====
 
