@@ -72,7 +72,7 @@ Across the whole genome, we find:
 
 * Pyrethroids are metabolised by cytochrome P450 (CYP) enzymes (a.k.a. mixed-function oxidases; MFOs)
 * Increased expression of certain CYP genes causes resistance
-* Genetic basis of metabolic resistance previously unknown in *An. gambiae* complex
+* Genetic variants causing metabolic resistance **not previously known** in *An. gambiae* complex
  * Although long suspected that CNVs play a role
  * More gene copies &rarr; more protein &rarr; faster metabolism &rarr; resistance
 * N.B., PBO LLINs work by inhibiting CYPs
@@ -117,13 +117,18 @@ Some CNVs are very common and spreading, especially in West African *An. coluzzi
 ### Surveillance of metabolic resistance
 
 * Next-generation LLINs: how many, what type, where to put them?
-* Helps to know: which populations have high frequency of CYP-mediated metabolic resistance?
+* Which populations have CYP-mediated metabolic resistance?
 * CNVs are likely to be a good marker of CYP-mediated metabolic resistance 
-* Although, N.B., there could be other genetic causes
+* Although, N.B., there could be other genetic variants causing metabolic resistance
 
 ===
 
-@@TODO CNV paper and blog post
+<p class="stretch">
+<img src="cnv_paper.png"/>
+<div>
+See also "Insecticide resistance gene copy number variation in malaria mosquitoes" on <a href="http://alimanfoo.github.io/">alimanfoo.github.io</a>
+</div>
+</p>
 
 ====
 
@@ -185,7 +190,12 @@ Some CNVs are very common and spreading, especially in West African *An. coluzzi
 
 ===
 
-@@TODO link to Vgsc preprint
+<p class="stretch">
+<img src="vgsc_paper.png"/>
+<div>
+<small>(Will be updated with new data from Ag1000G phase 2 soon.)</small>
+</div>
+</p>
 
 ====
 
