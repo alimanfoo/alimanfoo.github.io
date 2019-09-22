@@ -1,10 +1,8 @@
 ### Insights into the evolution and spread of insecticide resistance from whole-genome sequencing of 1,142 *Anopheles gambiae* mosquitoes from 13 countries
 
-
-
 Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 
-<small>[The *Anopheles gambiae* 1000 Genomes Consortium](http://www.malariagen.net/ag1000g)</small>
+[The *Anopheles gambiae* 1000 Genomes Consortium](http://www.malariagen.net/ag1000g)
 
 <small>These slides: [alimanfoo.github.io/slides/pamca2019/](https://alimanfoo.github.io/slides/pamca2019/)</small>
 
@@ -14,7 +12,7 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 
 <p class="stretch"><img src="collection_site_map.jpg"></p>
 
-<small>**Caution**: one location per country; one time point per country; different countries sampled in different years; nothing more recent than 2012.</small>
+<small>N.B., one location per country; one time point per country; different countries sampled in different years; nothing more recent than 2012.</small>
 
 ===
 
@@ -30,17 +28,31 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 
 ### Single nucleotide polymorphisms (SNPs)
 
-@@TODO SNP diagram
-
-<!-- explain effect - protein change -->
+<p>
+<img src="snp.png"/>
+<div>
+If a SNP occurs in a gene coding sequence, it may change the encoded amino acid sequence, which may change the behaviour of the protein.
+</div>
+</p>
 
 ===
 
 ### Copy number variants (CNVs)
 
-@@TODO CNV diagram
+<p>
+<img src="cnv.png"/>
+<div>
+If a CNV spans a gene, then the gene will occur twice (two copies) in the mutated genome. More gene copies may mean more protein is produced.
+</div>
+</p>
 
-<!-- explain effect - increase expression -->
+===
+
+### Ag1000G phase 2 data resource
+
+Across the whole genome, we find:
+* 57,837,885 SNPs
+* 31,335 CNVs
 
 ====
 
@@ -58,34 +70,38 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 
 ### Pyrethroid metabolic resistance
 
-* Pyrethroids are metabolised by cytochrome P450 enzymes (a.k.a. mixed-function oxidases; MFOs)
-* Increased expression of certain P450 genes causes resistance
+* Pyrethroids are metabolised by cytochrome P450 (CYP) enzymes (a.k.a. mixed-function oxidases; MFOs)
+* Increased expression of certain CYP genes causes resistance
 * Genetic basis of metabolic resistance previously unknown in *An. gambiae* complex
  * Although long suspected that CNVs play a role
  * More gene copies &rarr; more protein &rarr; faster metabolism &rarr; resistance
-* N.B. PBO LLINs work by inhibiting P450s
+* N.B., PBO LLINs work by inhibiting CYPs
 
 ===
 
-### Genome-wide scan for CNVs
+### CNV hot spots
 
-@@TODO CNV paper
+Genome locations where we find a lot of CNVs at high population frequency:
+
+* CYP6P/AA (cytochrome P450 gene cluster)
+* CYP9K1 (cytochrome P450 gene)
+* GSTE (glutathione S-transferase gene)
 
 ===
 
-### CNVs at *Cyp6p/aa*
+### CNVs at CYP6P/AA
 
 <p class="stretch"><img src="cyp6p_cnvs.png"/></p>
 
 ===
 
-### CNVs at *Cyp9k1*
+### CNVs at CYP9K1
 
 <p class="stretch"><img src="cyp9k1_cnvs.png"/></p>
 
 ===
 
-### Prevalence and spread of metabolic resistance (e.g., *Cyp6p/aa*)
+### Prevalence and spread of CYP6P/AA CNVs
 
 * Dup1 - <em>An. gambiae</em>: Uganda (58%)
 * Dup7 - <em>An. coluzzii</em>: Burkina Faso (44%), Cote d'Ivoire (32%), Ghana (5%), Guinea (75%)
@@ -94,16 +110,20 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 * Dup14 - <em>An. coluzzii</em>: Burkina Faso (3%), Cote d'Ivoire (46%)
 * Dup15 - <em>An. coluzzii</em>: Burkina Faso (1%), Cote d'Ivoire (39%)
 
-<small>Some CNVs are very common and spreading, especially in West African *An. coluzzii*.</small>
+Some CNVs are very common and spreading, especially in West African *An. coluzzii*.
 
 ===
 
 ### Surveillance of metabolic resistance
 
-* P450 CNVs are likely to be a good marker of metabolic resistance
- * Although, N.B., there could be other genetic causes
-* Surveillance of P450 CNVs could provide valuable information about mechanisms of resistance
- * Especially if considering deployment of next-generation LLINs (how many, what type, where to deploy, ...)
+* Next-generation LLINs: how many, what type, where to put them?
+* Helps to know: which populations have high frequency of CYP-mediated metabolic resistance?
+* CNVs are likely to be a good marker of CYP-mediated metabolic resistance 
+* Although, N.B., there could be other genetic causes
+
+===
+
+@@TODO CNV paper and blog post
 
 ====
 
@@ -206,9 +226,9 @@ Alistair Miles ([@alimanfoo](https://github.com/alimanfoo)) - PAMCA 2019
 * Use cases in insecticide resistance management
  * Deployment of next-generation LLINs
  * Rotation of next-generation IRS
-* Need contemporary data
+* Need recent samples
 * Need better geographical coverage
-* Need to cover more species (e.g., *An. arabiensis*, *An. funestus*)
+* Need more species (e.g., *An. arabiensis*, *An. funestus*)
 * Scale up whole-genome sequencing at genome centres
  * N.B., Wellcome Sanger Institute can now sequence 10,000 mosquitoes/year
 * Scale up targeted (amplicon) sequencing at local/region labs
