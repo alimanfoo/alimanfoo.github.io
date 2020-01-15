@@ -3,8 +3,6 @@ layout: post
 title: VGSC gene models
 ---
 
-
-
 The *Anopheles gambiae* voltage-gated sodium channel gene (a.k.a. *vgsc*, *para*, *AgNa<sub>V</sub>*) is the target for DDT and pyrethroid insecticides. Mutations in this gene cause insecticide resistance, so it's an important gene for malaria vector control.
 
 In 2007, [Emyr Davies et al.](https://www.ncbi.nlm.nih.gov/pubmed/17433068) published a complete cDNA sequence for the *An. gambiae* *vgsc* gene. They inferred 35 exons and found evidence for alternate splicing involving at least five optional exons and two sets of mutually exclusive exons. 
@@ -46,6 +44,7 @@ geneset_agamp44 = allel.FeatureTable.from_gff3('data/Anopheles-gambiae-PEST_BASE
 geneset_agamp44 = geneset_to_pandas(geneset_agamp44)
 {% endhighlight %}
 
+
 Extract annotations for the *vgsc* gene.
 
 
@@ -64,6 +63,7 @@ geneset_davies = allel.FeatureTable.from_gff3('data/davies_vgsc_model_20170125.g
                                               attributes=['ID', 'Parent'])
 geneset_davies = geneset_to_pandas(geneset_davies)
 {% endhighlight %}
+
 
 Make a combined geneset.
 
@@ -185,7 +185,7 @@ def plot_transcripts(geneset, chrom, start, stop, height=.5, label_transcripts=T
                 width = cds.end - x
                 
                 # plot CDS
-                patch = plt.Rectangle((x, y), width, height, color='k')
+                patch = plt.Rectangle((x, y), width, height, color='k', lw=0)
                 ax.add_patch(patch)
                 
                 if label_codons:
@@ -353,6 +353,20 @@ highlight_exons = [
     ('AGAP004707-RC', 25),
     ('AGAP004707-RB', 25),
     ('AGAP004707-RA', 25),
+    # length difference in exon 29
+    ('Davies-C8N9', 27),
+    ('Davies-C8N2', 27),
+    ('Davies-C7N2', 26),
+    ('Davies-C5N2', 25),
+    ('Davies-C3N2', 25),
+    ('Davies-C1N9ck', 28),
+    ('Davies-C1N9', 28),
+    ('Davies-C1N2', 28),
+    ('Davies-C11N2', 26),
+    ('Davies-C10N2', 26),
+    ('AGAP004707-RC', 27),
+    ('AGAP004707-RB', 27),
+    ('AGAP004707-RA', 27),
 ]
 {% endhighlight %}
 
@@ -497,7 +511,7 @@ def pair_seq_comp(a, b):
 
 {% highlight python %}
 import pyfasta
-genome = pyfasta.Fasta('data/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa')
+genome = pyfasta.Fasta('data/Anopheles-gambiae-PEST_CHROMOSOMES_AgamP4.fa', key_fn=lambda v: v.split()[0])
 {% endhighlight %}
 
 
@@ -509,6 +523,19 @@ geneset_davies.query('ID == "20c" and type == "exon"')
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -533,7 +560,7 @@ geneset_davies.query('ID == "20c" and type == "exon"')
       <td>exon</td>
       <td>2417637</td>
       <td>2417799</td>
-      <td>-1</td>
+      <td>-1.0</td>
       <td>+</td>
       <td>-1</td>
       <td>20c</td>
@@ -554,6 +581,19 @@ geneset_davies.query('ID == "20d" and type == "exon"').head(1)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -578,7 +618,7 @@ geneset_davies.query('ID == "20d" and type == "exon"').head(1)
       <td>exon</td>
       <td>2421385</td>
       <td>2421547</td>
-      <td>-1</td>
+      <td>-1.0</td>
       <td>+</td>
       <td>-1</td>
       <td>20d</td>
@@ -652,6 +692,19 @@ geneset_davies.query('ID == "27k" and type == "exon"')
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -676,7 +729,7 @@ geneset_davies.query('ID == "27k" and type == "exon"')
       <td>exon</td>
       <td>2425770</td>
       <td>2425892</td>
-      <td>-1</td>
+      <td>-1.0</td>
       <td>+</td>
       <td>-1</td>
       <td>27k</td>
@@ -697,6 +750,19 @@ geneset_davies.query('ID == "27l" and type == "exon"').head(1)
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -721,7 +787,7 @@ geneset_davies.query('ID == "27l" and type == "exon"').head(1)
       <td>exon</td>
       <td>2427988</td>
       <td>2428110</td>
-      <td>-1</td>
+      <td>-1.0</td>
       <td>+</td>
       <td>-1</td>
       <td>27l</td>
@@ -758,7 +824,7 @@ plot_transcripts(geneset_vgsc_combined, chrom, start+70500, start+73500,
 ![png](/assets/2017-01-25-vgsc-gene-models_files/2017-01-25-vgsc-gene-models_52_0.png)
 
 
-No splice variation.
+Exon 29 is slightly shorter in all of the Davies transcripts than in the AgamP4.4 transcripts.
 
 ## Methods
 
