@@ -4,9 +4,27 @@ title: About
 permalink: /about/
 ---
 
-I work in Professor [Dominic Kwiatkowski](https://www.ndm.ox.ac.uk/principal-investigators/researcher/dominic-kwiatkowski)'s group at the [Big Data Institute](http://www.bdi.ox.ac.uk), [University of Oxford](http://www.ox.ac.uk/), as a member of the [Centre for Genomics and Global 
-Health](http://www.cggh.org). I am also affiliated with the [Malaria Programme](http://www.sanger.ac.uk/science/programmes/malaria) at the [Wellcome Trust Sanger 
-Institute](http://www.sanger.ac.uk/) near Cambridge.
+I'm currently the malaria vector product lead at the [Wellcome Sanger
+Institute](https://www.sanger.ac.uk/). My role involves the design and
+implementation of genomic surveillance systems to monitor and track
+changes in populations of the mosquitoes that transmit malaria in
+Africa.
 
-I work on the genomics of malaria parasites and vectors. I contribute to [MalariaGEN](http://www.malariagen.net) projects including the [*Anopheles gambiae* 1000 
-genomes project](http://www.malariagen.net/ag1000g) and the [*Plasmodium falciparum* genetic crosses project](http://www.malariagen.net/projects/parasite/pf-crosses).
+From 2009-2021 I worked on malaria genomics at the [University of
+Oxford](http://www.ox.ac.uk/) initially at the [Wellcome Centre for
+Human Genetics](https://www.well.ox.ac.uk/) and later at the [Big Data
+Institute](https://www.bdi.ox.ac.uk). 
+
+From 2008-2009 I worked at the [Department of
+Zoology](https://www.zoo.ox.ac.uk/) at the [University of
+Oxford](http://www.ox.ac.uk/), applying Semantic Web technologies to
+problems in biological data integration.
+
+From 2002-2008 I worked at the [Rutherford Appleton
+Laboratory](https://stfc.ukri.org/about-us/where-we-work/rutherford-appleton-laboratory/)
+as part of the e-Science Centre, developing new Web technologies for
+published, sharing and linking data.
+
+I hold a bachelors degree in Natural Sciences (Part II Zoology) from
+the University of Cambridge, and a masters degree in Web Technology
+from Oxford Brookes University.
