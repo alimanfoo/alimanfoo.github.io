@@ -4,6 +4,12 @@ title: About
 permalink: /about/
 ---
 
+<div style="margin: 0px 0px 20px 20px; float: right">
+
+<img src="/assets/headshot.jpg" alt="Alistair Miles" width="300"/>
+
+</div>
+
 I'm currently the malaria vector product lead at the [Wellcome Sanger
 Institute](https://www.sanger.ac.uk/). My role involves the design and
 implementation of genomic surveillance systems to monitor and track
