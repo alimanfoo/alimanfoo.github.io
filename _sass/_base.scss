@@ -201,17 +201,6 @@ pre {
     }
 }
 
-div.input_area pre {
-    padding: 8px 12px;
-    background-color: #eef;
-    border: 1px solid #e8e8e8;
-    border-radius: 3px;
-}
-
-div.input, div.output {
-    font-size: 12px;
-}
-
 /**
  * Wrapper
  */
@@ -263,4 +252,25 @@ div.input, div.output {
             fill: $grey-color;
         }
     }
+}
+
+
+/**
+ * Customisations.
+ */
+
+div.input_area pre {
+    padding: 8px 12px;
+    background-color: #eef;
+    border: 1px solid #e8e8e8;
+    border-radius: 3px;
+}
+
+div.input, div.output {
+    font-size: 12px;
+}
+
+hr {
+    margin-block-start: 1em;
+    margin-block-end: 1em;
 }
