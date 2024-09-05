@@ -10,6 +10,8 @@ permalink: /about/
 
 </div>
 
+Hi, I'm Alistair Miles, a scientist and engineer based in the UK.
+
 I'm currently the malaria vector surveillance lead at the [Wellcome Sanger
 Institute](https://www.sanger.ac.uk/)'s Genomic Surveillance Unit. My role involves the design and
 implementation of genomic surveillance systems to monitor and track
