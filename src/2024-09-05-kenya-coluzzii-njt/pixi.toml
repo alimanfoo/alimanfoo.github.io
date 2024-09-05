@@ -1,0 +1,16 @@
+[project]
+authors = ["Alistair Miles <am23@sanger.ac.uk>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "2024-09-05-kenya-coluzzii-njt"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "~=3.12"
+
+[pypi-dependencies]
+malariagen-data = ">=13.0.0, <14"
+ipykernel = ">=6.29.5, <7"
