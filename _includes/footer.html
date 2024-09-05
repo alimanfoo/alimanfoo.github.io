@@ -5,7 +5,7 @@
     <div class="footer-col-wrapper">
       <div class="footer-col  footer-col-1">
         <ul class="contact-list">
-          <li>{{ site.title }}</li>
+          <li>© Alistair Miles</li>
           <li><a href="mailto:{{ site.email }}">{{ site.email }}</a></li>
         </ul>
       </div>
@@ -40,6 +40,19 @@
             </a>
           </li>
           {% endif %}
+
+          {% if site.linkedin_username %}
+          <li>
+            <a href="https://www.linkedin.com/in/{{ site.linkedin_username }}">
+              <span class="icon  icon--twitter" style="border: 1px solid gray; padding: 1px 0px 1px 1px; margin-right: 3px">
+		<strong>in</strong>
+              </span>
+
+              <span class="username">{{ site.linkedin_username }}</span>
+            </a>
+          </li>
+          {% endif %}
+
         </ul>
       </div>
 
