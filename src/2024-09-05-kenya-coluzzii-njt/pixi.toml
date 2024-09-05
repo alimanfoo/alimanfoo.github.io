@@ -14,3 +14,4 @@ python = "~=3.12"
 [pypi-dependencies]
 malariagen-data = ">=13.0.0, <14"
 ipykernel = ">=6.29.5, <7"
+nbformat = ">=5.10.4, <6"
