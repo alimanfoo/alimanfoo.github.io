@@ -1,0 +1,15 @@
+[project]
+authors = ["Alistair Miles <alimanfoo@googlemail.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "2024-06-07-vobs-landing-page"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+jupyterlab = ">=4.2.5,<5"
+nbconvert = ">=7.16.4,<8"
+ipykernel = ">=6.29.5,<7"
