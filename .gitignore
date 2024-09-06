@@ -5,4 +5,4 @@ Gemfile.lock
 __pycache__
 .idea
 .ipynb_checkpoints
-
+.jekyll-metadata

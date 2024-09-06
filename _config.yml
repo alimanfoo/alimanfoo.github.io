@@ -10,4 +10,5 @@ linkedin_username: alimanfoo
 
 # Build settings
 markdown: kramdown
-exclude: ['*.sh', '_posts/data']
+exclude: ['*.sh', '_posts/data', 'src/*/.pixi']
+excerpt_separator: <!--more-->
