@@ -31,7 +31,7 @@ problems in biological data integration.
 From 2002-2008 I worked at the [Rutherford Appleton
 Laboratory](https://stfc.ukri.org/about-us/where-we-work/rutherford-appleton-laboratory/)
 as part of the e-Science Centre, developing new Web technologies for
-published, sharing and linking data.
+publishing, sharing and linking data.
 
 I hold a [doctor of philosophy](https://github.com/alimanfoo/dphil/)
 degree from the University of Oxford, a masters degree in Web
