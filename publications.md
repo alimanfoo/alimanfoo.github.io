@@ -46,11 +46,11 @@ significant role in creating.
   Swick (2008) Best Practice Recipes for Publishing RDF
   Vocabularies. [http://www.w3.org/TR/swbp-vocab-pub/](http://www.w3.org/TR/swbp-vocab-pub/)
 
-Since 2021 I have focussed on building data resources, software tools
-and training resources to build capacity for other scientists to
-interrogate and make discoveries from large-scale genomic data
-resources. Here's a selection of papers and preprints that have built
-on these efforts.
+Since 2021 [my team](/team) and I have focussed on building data
+resources, software tools and training resources to build capacity for
+other scientists to interrogate and make discoveries from large-scale
+genomic data resources. Here's a selection of papers and preprints
+that have built on these efforts.
 
 * McCann et al. (2024) Variation in spatial population structure in
   the Anopheles gambiae species
