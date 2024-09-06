@@ -1,8 +1,23 @@
 ---
 layout: page
-title: Data resources
+title: Data
 permalink: /data/
 ---
+
+I have a strong interest in building high quality open data resources
+to power large-scale collaborative science. Below are genomic data
+resources which I've played a significant part in creating.
+
+* [The Malaria Vector Genome
+  Observatory](https://www.malariagen.net/vobs/) - This resource
+  includes data from whole-genome sequencing of more than 24,000
+  individual *Anopheles* mosquitoes collected from 31 African
+  countries. As far as I'm aware, it is currently the largest open
+  dataset of natural genetic variation for any eukaryotic species
+  other than humans. The Vector Observatory brings high quality genome
+  variation data together with software tools and training resources
+  to empower African scientists to lead research on mosquito ecology
+  and evolution.
 
 * [The *Anopheles gambiae* 1000 Genomes Project phase 3 SNP data
   resource](https://www.malariagen.net/data/ag1000g-phase3-snp) -
