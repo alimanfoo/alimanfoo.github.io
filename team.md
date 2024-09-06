@@ -4,9 +4,10 @@ title: Team
 permalink: /team/
 ---
 
-I'm very fortunate to lead a small but perfectly-formed team of lovely
-and talented people at the Sanger Institute Genomic Surveillance Unit,
-together with visiting fellows and students from other institutes.
+I'm very fortunate to lead a small but perfectly-formed team of
+lovely, talented and very dedicated people at the Sanger Institute
+Genomic Surveillance Unit, together with visiting fellows and students
+from other institutes.
 
 We aren't a conventional research group because a major focus of our
 work is scientific capacity-building, i.e., providing support and
