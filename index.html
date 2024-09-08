@@ -6,24 +6,24 @@ layout: default
 
   <ul class="post-list">
     {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
+    <li style="border-bottom: 1px solid #e8e8e8;">
+      <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
 
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
-            {% if post.image %}
-            <img src={{ post.image }} width="100px" style="display: inline;"/>
-            {% endif %}
-            {{ post.title }}
-          </a>
-        </h2>
-        {% if post.description %}
-        <p><em>{{ post.description }}</em></p>
-        {% endif %}
-      </li>
+      <h2>
+        <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+          {% if post.image %}
+          <img src={{ post.image }} width="400px" style="display: block; max-width: 95%" />
+          {% endif %}
+          {{ post.title }}
+        </a>
+      </h2>
+      {% if post.description %}
+      <p><em>{{ post.description }}</em></p>
+      {% endif %}
+    </li>
     {% endfor %}
   </ul>
 
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
+  <p class="rss-subscribe">subscribe <a href="{{ " /feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
 </div>
