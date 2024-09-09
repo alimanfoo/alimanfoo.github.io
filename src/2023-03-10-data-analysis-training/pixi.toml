@@ -1,0 +1,16 @@
+[project]
+authors = ["Alistair Miles <alimanfoo@googlemail.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "2023-03-10-data-analysis-training"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+
+[pypi-dependencies]
+jupyterlab = ">=4.2.5, <5"
+nbconvert = ">=7.16.4, <8"
