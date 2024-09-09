@@ -1,11 +1,13 @@
 ---
 layout: post
 title: Diplotype clustering
+description: "Introduces advanced diplotype clustering, a new function in the malariagen_data Python package for investigating insecticide resistance mutations."
+image: /src/2024-08-16-diplotype-clustering/image.png
 ---
 {% raw %}
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=fe074cc1-9203-4fcc-8048-9c60ac213b9b"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><em>TL;DR - This blog post introduces a new function in the malariagen_data Python package for investigating potential insecticide resistance mutations. This is cross-posted from <a href="https://www.sanjaycnagi.com/blog/2024-08-15-diplotype-clustering/">Sanjay Nagi's blog</a>, Sanjay did most of the work on this but it was a pleasure to collaborate.</em></p>
+<p><em>This post introduces advanced diplotype clustering, a new function in the malariagen_data Python package for investigating insecticide resistance mutations. Cross-posted from <a href="https://www.sanjaycnagi.com/blog/2024-08-15-diplotype-clustering/">Sanjay Nagi's blog</a>, Sanjay did most of the work on this but it was a pleasure to collaborate.</em></p>
 <p><hr/></p>
 <p>Vectors of disease evolve rapidly in response to the interventions we throw at them. By monitoring genetic changes in these populations over time, we can detect emerging insecticide resistance mechanisms and monitor the spread of known mechanisms, with the aim of informing vector control strategies. In a world of limited active ingredients, this surveillance will be crucial for maintaining the effectiveness of front-line interventions like long-lasting insecticide-treated bed nets (LLINs) and indoor residual spraying (IRS).</p>
 <p>To facilitate this, we have been developing systems and tools for genomic surveillance. The <a href="https://www.malariagen.net/vobs">MalariaGEN Vector Observatory</a> have developed the Python package <a href="https://malariagen.github.io/malariagen-data-python/latest/">malariagen_data</a>, which provides tools for accessing and analysing genomic datasets from major malaria vectors. By developing innovative software, we can help to build capacity in genomic research, allowing more people to perform robust, complex genomic analyses that would otherwise be limited to a select few.</p>
@@ -54,9 +56,9 @@ title: Diplotype clustering
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_javascript" id="0e2d302e-c71a-4e92-853a-35f79b3840cf">
+<div class="output_subarea output_javascript" id="b9838321-2c2f-47e6-aee7-d9f229d83b46">
 <script type="text/javascript">
-var element = $('#0e2d302e-c71a-4e92-853a-35f79b3840cf');
+var element = $('#b9838321-2c2f-47e6-aee7-d9f229d83b46');
 'use strict';
 (function(root) {
   function now() {
