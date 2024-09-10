@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Insecticide resistance gene copy number variation in malaria mosquitoes
+description: "Introduces recent work on copy number variation by the Anopheles gambiae 1000 Genomes Project."
+image: /assets/2019-08-08-anopheles-cnvs.png
 ---
 
 
