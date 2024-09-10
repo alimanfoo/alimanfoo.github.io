@@ -1,6 +1,8 @@
 ---
 layout: post
 title: Querying multidimensional data with xarray
+description: "A new query() method for the xarray Dataset class."
+image: /src/2021-03-16-xarray-query/image.png
 ---
 
 <a href="https://colab.research.google.com/github/alimanfoo/alimanfoo.github.io/blob/master/src/2021-03-16-xarray-query/post.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a>

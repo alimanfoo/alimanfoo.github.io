@@ -1,16 +1,20 @@
 ---
 layout: post
 title:  "Dask thought: distributed clusters and worker memory/storage"
+description: "Some thoughts about Dask clusters and memory management."
+image: /assets/2021-03-22-dask-memory-thought.png
 date:   2021-03-22
 categories: dask
 ---
 
-*TL;DR when a Dask distributed cluster runs out of memory, it can be
+*When a Dask distributed cluster runs out of memory, it can be
 tricky to figure out why, and even harder to resolve. What if the
 system that cluster workers use to store intermediate results was
 pluggable and allowed different implementations? And what if you could
 choose to plug in a storage implementation that allowed persistence of
 results between cluster restarts?*
+
+<hr/>
 
 One of the current challenges working with Dask and using the
 distributed scheduler on a cluster is that the intermediate results in
