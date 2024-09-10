@@ -14,3 +14,6 @@ python = "3.12.*"
 [pypi-dependencies]
 jupyterlab = ">=4.2.5, <5"
 nbconvert = ">=7.16.4, <8"
+ipykernel = ">=6.29.5, <7"
+pixi-kernel = ">=0.4.0, <0.5"
+ipython = ">=8.27.0,<9"

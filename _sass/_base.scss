@@ -1,9 +1,22 @@
 /**
  * Reset some basic elements
  */
-body, h1, h2, h3, h4, h5, h6,
-p, blockquote, pre, hr,
-dl, dd, ol, ul, figure {
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+hr,
+dl,
+dd,
+ol,
+ul,
+figure {
     margin: 0;
     padding: 0;
 }
@@ -12,28 +25,34 @@ dl, dd, ol, ul, figure {
 table {
     border-collapse: collapse;
     border: none;
-/*    border: 1px solid black; */
+    /*    border: 1px solid black; */
     font-size: 12px;
     margin-bottom: $spacing-unit / 2;
 }
+
 table td {
     border: none;
-/*    border: 1px solid black; */
+    /*    border: 1px solid black; */
     padding: 0.5em;
 }
+
 table th {
     border: none;
-/*    border: 1px solid black; */
+    /*    border: 1px solid black; */
     padding: 0.5em;
 }
+
 thead {
     font-weight: bold;
     border-bottom: 1px solid black;
 }
+
 tbody tr:nth-child(odd) {
     background: #f5f5f5;
 }
-table.dataframe td,th {
+
+table.dataframe td,
+th {
     text-align: right;
 
 }
@@ -69,9 +88,19 @@ body {
 /**
  * Set `margin-bottom` to maintain vertical rhythm
  */
-h1, h2, h3, h4, h5, h6,
-p, blockquote, pre,
-ul, ol, dl, figure,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+ul,
+ol,
+dl,
+figure,
 %vertical-rhythm {
     margin-bottom: $spacing-unit / 2;
 }
@@ -91,7 +120,7 @@ img {
 /**
  * Figures
  */
-figure > img {
+figure>img {
     display: block;
 }
 
@@ -104,14 +133,16 @@ figcaption {
 /**
  * Lists
  */
-ul, ol {
+ul,
+ol {
     margin-left: $spacing-unit;
 }
 
 li {
-    > ul,
-    > ol {
-         margin-bottom: 0;
+
+    >ul,
+    >ol {
+        margin-bottom: 0;
     }
 }
 
@@ -120,7 +151,12 @@ li {
 /**
  * Headings
  */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     font-weight: 300;
 }
 
@@ -161,6 +197,10 @@ blockquote {
     }
 }
 
+h1.post-title {
+    line-height: 1.15;
+    letter-spacing: -.5px;
+}
 
 
 /**
@@ -182,8 +222,7 @@ div.highlight pre {
 }
 
 pre,
-code {
-}
+code {}
 
 code {
     padding: 0px;
@@ -194,7 +233,7 @@ pre {
     padding: 2px 12px;
     overflow-x: auto;
 
-    > code {
+    >code {
         border: 0;
         padding-right: 0;
         padding-left: 0;
@@ -215,7 +254,7 @@ div.output_wrapper {
  */
 .wrapper {
     max-width: -webkit-calc(1000px - (#{$spacing-unit} * 2));
-    max-width:         calc(1000px - (#{$spacing-unit} * 2));
+    max-width: calc(1000px - (#{$spacing-unit} * 2));
     margin-right: auto;
     margin-left: auto;
     padding-right: $spacing-unit;
@@ -224,7 +263,7 @@ div.output_wrapper {
 
     @include media-query($on-laptop) {
         max-width: -webkit-calc(1000px - (#{$spacing-unit}));
-        max-width:         calc(1000px - (#{$spacing-unit}));
+        max-width: calc(1000px - (#{$spacing-unit}));
         padding-right: $spacing-unit / 2;
         padding-left: $spacing-unit / 2;
     }
@@ -251,7 +290,7 @@ div.output_wrapper {
  */
 .icon {
 
-    > svg {
+    >svg {
         display: inline-block;
         width: 16px;
         height: 16px;
@@ -275,7 +314,8 @@ div.input_area pre {
     border-radius: 3px;
 }
 
-div.input, div.output {
+div.input,
+div.output {
     font-size: 12px;
 }
 
