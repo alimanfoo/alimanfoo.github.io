@@ -17,8 +17,7 @@ are not our primary focus, we gauge our success by the scientific
 outputs and impact of our partners and collaborators, who are mainly
 based in Africa. Our work is a blend of collaborative science, data
 and software engineering, training and knowledge-transfer. We work
-extensively with other teams within GSU and with many other scientific
-groups in both the northern and southern hemispheres.
+closely with other teams within GSU, particularly [Vikki Simpson](https://anopheles-genomic-surveillance.github.io/) and [Cristina Ariani](https://www.linkedin.com/in/cristina-ariani-0829a126/)'s teams, and with many other scientific groups in both the northern and southern hemispheres.
 
 ## Current members
 
