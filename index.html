@@ -11,10 +11,10 @@ layout: default
 
       <h2>
         <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">
+          {{ post.title }}
           {% if post.image %}
           <img src={{ post.image }} width="400px" style="display: block; max-width: 95%" />
           {% endif %}
-          {{ post.title }}
         </a>
       </h2>
       {% if post.description %}
