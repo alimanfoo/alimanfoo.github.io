@@ -7,5 +7,7 @@ do
 	 --TagRemovePreprocessor.enabled=True \
 	 --TagRemovePreprocessor.remove_input_tags remove_input \
 	 --TagRemovePreprocessor.remove_all_outputs_tags remove_output \
-	 --TagRemovePreprocessor.remove_cell_tags remove_cell
+	 --TagRemovePreprocessor.remove_cell_tags remove_cell \
+         --stdout \
+         > index.html
 done
