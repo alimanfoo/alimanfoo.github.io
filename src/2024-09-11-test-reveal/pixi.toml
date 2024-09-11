@@ -1,0 +1,21 @@
+[project]
+authors = ["Alistair Miles <alimanfoo@googlemail.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "2024-09-11-test-reveal"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+
+[pypi-dependencies]
+jupyterlab = ">=4.2.5, <5"
+nbconvert = ">=7.16.4, <8"
+pixi-kernel = ">=0.4.0, <0.5"
+jupyterlab-rise = ">=0.42.0, <0.43"
+ipykernel = ">=6.29.5, <7"
+plotly = ">=5.24.0, <6"
+pandas = ">=2.2.2, <3"
