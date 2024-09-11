@@ -1,7 +1,9 @@
 ---
 layout: post
 title:  "Zarr protocol v3 design update"
-date:   2019-06-19
+description: "Shares some slides summarising the current state of exploratory work on the Zarr v3 protocol spec."
+image: /assets/2019-06-19-zarr-v3-update.png
+date: 2019-06-19
 categories: zarr specs
 ---
 
