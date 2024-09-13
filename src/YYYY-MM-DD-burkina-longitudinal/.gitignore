@@ -1,0 +1,5 @@
+results_cache
+
+# pixi environments
+.pixi
+*.egg-info
