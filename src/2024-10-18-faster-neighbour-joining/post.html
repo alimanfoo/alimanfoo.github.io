@@ -3,6 +3,12 @@ layout: post
 title: Faster neighbour-joining
 ---
 {% raw %}
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=137f6945-06bc-4949-9a06-efabe93773c4"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>@@TODO image and description</p>
+</div>
+</div>
+</div>
 <div class="cell border-box-sizing code_cell rendered celltag_remove_input" id="cell-id=1adc29e6-cf79-4729-a0b8-dc9c2a7bd14c">
 <div class="output_wrapper">
 <div class="output">
@@ -19,16 +25,116 @@ MathJax = {
 </script>
 <script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" type="text/javascript">
 </script>
+<script crossorigin="anonymous" integrity="sha512-J5ha2LF4Le+PBQnI5+xAVJDR+sZG9uSgroy4n/A6TLjNkvYQbqZA8WHZdaOvJ0HiKkBC9Frmvs10rFDSHKmveQ==" referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
 </div>
 </div>
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing code_cell rendered celltag_remove_input" id="cell-id=fc56d6c8-f3d3-41fb-b757-92b5d1826d6a">
 </div>
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=10708ccd-7b66-42ac-82ca-cb021b828dae"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Neighbour-joining trees (NJT) are a useful tool for exploratory analysis of genetic population structure, which I've <a href="https://alimanfoo.github.io/2024/09/05/kenya-coluzzii-njt.html">written about recently</a>. Previously I've used <a href="https://www.biotite-python.org/latest/index.html">biotite</a> to compute NJT for hundreds of individuals, but recently I was trying to build some bigger trees with thousands of individuals and things started to take a long time to run. I then learned of course that the canonical neighbour-joining algorithm is $O(n^3)$ meaning that speed of computation scales with the number of samples cubed. This happens because neighbour-joining is an interative algorithm, where each iteration involves searching a distance matrix for the pair of nearest neighbours.</p>
-<p>I spent some time looking at the biotite implementation which uses the canonical algorithm that fully searches the distance matrix at each iteration and is written in Cython. I saw a few opportunities to make the implementation more efficient by avoiding some unnecessary work. I also read around a little and found a <a href="https://pure.au.dk/ws/files/19821675/rapidNJ.pdf">paper by Martin Simonsen et al. from 2008</a> describing a rapid neighbour-joining algorithm which uses some heuristics to avoid doing a full search of the distance matrix in each iteration. There is a <a href="https://github.com/somme89/rapidNJ">C++ implementation of the rapid algorithm</a> but I'd really like something efficient that I can call directly from Python.</p>
-<p>After a bit of prototyping I was fairly confident I could at least do an implementation of the canonical neighbour-joining algorithm using <a href="https://numba.pydata.org/">numba</a> that was pretty fast. After a bit more tuning I managed to get around a 10x speedup over biotite. E.g., for a dataset of 3000 individuals, biotite took ~55s and my implementation took ~6s. I decided this was worth packaging and so created a <a href="https://alimanfoo.github.io/anjl/">new Python packaged called "anjl"</a> which stands for "A neighbour-joining library".</p>
+<p>Neighbour-joining trees (NJT) are a useful tool for exploratory analysis of genetic population structure, which I've <a href="https://alimanfoo.github.io/2024/09/05/kenya-coluzzii-njt.html">written about recently</a>. Previously I've used <a href="https://www.biotite-python.org/latest/index.html">biotite</a> to compute NJT for hundreds of individuals, but recently I was trying to build some bigger trees with thousands of individuals and things started to take a long time to run. I then learned of course that the canonical neighbour-joining algorithm is $O(n^3)$ meaning that speed of computation scales with the number of samples cubed. This happens because neighbour-joining is an iterative algorithm, where each iteration involves searching a distance matrix for the pair of nearest neighbours.</p>
+<h2 id="Canonical-algorithm">Canonical algorithm<a class="anchor-link" href="#Canonical-algorithm">¶</a></h2><p>I spent some time looking at the biotite implementation which uses the canonical algorithm that fully searches the distance matrix at each iteration and is written in Cython. I saw a few opportunities to make the implementation more efficient by avoiding some unnecessary work. After a bit of prototyping I was fairly confident I could do an implementation of the canonical neighbour-joining algorithm using <a href="https://numba.pydata.org/">numba</a> that was pretty fast. After a bit more tuning I managed to get around a 10x speedup over biotite. E.g., for a dataset of 3000 individuals, biotite took ~55s and my implementation took ~6s. I decided this was worth packaging and so created a <a href="https://alimanfoo.github.io/anjl/">new Python packaged called "anjl"</a> which stands for "A neighbour-joining library".</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered celltag_remove_input" id="cell-id=c73c4b6b-2dd2-42c7-b7a7-f32dc42e9b1e">
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea"> <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        if (typeof require !== 'undefined') {
+        require.undef("plotly");
+        requirejs.config({
+            paths: {
+                'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
+            }
+        });
+        require(['plotly'], function(Plotly) {
+            window._Plotly = Plotly;
+        });
+        }
+        </script>
+</div>
+</div>
+<div class="output_area">
+<div class="output_html rendered_html output_subarea"><div> <div class="plotly-graph-div" id="681e279e-814b-4f51-8257-c77c3b3f8741" style="height:500px; width:800px;"></div> <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("681e279e-814b-4f51-8257-c77c3b3f8741")) {                    Plotly.newPlot(                        "681e279e-814b-4f51-8257-c77c3b3f8741",                        [{"error_y":{"array":[0.002342360755579216,0.004094966246043558,0.007317703159682696,0.021737440608292743,0.05007481977108241,0.19919396367885536,0.06559544085434436]},"hovertemplate":"implementation=BioPython 1.84\u003cbr\u003esize=%{x}\u003cbr\u003etime_mean=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"BioPython 1.84","line":{"color":"#636efa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"BioPython 1.84","orientation":"v","showlegend":true,"x":[50,100,150,200,300,400,500],"xaxis":"x","y":[0.05434020360310867,0.39799340565999347,1.3029429912567139,3.0449384848276773,10.634544531504313,26.016510486602783,51.703094800313316],"yaxis":"y","type":"scatter"},{"error_y":{"array":[2.0928389573206634e-05,0.00016774098362880294,0.00047578313683074364,0.00015240045549085986,0.00017266877490484128,0.0030086202792576474,0.0007296859072007639,0.0011547652204980218,0.021450206910149698,0.0032822668098026666,0.0035801654146054894,0.004911832892626976,0.01148409035024942,0.010661875230265898,0.011886911873803153,0.017052186610701795,0.04908030893404001,0.005012377189427582,0.024591037693756673,0.060782467357704636,0.09975787595044568,0.08596850989029094,0.04841841071085851,0.15402773172507842]},"hovertemplate":"implementation=anjl 1.1.1 canonical_nj\u003cbr\u003esize=%{x}\u003cbr\u003etime_mean=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"anjl 1.1.1 canonical_nj","line":{"color":"#EF553B","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"anjl 1.1.1 canonical_nj","orientation":"v","showlegend":true,"x":[50,100,150,200,400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3500,4000,4500,5000,5500,6000],"xaxis":"x","y":[0.00015060106913246667,0.0005741119384765,0.0017955303192138331,0.0027867952982584335,0.016208092371622698,0.0511066913604736,0.11096008618672683,0.21142172813415525,0.3756210009256999,0.5742394129435221,0.8600374857584635,1.2530624071757,1.7477156321207683,2.331657568613688,3.0657331943511963,3.933810551961263,4.9490281740824384,6.1656215985616045,9.826472759246826,14.821157773335775,21.208821376164753,29.271029472351074,39.61203114191691,52.14657759666443],"yaxis":"y","type":"scatter"},{"error_y":{"array":[0.00013820074377750933,8.087990844644414e-05,0.00015761331552896805,0.0010485153701901902,0.0028084955133834445,0.0035416262691155154,0.009489255648330629,0.012434211095355717,0.01486352356223185,0.028558921158422967,0.04090331622460738,0.12834637857831352,0.15163850490191758,0.2715944173569219,0.35025234801212674,0.42846808506414275,0.30504849987004407,0.4164851460062872,0.5724248894140013,0.911575160846661,0.8897625019874146,0.7126212049459061,1.6547902143826854,1.034944894799633,1.078087756202275,0.4154859595800382,2.9547620654413302,3.602148587311273,1.7101972662299565]},"hovertemplate":"implementation=anjl 1.1.1 rapid_nj\u003cbr\u003esize=%{x}\u003cbr\u003etime_mean=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"anjl 1.1.1 rapid_nj","line":{"color":"#00cc96","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"anjl 1.1.1 rapid_nj","orientation":"v","showlegend":true,"x":[50,100,150,200,400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000,3500,4000,4500,5000,5500,6000,6500,7000,7500,8000,8500],"xaxis":"x","y":[0.0005791187286376333,0.0015420118967691668,0.0031257470448811,0.006105502446492433,0.0278391043345133,0.0701634089152018,0.1288930575052897,0.2100884119669596,0.3285892804463704,0.5045483907063802,0.6713635921478271,0.9494288762410482,1.282903512318929,1.7428254286448162,2.1675972938537598,2.69894806543986,3.1329843203226724,3.8015451431274414,5.395657300949097,7.640426238377889,10.311384280522665,13.157200813293457,17.703910986582436,21.87873895963033,26.524407466252644,30.871484359105427,36.82432492574056,42.622381846110024,48.74124598503113],"yaxis":"y","type":"scatter"},{"error_y":{"array":[6.331573355143634e-05,8.630928192317777e-05,0.0006129122793954885,0.001164676694891146,0.004184325299866742,0.009430689629377709,0.003699173607082226,0.033088012847257514,0.010345397352981445,0.024090503851819628,0.039793344756336994,0.08083623777508729,0.07866789929888901,0.5757776881089315,0.1329192626603742,0.25944318683102924,0.2515305212423704,0.7676209659583108]},"hovertemplate":"implementation=biotite 1.0.1\u003cbr\u003esize=%{x}\u003cbr\u003etime_mean=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"biotite 1.0.1","line":{"color":"#ab63fa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"biotite 1.0.1","orientation":"v","showlegend":true,"x":[50,100,150,200,400,600,800,1000,1200,1400,1600,1800,2000,2200,2400,2600,2800,3000],"xaxis":"x","y":[0.000615119934082,0.0019875367482503,0.005505164464314733,0.013001044591267835,0.096105416615804,0.35144416491190594,0.8578227361043295,1.6981786092122395,3.008248964945475,4.784360647201538,7.236859639485677,10.461934169133505,14.64695151646932,19.735188166300457,25.92556405067444,33.73522194226583,43.50308918952942,55.60290916760763],"yaxis":"y","type":"scatter"},{"error_y":{"array":[0.009484834021774418,0.0009208502420614609,0.004008261338004145,0.001666786764695313,0.0027786588026646243,0.01896213130493105,0.015614726046027688,0.01859890021909487,0.2517867138868221,0.07638553508036386,0.12207832954039298,0.1978799689791505,0.17268478261980072]},"hovertemplate":"implementation=scikit-bio 0.6.2\u003cbr\u003esize=%{x}\u003cbr\u003etime_mean=%{y}\u003cextra\u003e\u003c\u002fextra\u003e","legendgroup":"scikit-bio 0.6.2","line":{"color":"#FFA15A","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines","name":"scikit-bio 0.6.2","orientation":"v","showlegend":true,"x":[50,100,150,200,400,600,800,1000,1200,1400,1600,1800,2000],"xaxis":"x","y":[0.018701632817586234,0.030483722686767533,0.05869301160176593,0.09025247891743975,0.39748581250508624,1.3443105220794678,3.23288631439209,6.5108083089192705,11.383477846781412,17.658929427464802,26.145233869552612,37.55680012702942,50.84925858179728],"yaxis":"y","type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"title":{"text":"size"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"title":{"text":"time_mean"}},"legend":{"title":{"text":"implementation"},"tracegroupgap":0},"margin":{"t":60},"height":500,"width":800,"title":{"text":"Neighbour-joining performance"}},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('681e279e-814b-4f51-8257-c77c3b3f8741');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };                });            </script> </div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=b578915f-fe38-4cf7-814e-f69ce39b2077"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Rapid-algorithm">Rapid algorithm<a class="anchor-link" href="#Rapid-algorithm">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=97089ca6-e994-4952-ae39-6e941212ed58"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I also read around a little and found a <a href="https://pure.au.dk/ws/files/19821675/rapidNJ.pdf">paper by Martin Simonsen et al. from 2008</a> describing a rapid neighbour-joining algorithm which uses some heuristics to avoid doing a full search of the distance matrix in each iteration. While the worst case performance is still $O(n^3)$, in practice scaling is better. There is a <a href="https://github.com/somme89/rapidNJ">C++ implementation of the rapid algorithm</a> but I'd really like something that I can call directly from Python. I added an implementation of neighbour-joining based on Simonsen's algorithm to <code>anjl</code>. Performance is substantially improved over the canonical algorithm, and the performance ratio increases with larger sample sizes, showing that scaling is indeed better.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=02c44b79-283e-431d-9822-163f6adf5be6"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Plotting">Plotting<a class="anchor-link" href="#Plotting">¶</a></h2><p>@@TODO also factored out code for plotting unrooted tree.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=e8600a4e-8a23-4fcb-a2f0-a093d8eac6b2"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Numba-lessons">Numba lessons<a class="anchor-link" href="#Numba-lessons">¶</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=416218c4-6aa2-484d-b7bd-fa46baebf661"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>I've used numba before but learned a few new things from this project.</p>
+<h3 id="Boundscheck">Boundscheck<a class="anchor-link" href="#Boundscheck">¶</a></h3><p>@@TODO</p>
+<h3 id="Wraparound">Wraparound<a class="anchor-link" href="#Wraparound">¶</a></h3><p>@@TODO</p>
+<h3 id="Profiling">Profiling<a class="anchor-link" href="#Profiling">¶</a></h3><p>@@TODO</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=3c57d7af-dfe2-4d9d-8d5c-488997688b34"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Mysteries-/-curiosities">Mysteries / curiosities<a class="anchor-link" href="#Mysteries-/-curiosities">¶</a></h2><p>There's a couple of curiosities that I didn't have time to bottom out.</p>
+<ol>
+<li>Why is inner loop of canonical algorithm so much faster?</li>
+</ol>
+<p>@@TODO</p>
+<ol start="2">
+<li>Why don't strategies for improving search suggested by Simonsen seem to matter?</li>
+</ol>
+<p>@@TODO</p>
 </div>
 </div>
 </div>{% endraw %}
