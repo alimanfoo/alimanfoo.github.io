@@ -1,0 +1,36 @@
+---
+layout: post
+title: Faster neighbour-joining
+---
+{% raw %}
+<div class="cell border-box-sizing code_cell rendered celltag_remove_input" id="cell-id=1adc29e6-cf79-4729-a0b8-dc9c2a7bd14c">
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea"><script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" type="text/javascript">
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=10708ccd-7b66-42ac-82ca-cb021b828dae"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Neighbour-joining trees (NJT) are a useful tool for exploratory analysis of genetic population structure, which I've <a href="https://alimanfoo.github.io/2024/09/05/kenya-coluzzii-njt.html">written about recently</a>. Previously I've used <a href="https://www.biotite-python.org/latest/index.html">biotite</a> to compute NJT for hundreds of individuals, but recently I was trying to build some bigger trees with thousands of individuals and things started to take a long time to run. I then learned of course that the canonical neighbour-joining algorithm is $O(n^3)$ meaning that speed of computation scales with the number of samples cubed. This happens because neighbour-joining is an interative algorithm, where each iteration involves searching a distance matrix for the pair of nearest neighbours.</p>
+<p>I spent some time looking at the biotite implementation which uses the canonical algorithm that fully searches the distance matrix at each iteration and is written in Cython. I saw a few opportunities to make the implementation more efficient by avoiding some unnecessary work. I also read around a little and found a <a href="https://pure.au.dk/ws/files/19821675/rapidNJ.pdf">paper by Martin Simonsen et al. from 2008</a> describing a rapid neighbour-joining algorithm which uses some heuristics to avoid doing a full search of the distance matrix in each iteration. There is a <a href="https://github.com/somme89/rapidNJ">C++ implementation of the rapid algorithm</a> but I'd really like something efficient that I can call directly from Python.</p>
+<p>After a bit of prototyping I was fairly confident I could at least do an implementation of the canonical neighbour-joining algorithm using <a href="https://numba.pydata.org/">numba</a> that was pretty fast. After a bit more tuning I managed to get around a 10x speedup over biotite. E.g., for a dataset of 3000 individuals, biotite took ~55s and my implementation took ~6s. I decided this was worth packaging and so created a <a href="https://alimanfoo.github.io/anjl/">new Python packaged called "anjl"</a> which stands for "A neighbour-joining library".</p>
+</div>
+</div>
+</div>{% endraw %}
+
+
