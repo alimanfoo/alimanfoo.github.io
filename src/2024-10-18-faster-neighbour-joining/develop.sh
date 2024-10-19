@@ -1,4 +1,9 @@
 #!/bin/bash
+
+cd ../../ && bundle exec jekyll serve &
+
+pixi run jupyter lab &
+
 while inotifywait -e close_write post.ipynb
 do
     pixi run jupyter nbconvert post.ipynb \
