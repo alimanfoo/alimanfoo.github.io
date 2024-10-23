@@ -168,7 +168,7 @@ if (outputEl) {{
 </div>
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=e8600a4e-8a23-4fcb-a2f0-a093d8eac6b2"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Some-lessons">Some lessons<a class="anchor-link" href="#Some-lessons">¶</a></h2>
+<h2 id="Some-numba-lessons">Some numba lessons<a class="anchor-link" href="#Some-numba-lessons">¶</a></h2>
 </div>
 </div>
 </div>
@@ -197,8 +197,18 @@ if (outputEl) {{
     <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uintp</span><span class="p">(</span><span class="n">_i</span><span class="p">)</span>
     <span class="c1"># Use i for indexing arrays...</span>
 </pre></div>
-<h3 id="Profiling">Profiling<a class="anchor-link" href="#Profiling">¶</a></h3><p>What do you do if you think you've done everything you can to tune a numba function, but it's still running slower than you think it should? Ideally you'd do some profiling to find which section of code the program is spending most time in. While there are great tools for profiling normal Python code, there isn't yet a good tool for profiling code within a numba function. The only option I could find is a tool called <a href="https://github.com/pythonspeed/profila">profila</a> which I did get to work some of the time, but which also <a href="https://github.com/pythonspeed/profila/issues/9">crashed a lot</a>.</p>
-<h3 id="Algorithm-is-everything">Algorithm is everything<a class="anchor-link" href="#Algorithm-is-everything">¶</a></h3><p>Of course the ultimately lesson here is that finding the right algorithm is potentially much more important than tuning tricks! The dynamic algorithm makes a massive difference which is entirely thanks to an insight into the structure of the problem.</p>
+<h3 id="Profiling">Profiling<a class="anchor-link" href="#Profiling">¶</a></h3><p>What do you do if you think you've done everything you can to tune a numba function, but it's still running slower than you think it should? Ideally you'd do some profiling to find which section of code the program is spending most time in. While there are great tools for profiling normal Python code, there isn't yet a good tool for profiling code within a numba function. The only option I could find is a tool called <a href="https://github.com/pythonspeed/profila">profila</a> which I did get to work some of the time, but which also <a href="https://github.com/pythonspeed/profila/issues/9">crashed a lot</a>. There is an <a href="https://github.com/numba/numba/issues/5028">open feature request</a> on the numba github repo, it seems a better solution is possible but still some way off.</p>
+<h3 id="Algorithm-is-everything">Algorithm is everything<a class="anchor-link" href="#Algorithm-is-everything">¶</a></h3><p>Of course the ultimately lesson here is that finding the right algorithm is potentially much more important than tuning tricks! The dynamic algorithm makes a massive difference, which is entirely due to an insight into the structure of the problem.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=54a3834f-21a0-4491-8b27-0793529dad5b"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Further-reading">Further reading<a class="anchor-link" href="#Further-reading">¶</a></h2><ul>
+<li>Clausen (2022) Scaling neighbor joining to one million taxa with dynamic and heuristic neighbor joining. <a href="https://doi.org/10.1093/bioinformatics/btac774">https://doi.org/10.1093/bioinformatics/btac774</a></li>
+<li>Simonsen et al. (2008) Rapid neighbour-joining. <a href="https://pure.au.dk/ws/files/19821675/rapidNJ.pdf">https://pure.au.dk/ws/files/19821675/rapidNJ.pdf</a></li>
+<li>Numba: A high performance Python compiler. <a href="https://numba.pydata.org/">https://numba.pydata.org/</a></li>
+</ul>
 </div>
 </div>
 </div>{% endraw %}
