@@ -1,0 +1,20 @@
+[project]
+authors = ["Alistair Miles <alimanfoo@googlemail.com>"]
+channels = ["conda-forge"]
+description = "Add a short description here"
+name = "2022-02-26-phd"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.12.*"
+
+[pypi-dependencies]
+jupyterlab = ">=4.3.0, <5"
+nbconvert = ">=7.16.4, <8"
+plotly = ">=5.24.1, <6"
+pandas = ">=2.2.3, <3"
+pixi-kernel = ">=0.5.1, <0.6"
+ipykernel = ">=6.29.5, <7"
