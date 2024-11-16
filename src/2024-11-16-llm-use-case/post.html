@@ -1,0 +1,1022 @@
+---
+layout: post
+title: A coding assistant for genomic data analysis?
+---
+{% raw %}
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=26726f90-3fda-4aa8-bb24-84ce7c0112b7"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Large genomic datasets like the <a href="https://malariagen.net/vobs">vector observatory</a> can be difficult to analyse. To make analysing these data easier, we created <a href="https://malariagen.github.io/malariagen-data-python/latest/">analytical software</a> and an <a href="https://anopheles-genomic-surveillance.github.io/">online training course</a>, and these have definitely helped a lot. But many potential users of these data are coming from an entomology background without much experience of either genomics or programming, and so coming up with the right code can still be a challenge. AI coding assistants are getting very good. Would it be possible to create a specialised AI assistant to support generation of code to analyse genomic data on malaria mosquitoes?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=75405692-53be-4f25-b543-4c74ec064430"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Use-case:-investigating-insecticide-resistance">Use case: investigating insecticide resistance<a class="anchor-link" href="#Use-case:-investigating-insecticide-resistance">¶</a></h1><p>Consider a use case where an analyst would like to investigate evidence for insecticide resistance in mosquito populations within a country of interest. Assume the analyst has good knowledge of vector biology but patchy knowledge of genomics and the molecular biology of insecticide resistance. Assume the analyst has completed <a href="https://anopheles-genomic-surveillance.github.io/">basic training in vector genomics data analysis</a> but is not an experienced programmer and finds writing data analysis code challenging.</p>
+<p>The analyst might start with a relatively broad question like, "Is there resistance to pyrethroid insecticides in Uganda?" But there are multiple possible mechanisms of pyrethroid resistance that need to be considered, and there are also multiple species of malaria vector present in Uganda. So this question is likely to need some refinement. If I were assisting this user, I would ask a series of questions to narrow down the focus, and to help the user become aware of the relevant data that are available. I would then be able to identify a smaller set of analysis function calls and parameter values that are relevant.</p>
+<p>Would it be possible to create a chatbot assistant to help with this refinement? E.g., here is a hypothetical conversation between a user and an assistant that would refine the scope of the initial question to reach a point where code generation would be easier:</p>
+<table style="width: 100%; font-size: 1.1em; font-style: italic;">
+<colgroup>
+<col span="1" style="width: 50%;"/>
+<col span="1" style="width: 50%;"/>
+</colgroup>
+<thead>
+<tr>
+<th style="text-align: left;">User</th>
+<th style="text-align: left;">Assistant</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<p>Is there resistance to pyrethroid insecticides in Uganda?</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>
+<p>Which mosquito species are you interested in?</p>
+<p>In Uganda there are data available for <em>Anopheles gambiae</em>, <em>Anopheles arabiensis</em> and <em>Anopheles funestus</em>.</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Anopheles gambiae.</p>
+</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>
+<p>Which molecular mechanism of pyrethroid resistance are you interested in?</p>
+<p>E.g., target-site resistance, Cyp-mediated metabolic resistance, or other resistance mechanisms?</p>
+</td>
+</tr>
+<tr>
+<td>
+<p>Cyp-mediated metabolic resistance.</p>
+</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=afa97235-dc65-4968-a63b-32f04b527f7d"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>At this point, we probably have just enough information to start suggesting some code. E.g., we know that copy number amplification of <em>Cyp</em> genes has been associated with pyrethroid resistance. I might suggest to try analysing CNV frequencies at a selection of genome regions containing <em>Cyp</em> genes which have been previously linked to pyrethroid resistance. Here is some code which uses two function calls to compute and then visualise gene CNV frequencies in Uganda, grouping mosquitoes by year and top level administrative units.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=f4c97230-26f2-4e19-b31a-2a2710be7638">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Set up the API.</span>
+<span class="kn">import</span> <span class="nn">malariagen_data</span>
+<span class="n">ag3</span> <span class="o">=</span> <span class="n">malariagen_data</span><span class="o">.</span><span class="n">Ag3</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_javascript" id="1e0768eb-2ff2-47e4-ab29-8a54f3bf05db">
+<script type="text/javascript">
+var element = $('#1e0768eb-2ff2-47e4-ab29-8a54f3bf05db');
+'use strict';
+(function(root) {
+  function now() {
+    return new Date();
+  }
+
+  const force = true;
+
+  if (typeof root._bokeh_onload_callbacks === "undefined" || force === true) {
+    root._bokeh_onload_callbacks = [];
+    root._bokeh_is_loading = undefined;
+  }
+
+const JS_MIME_TYPE = 'application/javascript';
+  const HTML_MIME_TYPE = 'text/html';
+  const EXEC_MIME_TYPE = 'application/vnd.bokehjs_exec.v0+json';
+  const CLASS_NAME = 'output_bokeh rendered_html';
+
+  /**
+   * Render data to the DOM node
+   */
+  function render(props, node) {
+    const script = document.createElement("script");
+    node.appendChild(script);
+  }
+
+  /**
+   * Handle when an output is cleared or removed
+   */
+  function handleClearOutput(event, handle) {
+    function drop(id) {
+      const view = Bokeh.index.get_by_id(id)
+      if (view != null) {
+        view.model.document.clear()
+        Bokeh.index.delete(view)
+      }
+    }
+
+    const cell = handle.cell;
+
+    const id = cell.output_area._bokeh_element_id;
+    const server_id = cell.output_area._bokeh_server_id;
+
+    // Clean up Bokeh references
+    if (id != null) {
+      drop(id)
+    }
+
+    if (server_id !== undefined) {
+      // Clean up Bokeh references
+      const cmd_clean = "from bokeh.io.state import curstate; print(curstate().uuid_to_server['" + server_id + "'].get_sessions()[0].document.roots[0]._id)";
+      cell.notebook.kernel.execute(cmd_clean, {
+        iopub: {
+          output: function(msg) {
+            const id = msg.content.text.trim()
+            drop(id)
+          }
+        }
+      });
+      // Destroy server and session
+      const cmd_destroy = "import bokeh.io.notebook as ion; ion.destroy_server('" + server_id + "')";
+      cell.notebook.kernel.execute(cmd_destroy);
+    }
+  }
+
+  /**
+   * Handle when a new output is added
+   */
+  function handleAddOutput(event, handle) {
+    const output_area = handle.output_area;
+    const output = handle.output;
+
+    // limit handleAddOutput to display_data with EXEC_MIME_TYPE content only
+    if ((output.output_type != "display_data") || (!Object.prototype.hasOwnProperty.call(output.data, EXEC_MIME_TYPE))) {
+      return
+    }
+
+    const toinsert = output_area.element.find("." + CLASS_NAME.split(' ')[0]);
+
+    if (output.metadata[EXEC_MIME_TYPE]["id"] !== undefined) {
+      toinsert[toinsert.length - 1].firstChild.textContent = output.data[JS_MIME_TYPE];
+      // store reference to embed id on output_area
+      output_area._bokeh_element_id = output.metadata[EXEC_MIME_TYPE]["id"];
+    }
+    if (output.metadata[EXEC_MIME_TYPE]["server_id"] !== undefined) {
+      const bk_div = document.createElement("div");
+      bk_div.innerHTML = output.data[HTML_MIME_TYPE];
+      const script_attrs = bk_div.children[0].attributes;
+      for (let i = 0; i < script_attrs.length; i++) {
+        toinsert[toinsert.length - 1].firstChild.setAttribute(script_attrs[i].name, script_attrs[i].value);
+        toinsert[toinsert.length - 1].firstChild.textContent = bk_div.children[0].textContent
+      }
+      // store reference to server id on output_area
+      output_area._bokeh_server_id = output.metadata[EXEC_MIME_TYPE]["server_id"];
+    }
+  }
+
+  function register_renderer(events, OutputArea) {
+
+    function append_mime(data, metadata, element) {
+      // create a DOM node to render to
+      const toinsert = this.create_output_subarea(
+        metadata,
+        CLASS_NAME,
+        EXEC_MIME_TYPE
+      );
+      this.keyboard_manager.register_events(toinsert);
+      // Render to node
+      const props = {data: data, metadata: metadata[EXEC_MIME_TYPE]};
+      render(props, toinsert[toinsert.length - 1]);
+      element.append(toinsert);
+      return toinsert
+    }
+
+    /* Handle when an output is cleared or removed */
+    events.on('clear_output.CodeCell', handleClearOutput);
+    events.on('delete.Cell', handleClearOutput);
+
+    /* Handle when a new output is added */
+    events.on('output_added.OutputArea', handleAddOutput);
+
+    /**
+     * Register the mime type and append_mime function with output_area
+     */
+    OutputArea.prototype.register_mime_type(EXEC_MIME_TYPE, append_mime, {
+      /* Is output safe? */
+      safe: true,
+      /* Index of renderer in `output_area.display_order` */
+      index: 0
+    });
+  }
+
+  // register the mime type if in Jupyter Notebook environment and previously unregistered
+  if (root.Jupyter !== undefined) {
+    const events = require('base/js/events');
+    const OutputArea = require('notebook/js/outputarea').OutputArea;
+
+    if (OutputArea.prototype.mime_types().indexOf(EXEC_MIME_TYPE) == -1) {
+      register_renderer(events, OutputArea);
+    }
+  }
+  if (typeof (root._bokeh_timeout) === "undefined" || force === true) {
+    root._bokeh_timeout = Date.now() + 5000;
+    root._bokeh_failed_load = false;
+  }
+
+  const NB_LOAD_WARNING = {'data': {'text/html':
+     "<div style='background-color: #fdd'>\n"+
+     "<p>\n"+
+     "BokehJS does not appear to have successfully loaded. If loading BokehJS from CDN, this \n"+
+     "may be due to a slow or bad network connection. Possible fixes:\n"+
+     "</p>\n"+
+     "<ul>\n"+
+     "<li>re-rerun `output_notebook()` to attempt to load from CDN again, or</li>\n"+
+     "<li>use INLINE resources instead, as so:</li>\n"+
+     "</ul>\n"+
+     "<code>\n"+
+     "from bokeh.resources import INLINE\n"+
+     "output_notebook(resources=INLINE)\n"+
+     "</code>\n"+
+     "</div>"}};
+
+  function display_loaded(error = null) {
+    const el = document.getElementById(null);
+    if (el != null) {
+      const html = (() => {
+        if (typeof root.Bokeh === "undefined") {
+          if (error == null) {
+            return "BokehJS is loading ...";
+          } else {
+            return "BokehJS failed to load.";
+          }
+        } else {
+          const prefix = `BokehJS ${root.Bokeh.version}`;
+          if (error == null) {
+            return `${prefix} successfully loaded.`;
+          } else {
+            return `${prefix} <b>encountered errors</b> while loading and may not function as expected.`;
+          }
+        }
+      })();
+      el.innerHTML = html;
+
+      if (error != null) {
+        const wrapper = document.createElement("div");
+        wrapper.style.overflow = "auto";
+        wrapper.style.height = "5em";
+        wrapper.style.resize = "vertical";
+        const content = document.createElement("div");
+        content.style.fontFamily = "monospace";
+        content.style.whiteSpace = "pre-wrap";
+        content.style.backgroundColor = "rgb(255, 221, 221)";
+        content.textContent = error.stack ?? error.toString();
+        wrapper.append(content);
+        el.append(wrapper);
+      }
+    } else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(() => display_loaded(error), 100);
+    }
+  }
+
+  function run_callbacks() {
+    try {
+      root._bokeh_onload_callbacks.forEach(function(callback) {
+        if (callback != null)
+          callback();
+      });
+    } finally {
+      delete root._bokeh_onload_callbacks
+    }
+    console.debug("Bokeh: all callbacks have finished");
+  }
+
+  function load_libs(css_urls, js_urls, callback) {
+    if (css_urls == null) css_urls = [];
+    if (js_urls == null) js_urls = [];
+
+    root._bokeh_onload_callbacks.push(callback);
+    if (root._bokeh_is_loading > 0) {
+      console.debug("Bokeh: BokehJS is being loaded, scheduling callback at", now());
+      return null;
+    }
+    if (js_urls == null || js_urls.length === 0) {
+      run_callbacks();
+      return null;
+    }
+    console.debug("Bokeh: BokehJS not loaded, scheduling load and callback at", now());
+    root._bokeh_is_loading = css_urls.length + js_urls.length;
+
+    function on_load() {
+      root._bokeh_is_loading--;
+      if (root._bokeh_is_loading === 0) {
+        console.debug("Bokeh: all BokehJS libraries/stylesheets loaded");
+        run_callbacks()
+      }
+    }
+
+    function on_error(url) {
+      console.error("failed to load " + url);
+    }
+
+    for (let i = 0; i < css_urls.length; i++) {
+      const url = css_urls[i];
+      const element = document.createElement("link");
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.rel = "stylesheet";
+      element.type = "text/css";
+      element.href = url;
+      console.debug("Bokeh: injecting link tag for BokehJS stylesheet: ", url);
+      document.body.appendChild(element);
+    }
+
+    for (let i = 0; i < js_urls.length; i++) {
+      const url = js_urls[i];
+      const element = document.createElement('script');
+      element.onload = on_load;
+      element.onerror = on_error.bind(null, url);
+      element.async = false;
+      element.src = url;
+      console.debug("Bokeh: injecting script tag for BokehJS library: ", url);
+      document.head.appendChild(element);
+    }
+  };
+
+  function inject_raw_css(css) {
+    const element = document.createElement("style");
+    element.appendChild(document.createTextNode(css));
+    document.body.appendChild(element);
+  }
+
+  const js_urls = ["https://cdn.bokeh.org/bokeh/release/bokeh-3.6.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-gl-3.6.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-widgets-3.6.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-tables-3.6.1.min.js", "https://cdn.bokeh.org/bokeh/release/bokeh-mathjax-3.6.1.min.js"];
+  const css_urls = [];
+
+  const inline_js = [    function(Bokeh) {
+      Bokeh.set_log_level("info");
+    },
+function(Bokeh) {
+    }
+  ];
+
+  function run_inline_js() {
+    if (root.Bokeh !== undefined || force === true) {
+      try {
+            for (let i = 0; i < inline_js.length; i++) {
+      inline_js[i].call(root, root.Bokeh);
+    }
+
+      } catch (error) {throw error;
+      }} else if (Date.now() < root._bokeh_timeout) {
+      setTimeout(run_inline_js, 100);
+    } else if (!root._bokeh_failed_load) {
+      console.log("Bokeh: BokehJS failed to load within specified timeout.");
+      root._bokeh_failed_load = true;
+    } else if (force !== true) {
+      const cell = $(document.getElementById(null)).parents('.cell').data().cell;
+      cell.output_area.append_execute_result(NB_LOAD_WARNING)
+    }
+  }
+
+  if (root._bokeh_is_loading === 0) {
+    console.debug("Bokeh: BokehJS loaded, going straight to plotting");
+    run_inline_js();
+  } else {
+    load_libs(css_urls, js_urls, function() {
+      console.debug("Bokeh: BokehJS plotting callback run at", now());
+      run_inline_js();
+    });
+  }
+}(window));
+</script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5d7e9275-4ac9-46bb-8af6-9375fb8845c3">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Define genome regions containing genes of interest.</span>
+<span class="n">cyp6aap_region</span> <span class="o">=</span> <span class="s2">"2R:28,480,000-28,510,000"</span>
+<span class="n">cyp9k1_region</span> <span class="o">=</span> <span class="s2">"X:15,240,000-15,250,000"</span>
+<span class="n">cyp6mz_region</span> <span class="o">=</span> <span class="s2">"3R:6,924,000-6,980,000"</span>
+<span class="n">cyp_regions</span> <span class="o">=</span> <span class="p">[</span><span class="n">cyp6aap_region</span><span class="p">,</span> <span class="n">cyp9k1_region</span><span class="p">,</span> <span class="n">cyp6mz_region</span><span class="p">]</span>
+
+<span class="c1"># Compute gene CNV frequencies.</span>
+<span class="n">df_cyp_cnv_frq</span> <span class="o">=</span> <span class="n">ag3</span><span class="o">.</span><span class="n">gene_cnv_frequencies</span><span class="p">(</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">cyp_regions</span><span class="p">,</span>
+    <span class="n">sample_query</span><span class="o">=</span><span class="s2">"country == 'Uganda' and taxon == 'gambiae'"</span><span class="p">,</span>
+    <span class="n">cohorts</span><span class="o">=</span><span class="s2">"admin1_year"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Visualise CNV frequencies as a table.</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                     </pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_subarea output_widget_view" id="29458523-3fd3-4c6b-901f-35f82ce8db3a">
+<script type="text/javascript">
+var element = $('#29458523-3fd3-4c6b-901f-35f82ce8db3a');
+</script>
+<script type="application/vnd.jupyter.widget-view+json">
+{"model_id": "690d99176233418687e9120625fe0d23", "version_major": 2, "version_minor": 0}
+</script>
+</div>
+</div>
+<div class="output_area">
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
+Cell <span class="ansi-green-fg">In[3], line 8</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span> cyp_regions <span style="color: rgb(98,98,98)">=</span> [cyp6aap_region, cyp9k1_region, cyp6mz_region]
+<span class="ansi-green-intense-fg ansi-bold">      7</span> <span style="color: rgb(95,135,135)"># Compute gene CNV frequencies.</span>
+<span class="ansi-green-fg">----&gt; 8</span> df_cyp_cnv_frq <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">ag3</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">gene_cnv_frequencies</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">cyp_regions</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     10</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">country == </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">Uganda</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)"> and taxon == </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">gambiae</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     11</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">cohorts</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">admin1_year</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-yellow-bg">)</span>
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:1044</span>, in <span class="ansi-cyan-fg">AnophelesDataResource.gene_cnv_frequencies</span><span class="ansi-blue-fg">(***failed resolving arguments***)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1039</span> <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> region
+<span class="ansi-green-intense-fg ansi-bold">   1041</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">access and concatenate data from regions</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-intense-fg ansi-bold">   1042</span> df <span style="color: rgb(98,98,98)">=</span> pd<span style="color: rgb(98,98,98)">.</span>concat(
+<span class="ansi-green-intense-fg ansi-bold">   1043</span>     [
+<span class="ansi-green-fg">-&gt; 1044</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_gene_cnv_frequencies</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">   1045</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">r</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1046</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">cohorts</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">cohorts</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1047</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1048</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1049</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">min_cohort_size</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">min_cohort_size</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1050</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1051</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">drop_invariant</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">drop_invariant</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1052</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1053</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1054</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1055</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1056</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> r <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> regions
+<span class="ansi-green-intense-fg ansi-bold">   1057</span>     ],
+<span class="ansi-green-intense-fg ansi-bold">   1058</span>     axis<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>,
+<span class="ansi-green-intense-fg ansi-bold">   1059</span> )
+<span class="ansi-green-intense-fg ansi-bold">   1061</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">add metadata</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-intense-fg ansi-bold">   1062</span> title <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Gene CNV frequencies (</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>region_str(regions)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">)</span><span style="color: rgb(175,0,0)">"</span>
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:1087</span>, in <span class="ansi-cyan-fg">AnophelesDataResource._gene_cnv_frequencies</span><span class="ansi-blue-fg">(self, region, cohorts, sample_query, sample_query_options, min_cohort_size, sample_sets, drop_invariant, max_coverage_variance, chunks, inline_array)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1084</span> <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> <span style="color: rgb(0,135,0)">isinstance</span>(region, Region)
+<span class="ansi-green-intense-fg ansi-bold">   1086</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">get gene copy number data</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-fg">-&gt; 1087</span> ds_cnv <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">gene_cnv</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">   1088</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1089</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1090</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1091</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1092</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1093</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1094</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">   1095</span> <span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">   1097</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">load sample metadata</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-intense-fg ansi-bold">   1098</span> df_samples <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>sample_metadata(sample_sets<span style="color: rgb(98,98,98)">=</span>sample_sets)
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:862</span>, in <span class="ansi-cyan-fg">AnophelesDataResource.gene_cnv</span><span class="ansi-blue-fg">(***failed resolving arguments***)</span>
+<span class="ansi-green-intense-fg ansi-bold">    857</span> regions: List[Region] <span style="color: rgb(98,98,98)">=</span> parse_multi_region(<span style="color: rgb(0,135,0)">self</span>, region)
+<span class="ansi-green-intense-fg ansi-bold">    858</span> <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> region
+<span class="ansi-green-intense-fg ansi-bold">    860</span> ds <span style="color: rgb(98,98,98)">=</span> simple_xarray_concat(
+<span class="ansi-green-intense-fg ansi-bold">    861</span>     [
+<span class="ansi-green-fg">--&gt; 862</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_gene_cnv</span><span class="ansi-yellow-bg">(</span>
+<span class="ansi-green-intense-fg ansi-bold">    863</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">r</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    864</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    865</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    866</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    867</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    868</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    869</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">    870</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    871</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> r <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> regions
+<span class="ansi-green-intense-fg ansi-bold">    872</span>     ],
+<span class="ansi-green-intense-fg ansi-bold">    873</span>     dim<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">genes</span><span style="color: rgb(175,0,0)">"</span>,
+<span class="ansi-green-intense-fg ansi-bold">    874</span> )
+<span class="ansi-green-intense-fg ansi-bold">    876</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> ds
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:908</span>, in <span class="ansi-cyan-fg">AnophelesDataResource._gene_cnv</span><span class="ansi-blue-fg">(self, region, sample_sets, sample_query, sample_query_options, max_coverage_variance, chunks, inline_array)</span>
+<span class="ansi-green-intense-fg ansi-bold">    906</span> cn <span style="color: rgb(98,98,98)">=</span> ds_hmm[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">call_CN</span><span style="color: rgb(175,0,0)">"</span>]<span style="color: rgb(98,98,98)">.</span>data
+<span class="ansi-green-intense-fg ansi-bold">    907</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_dask_progress(desc<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Load CNV HMM data</span><span style="color: rgb(175,0,0)">"</span>):
+<span class="ansi-green-fg">--&gt; 908</span>     pos, end, cn <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">dask</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">compute</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">pos</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">end</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">cn</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    910</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">access genes</span><span style="color: rgb(175,0,0)">"</span>)
+<span class="ansi-green-intense-fg ansi-bold">    911</span> df_genome_features <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>genome_features(region<span style="color: rgb(98,98,98)">=</span>region)
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/dask/base.py:660</span>, in <span class="ansi-cyan-fg">compute</span><span class="ansi-blue-fg">(traverse, optimize_graph, scheduler, get, *args, **kwargs)</span>
+<span class="ansi-green-intense-fg ansi-bold">    657</span>     postcomputes<span style="color: rgb(98,98,98)">.</span>append(x<span style="color: rgb(98,98,98)">.</span>__dask_postcompute__())
+<span class="ansi-green-intense-fg ansi-bold">    659</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> shorten_traceback():
+<span class="ansi-green-fg">--&gt; 660</span>     results <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">schedule</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">dsk</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">keys</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    662</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> repack([f(r, <span style="color: rgb(98,98,98)">*</span>a) <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> r, (f, a) <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">zip</span>(results, postcomputes)])
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/queue.py:171</span>, in <span class="ansi-cyan-fg">Queue.get</span><span class="ansi-blue-fg">(self, block, timeout)</span>
+<span class="ansi-green-intense-fg ansi-bold">    169</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> timeout <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-intense-fg ansi-bold">    170</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">while</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_qsize():
+<span class="ansi-green-fg">--&gt; 171</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">not_empty</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">wait</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    172</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> timeout <span style="color: rgb(98,98,98)">&lt;</span> <span style="color: rgb(98,98,98)">0</span>:
+<span class="ansi-green-intense-fg ansi-bold">    173</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">timeout</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)"> must be a non-negative number</span><span style="color: rgb(175,0,0)">"</span>)
+
+File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/threading.py:355</span>, in <span class="ansi-cyan-fg">Condition.wait</span><span class="ansi-blue-fg">(self, timeout)</span>
+<span class="ansi-green-intense-fg ansi-bold">    353</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:    <span style="color: rgb(95,135,135)"># restore state no matter what (e.g., KeyboardInterrupt)</span>
+<span class="ansi-green-intense-fg ansi-bold">    354</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> timeout <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
+<span class="ansi-green-fg">--&gt; 355</span>         <span class="ansi-yellow-bg">waiter</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">acquire</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">    356</span>         gotit <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>
+<span class="ansi-green-intense-fg ansi-bold">    357</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
+
+<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=73f8ac99-6089-4c9b-9f2f-eee14cde043f"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>But there are still a few decisions to make.</p>
+<p>E.g., know that there are 107 cytochrome P450 (<em>Cyp</em>) genes in the <em>Anopheles gambiae</em> genome. only some of these 107 <em>Cyp</em> genes have been associated with resistance previously. But it's possible that prior knowledge is incomplete. Should we analyse all 107 genes, or narrow down to a smaller set of validated genes?</p>
+<p>Also, some studies are also starting to find SNPs in <em>Cyp</em> genes are markers of resistance. Should we analyse SNPs as well as CNVs?</p>
+<p>These are tricky decisions because we could come up with a function call that is perfectly sensible from a biological point of view, but would overwhelm the user with data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7d8c96f7-6d5a-469c-abd9-f3f3f809dbd9">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df_gff</span> <span class="o">=</span> <span class="n">ag3</span><span class="o">.</span><span class="n">genome_features</span><span class="p">()</span>
+<span class="n">df_gff</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>                                     </pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>contig</th>
+<th>source</th>
+<th>type</th>
+<th>start</th>
+<th>end</th>
+<th>score</th>
+<th>strand</th>
+<th>phase</th>
+<th>ID</th>
+<th>Parent</th>
+<th>Name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>chromosome</td>
+<td>1</td>
+<td>49364325</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>2L</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>157348</td>
+<td>186936</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP004677</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>methylenetetrahydrofolate dehydrogenase(NAD ) ...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>mRNA</td>
+<td>157348</td>
+<td>181305</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP004677-RA</td>
+<td>AGAP004677</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>3</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>three_prime_UTR</td>
+<td>157348</td>
+<td>157495</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>AGAP004677-RA</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>4</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>exon</td>
+<td>157348</td>
+<td>157623</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>AGAP004677-RA</td>
+<td>AGAP004677-RB-E4</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>196140</th>
+<td>Y_unplaced</td>
+<td>VectorBase</td>
+<td>five_prime_UTR</td>
+<td>47932</td>
+<td>48111</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>AGAP029375-RA</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>196141</th>
+<td>Y_unplaced</td>
+<td>VectorBase</td>
+<td>exon</td>
+<td>47932</td>
+<td>48138</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>AGAP029375-RA</td>
+<td>AGAP029375-RA-E2</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>196142</th>
+<td>Y_unplaced</td>
+<td>VectorBase</td>
+<td>CDS</td>
+<td>48112</td>
+<td>48138</td>
+<td>NaN</td>
+<td>+</td>
+<td>0.0</td>
+<td>AGAP029375-PA</td>
+<td>AGAP029375-RA</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>196143</th>
+<td>Y_unplaced</td>
+<td>VectorBase</td>
+<td>exon</td>
+<td>48301</td>
+<td>48385</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>AGAP029375-RA</td>
+<td>AGAP029375-RA-E3</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>196144</th>
+<td>Y_unplaced</td>
+<td>VectorBase</td>
+<td>CDS</td>
+<td>48301</td>
+<td>48385</td>
+<td>NaN</td>
+<td>+</td>
+<td>0.0</td>
+<td>AGAP029375-PA</td>
+<td>AGAP029375-RA</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
+</table>
+<p>196145 rows × 12 columns</p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=5549a0f4-c964-469f-8863-40c4876d7e96">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="n">df_gff</span><span class="p">[</span><span class="n">df_gff</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'CYP'</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="kc">False</span><span class="p">)]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/tmp/ipykernel_8066/136824284.py:1: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  df_gff[df_gff["Name"].str.startswith('CYP').fillna(False)]
+</pre>
+</div>
+</div>
+<div class="output_area">
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>contig</th>
+<th>source</th>
+<th>type</th>
+<th>start</th>
+<th>end</th>
+<th>score</th>
+<th>strand</th>
+<th>phase</th>
+<th>ID</th>
+<th>Parent</th>
+<th>Name</th>
+<th>description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>16867</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>18340786</td>
+<td>18345362</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP005656</td>
+<td>NaN</td>
+<td>CYP305A1</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>16877</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>18346305</td>
+<td>18347977</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP005657</td>
+<td>NaN</td>
+<td>CYP305A3</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>16885</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>18348979</td>
+<td>18350777</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>AGAP005658</td>
+<td>NaN</td>
+<td>CYP15B1</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>16909</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>18353521</td>
+<td>18355707</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>AGAP005660</td>
+<td>NaN</td>
+<td>CYP305A4</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>18417</th>
+<td>2L</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>20455252</td>
+<td>20464457</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>AGAP005774</td>
+<td>NaN</td>
+<td>CYP49A1</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>183449</th>
+<td>X</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>5112021</td>
+<td>5114815</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP000284</td>
+<td>NaN</td>
+<td>CYP315A1</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>191625</th>
+<td>X</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>15240572</td>
+<td>15242864</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP000818</td>
+<td>NaN</td>
+<td>CYP9K1</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>192555</th>
+<td>X</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>16618800</td>
+<td>16621269</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP000877</td>
+<td>NaN</td>
+<td>CYP4G17</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>195075</th>
+<td>X</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>20008895</td>
+<td>20018400</td>
+<td>NaN</td>
+<td>+</td>
+<td>NaN</td>
+<td>AGAP001039</td>
+<td>NaN</td>
+<td>CYP307A1</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+<tr>
+<th>195745</th>
+<td>X</td>
+<td>VectorBase</td>
+<td>gene</td>
+<td>22937392</td>
+<td>22947129</td>
+<td>NaN</td>
+<td>-</td>
+<td>NaN</td>
+<td>AGAP001076</td>
+<td>NaN</td>
+<td>CYP4G16</td>
+<td>cytochrome P450 [Source:VB Community Annotation]</td>
+</tr>
+</tbody>
+</table>
+<p>107 rows × 12 columns</p>
+</div></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=7bade756-a55e-4402-a450-8e0e9918918d">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+</div>
+</div>
+</div>
+</div>{% endraw %}
+
+
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {"2cfe2f0fb1a1485ca9393aff7b38d88f": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "4387f0ee439e407fb5de475486e95a34": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "5e4b6e1cb28642e6b19554bad19426df": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "690d99176233418687e9120625fe0d23": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_7aca1259ef1c4a82af51ea81e435c8d3", "IPY_MODEL_f5f20cc3253a4a5183b4ae44e07637f6", "IPY_MODEL_e690a794595e4381a43c52906c901a47"], "layout": "IPY_MODEL_5e4b6e1cb28642e6b19554bad19426df"}}, "7aca1259ef1c4a82af51ea81e435c8d3": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_4387f0ee439e407fb5de475486e95a34", "style": "IPY_MODEL_84de980b0a9c4dd7b3ed10e5055d9cce", "value": "Load\u2007CNV\u2007HMM\u2007data:\u2007\u200735%"}}, "7cc5c4efb87c43589ba59e1c327a4d0f": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"description_width": "", "font_size": null, "text_color": null}}, "84de980b0a9c4dd7b3ed10e5055d9cce": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"description_width": "", "font_size": null, "text_color": null}}, "c4a308fd3a55462cabe69d4950219c80": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "c61b56d537ca4529b649b0ff9ce5fd23": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"description_width": ""}}, "e690a794595e4381a43c52906c901a47": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_2cfe2f0fb1a1485ca9393aff7b38d88f", "style": "IPY_MODEL_7cc5c4efb87c43589ba59e1c327a4d0f", "value": "\u2007481\/1360\u2007[00:30&lt;00:49,\u200717.79it\/s]"}}, "f5f20cc3253a4a5183b4ae44e07637f6": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"bar_style": "danger", "layout": "IPY_MODEL_c4a308fd3a55462cabe69d4950219c80", "max": 1360, "style": "IPY_MODEL_c61b56d537ca4529b649b0ff9ce5fd23", "value": 481}}}, "version_major": 2, "version_minor": 0}
+</script>
