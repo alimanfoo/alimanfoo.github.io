@@ -3,9 +3,21 @@ layout: post
 title: A coding assistant for genomic data analysis?
 ---
 {% raw %}
+<div class="cell border-box-sizing code_cell rendered celltag_remove_input" id="cell-id=1c4038d6-4b6e-4a6f-b73b-2496d2ff9842">
+<div class="output_wrapper">
+<div class="output">
+<div class="output_area">
+<div class="output_html rendered_html output_subarea"><script crossorigin="anonymous" integrity="sha512-J5ha2LF4Le+PBQnI5+xAVJDR+sZG9uSgroy4n/A6TLjNkvYQbqZA8WHZdaOvJ0HiKkBC9Frmvs10rFDSHKmveQ==" referrerpolicy="no-referrer" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered celltag_remove_input" id="cell-id=28d434b5-7e45-4ce7-bb55-9cc02e0afff2">
+</div>
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=26726f90-3fda-4aa8-bb24-84ce7c0112b7"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>Large genomic datasets like the <a href="https://malariagen.net/vobs">vector observatory</a> can be difficult to analyse. To make analysing these data easier, we created <a href="https://malariagen.github.io/malariagen-data-python/latest/">analytical software</a> and an <a href="https://anopheles-genomic-surveillance.github.io/">online training course</a>, and these have definitely helped a lot. But many potential users of these data are coming from an entomology background without much experience of either genomics or programming, and so coming up with the right code can still be a challenge. AI coding assistants are getting very good. Would it be possible to create a specialised AI assistant to support generation of code to analyse genomic data on malaria mosquitoes?</p>
+<p>Large genomic datasets like the <a href="https://malariagen.net/vobs">vector observatory</a> can be difficult to analyse. To make analysing these data easier, we created <a href="https://malariagen.github.io/malariagen-data-python/latest/">analytical software</a> and an <a href="https://anopheles-genomic-surveillance.github.io/">online training course</a>, and these have definitely helped a lot. But many potential users of these data are coming from a background without much experience of genomics or programming, and so coming up with the right code can still be a challenge. AI coding assistants are getting very good. Would it be possible to create a specialised AI assistant to support generation of code to analyse genomic data on malaria mosquitoes?</p>
 </div>
 </div>
 </div>
@@ -65,15 +77,15 @@ title: A coding assistant for genomic data analysis?
 </div>
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=afa97235-dc65-4968-a63b-32f04b527f7d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>At this point, we probably have just enough information to start suggesting some code. E.g., we know that copy number amplification of <em>Cyp</em> genes has been associated with pyrethroid resistance. I might suggest to try analysing CNV frequencies at a selection of genome regions containing <em>Cyp</em> genes which have been previously linked to pyrethroid resistance. Here is some code which uses two function calls to compute and then visualise gene CNV frequencies in Uganda, grouping mosquitoes by year and top level administrative units.</p>
+<p>If we can get to this point, we probably have just enough information to start suggesting some code. E.g., we know that copy number amplification of <em>Cyp</em> genes has been associated with pyrethroid resistance. I might suggest to try analysing CNV frequencies at a selection of <em>Cyp</em> genes which have been previously linked to pyrethroid resistance. Here is some code which sets up an API to access data on the <em>Anopheles gambiae</em> complex, then uses two function calls to compute and then visualise gene CNV frequencies in Uganda, grouping mosquitoes by year and level one administrative units.</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=f4c97230-26f2-4e19-b31a-2a2710be7638">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=628e72d5-1220-4738-b98e-5bc9e9296c30">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Set up the API.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Set up the API to access data from the Anopheles gambiae complex.</span>
 <span class="kn">import</span> <span class="nn">malariagen_data</span>
 <span class="n">ag3</span> <span class="o">=</span> <span class="n">malariagen_data</span><span class="o">.</span><span class="n">Ag3</span><span class="p">()</span>
 </pre></div>
@@ -83,9 +95,9 @@ title: A coding assistant for genomic data analysis?
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_javascript" id="1e0768eb-2ff2-47e4-ab29-8a54f3bf05db">
+<div class="output_subarea output_javascript" id="d548c930-7d7a-44f9-8a9c-3fd36ffe8ee9">
 <script type="text/javascript">
-var element = $('#1e0768eb-2ff2-47e4-ab29-8a54f3bf05db');
+var element = $('#d548c930-7d7a-44f9-8a9c-3fd36ffe8ee9');
 'use strict';
 (function(root) {
   function now() {
@@ -402,24 +414,45 @@ function(Bokeh) {
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5d7e9275-4ac9-46bb-8af6-9375fb8845c3">
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=9225ae24-14b4-46de-a895-6276beb69f17">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Define genome regions containing genes of interest.</span>
-<span class="n">cyp6aap_region</span> <span class="o">=</span> <span class="s2">"2R:28,480,000-28,510,000"</span>
-<span class="n">cyp9k1_region</span> <span class="o">=</span> <span class="s2">"X:15,240,000-15,250,000"</span>
-<span class="n">cyp6mz_region</span> <span class="o">=</span> <span class="s2">"3R:6,924,000-6,980,000"</span>
-<span class="n">cyp_regions</span> <span class="o">=</span> <span class="p">[</span><span class="n">cyp6aap_region</span><span class="p">,</span> <span class="n">cyp9k1_region</span><span class="p">,</span> <span class="n">cyp6mz_region</span><span class="p">]</span>
-
-<span class="c1"># Compute gene CNV frequencies.</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Define genes of interest.</span>
+<span class="n">interesting_cyp_genes</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"AGAP002862"</span><span class="p">,</span>  <span class="c1"># Cyp6aa1</span>
+    <span class="s2">"AGAP013128"</span><span class="p">,</span>  <span class="c1"># Cyp6aa2</span>
+    <span class="s2">"AGAP002865"</span><span class="p">,</span>  <span class="c1"># Cyp6p3</span>
+    <span class="s2">"AGAP000818"</span><span class="p">,</span>  <span class="c1"># Cyp9k1</span>
+    <span class="s2">"AGAP008212"</span><span class="p">,</span>  <span class="c1"># Cyp6m2</span>
+    <span class="s2">"AGAP008218"</span><span class="p">,</span>  <span class="c1"># Cyp6z2    </span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered celltag_remove_output" id="cell-id=1fb200b3-2ea4-41ff-adff-e448e83130cf">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Compute gene CNV frequencies.</span>
 <span class="n">df_cyp_cnv_frq</span> <span class="o">=</span> <span class="n">ag3</span><span class="o">.</span><span class="n">gene_cnv_frequencies</span><span class="p">(</span>
-    <span class="n">region</span><span class="o">=</span><span class="n">cyp_regions</span><span class="p">,</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">interesting_cyp_genes</span><span class="p">,</span>
     <span class="n">sample_query</span><span class="o">=</span><span class="s2">"country == 'Uganda' and taxon == 'gambiae'"</span><span class="p">,</span>
     <span class="n">cohorts</span><span class="o">=</span><span class="s2">"admin1_year"</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="c1"># Visualise CNV frequencies as a table.</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=86338a7a-6395-4c49-891a-123093321023">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Visualise CNV frequencies as a heatmap.</span>
+<span class="n">ag3</span><span class="o">.</span><span class="n">plot_frequencies_heatmap</span><span class="p">(</span><span class="n">df_cyp_cnv_frq</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -427,141 +460,85 @@ function(Bokeh) {
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>                                     </pre>
+<div class="output_html rendered_html output_subarea"> <script type="text/javascript">
+        window.PlotlyConfig = {MathJaxConfig: 'local'};
+        if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+        if (typeof require !== 'undefined') {
+        require.undef("plotly");
+        requirejs.config({
+            paths: {
+                'plotly': ['https://cdn.plot.ly/plotly-2.35.2.min']
+            }
+        });
+        require(['plotly'], function(Plotly) {
+            window._Plotly = Plotly;
+        });
+        }
+        </script>
 </div>
 </div>
 <div class="output_area">
-<div class="output_subarea output_widget_view" id="29458523-3fd3-4c6b-901f-35f82ce8db3a">
-<script type="text/javascript">
-var element = $('#29458523-3fd3-4c6b-901f-35f82ce8db3a');
-</script>
-<script type="application/vnd.jupyter.widget-view+json">
-{"model_id": "690d99176233418687e9120625fe0d23", "version_major": 2, "version_minor": 0}
-</script>
-</div>
-</div>
-<div class="output_area">
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[3], line 8</span>
-<span class="ansi-green-intense-fg ansi-bold">      5</span> cyp_regions <span style="color: rgb(98,98,98)">=</span> [cyp6aap_region, cyp9k1_region, cyp6mz_region]
-<span class="ansi-green-intense-fg ansi-bold">      7</span> <span style="color: rgb(95,135,135)"># Compute gene CNV frequencies.</span>
-<span class="ansi-green-fg">----&gt; 8</span> df_cyp_cnv_frq <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">ag3</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">gene_cnv_frequencies</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-intense-fg ansi-bold">      9</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">cyp_regions</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     10</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">country == </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">Uganda</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)"> and taxon == </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">gambiae</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     11</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">cohorts</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">admin1_year</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">     12</span> <span class="ansi-yellow-bg">)</span>
+<div class="output_html rendered_html output_subarea"><div> <div class="plotly-graph-div" id="da083c2b-d3ed-4369-a336-6a3c87605513" style="height:380px; width:1040px;"></div> <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("da083c2b-d3ed-4369-a336-6a3c87605513")) {                    Plotly.newPlot(                        "da083c2b-d3ed-4369-a336-6a3c87605513",                        [{"coloraxis":"coloraxis","name":"0","texttemplate":"%{z:.0%}","x":["UG-C_gamb_2013","UG-C_gamb_2014","UG-C_gamb_2015","UG-C_gamb_2016","UG-C_gamb_2017","UG-C_gamb_2018","UG-E_gamb_2012","UG-E_gamb_2016","UG-E_gamb_2017","UG-E_gamb_2018","UG-E_gamb_2019","UG-W_gamb_2012","UG-W_gamb_2017","UG-W_gamb_2018","UG-W_gamb_2019"],"y":["AGAP002862 (CYP6AA1) amp","AGAP013128 (CYP6AA2) amp","AGAP002865 (CYP6P3) amp","AGAP000818 (CYP9K1) amp","AGAP008212 (CYP6M2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) del"],"z":[[0.15217391304347827,0.6853146853146853,0.7540983606557377,0.8217054263565892,0.9625668449197861,0.9873817034700315,0.6428571428571429,0.95,0.9574468085106383,0.9820627802690582,0.9889705882352942,0.2978723404255319,1.0,1.0,1.0],[0.0,0.04195804195804196,0.03278688524590164,0.031007751937984496,0.0374331550802139,0.025236593059936908,0.07142857142857142,0.3,0.23404255319148937,0.04932735426008968,0.0661764705882353,0.0851063829787234,0.0851063829787234,0.07692307692307693,0.0380952380952381],[0.0,0.0,0.01639344262295082,0.023255813953488372,0.0053475935828877,0.0031545741324921135,0.008928571428571428,0.15,0.0121580547112462,0.0,0.0,0.0425531914893617,0.0,0.07692307692307693,0.0],[0.41304347826086957,0.5314685314685315,0.7158469945355191,0.7054263565891473,0.6203208556149733,0.7602523659305994,0.35714285714285715,0.35,0.48024316109422494,0.5515695067264574,0.5073529411764706,0.8404255319148937,0.9095744680851063,1.0,0.9238095238095239],[0.0,0.006993006993006993,0.0,0.0,0.0106951871657754,0.006309148264984227,0.0,0.0,0.00911854103343465,0.013452914798206279,0.007352941176470588,0.0,0.015957446808510637,0.0,0.0],[0.2391304347826087,0.1888111888111888,0.07103825136612021,0.09302325581395349,0.016042780748663103,0.022082018927444796,0.03571428571428571,0.05,0.030395136778115502,0.04035874439461883,0.04411764705882353,0.06382978723404255,0.05319148936170213,0.0,0.01904761904761905],[0.0,0.0,0.0,0.0,0.016042780748663103,0.015772870662460567,0.05357142857142857,0.0,0.02735562310030395,0.026905829596412557,0.022058823529411766,0.010638297872340425,0.02127659574468085,0.07692307692307693,0.0380952380952381]],"type":"heatmap","xaxis":"x","yaxis":"y","hovertemplate":"x: %{x}\u003cbr\u003elabel: %{y}\u003cbr\u003ecolor: %{z}\u003cextra\u003e\u003c\u002fextra\u003e"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,1.0],"side":"bottom","tickangle":30,"title":{"text":"Cohorts"}},"yaxis":{"anchor":"x","domain":[0.0,1.0],"autorange":"reversed","title":{"text":"Variants"}},"coloraxis":{"colorscale":[[0.0,"rgb(255,245,240)"],[0.125,"rgb(254,224,210)"],[0.25,"rgb(252,187,161)"],[0.375,"rgb(252,146,114)"],[0.5,"rgb(251,106,74)"],[0.625,"rgb(239,59,44)"],[0.75,"rgb(203,24,29)"],[0.875,"rgb(165,15,21)"],[1.0,"rgb(103,0,13)"]],"cmin":0,"cmax":1,"colorbar":{"title":{"text":"Frequency"},"tickvals":[0,0.2,0.4,0.6,0.8,1.0],"ticktext":["0%","20%","40%","60%","80%","100%"]}},"title":{"text":"Gene CNV frequencies (2R:28,480,576-28,482,637; 2R:28,483,301-28,484,921; 2R:28,491,415-28,493,141; X:15,240,572-15,242,864; 3R:6,928,858-6,930,547; 3R:6,973,779-6,975,563)"},"height":380,"width":1040},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('da083c2b-d3ed-4369-a336-6a3c87605513');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
 
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:1044</span>, in <span class="ansi-cyan-fg">AnophelesDataResource.gene_cnv_frequencies</span><span class="ansi-blue-fg">(***failed resolving arguments***)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1039</span> <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> region
-<span class="ansi-green-intense-fg ansi-bold">   1041</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">access and concatenate data from regions</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-intense-fg ansi-bold">   1042</span> df <span style="color: rgb(98,98,98)">=</span> pd<span style="color: rgb(98,98,98)">.</span>concat(
-<span class="ansi-green-intense-fg ansi-bold">   1043</span>     [
-<span class="ansi-green-fg">-&gt; 1044</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_gene_cnv_frequencies</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-intense-fg ansi-bold">   1045</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">r</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1046</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">cohorts</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">cohorts</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1047</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1048</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1049</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">min_cohort_size</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">min_cohort_size</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1050</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1051</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">drop_invariant</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">drop_invariant</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1052</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1053</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1054</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1055</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1056</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> r <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> regions
-<span class="ansi-green-intense-fg ansi-bold">   1057</span>     ],
-<span class="ansi-green-intense-fg ansi-bold">   1058</span>     axis<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(98,98,98)">0</span>,
-<span class="ansi-green-intense-fg ansi-bold">   1059</span> )
-<span class="ansi-green-intense-fg ansi-bold">   1061</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">add metadata</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-intense-fg ansi-bold">   1062</span> title <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(175,0,0)">f</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Gene CNV frequencies (</span><span class="ansi-bold" style="color: rgb(175,95,135)">{</span>region_str(regions)<span class="ansi-bold" style="color: rgb(175,95,135)">}</span><span style="color: rgb(175,0,0)">)</span><span style="color: rgb(175,0,0)">"</span>
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
 
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:1087</span>, in <span class="ansi-cyan-fg">AnophelesDataResource._gene_cnv_frequencies</span><span class="ansi-blue-fg">(self, region, cohorts, sample_query, sample_query_options, min_cohort_size, sample_sets, drop_invariant, max_coverage_variance, chunks, inline_array)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1084</span> <span class="ansi-bold" style="color: rgb(0,135,0)">assert</span> <span style="color: rgb(0,135,0)">isinstance</span>(region, Region)
-<span class="ansi-green-intense-fg ansi-bold">   1086</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">get gene copy number data</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-fg">-&gt; 1087</span> ds_cnv <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">gene_cnv</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-intense-fg ansi-bold">   1088</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1089</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1090</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1091</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1092</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1093</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1094</span> <span class="ansi-yellow-bg">    </span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">   1095</span> <span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1097</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">load sample metadata</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-intense-fg ansi-bold">   1098</span> df_samples <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>sample_metadata(sample_sets<span style="color: rgb(98,98,98)">=</span>sample_sets)
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
 
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:862</span>, in <span class="ansi-cyan-fg">AnophelesDataResource.gene_cnv</span><span class="ansi-blue-fg">(***failed resolving arguments***)</span>
-<span class="ansi-green-intense-fg ansi-bold">    857</span> regions: List[Region] <span style="color: rgb(98,98,98)">=</span> parse_multi_region(<span style="color: rgb(0,135,0)">self</span>, region)
-<span class="ansi-green-intense-fg ansi-bold">    858</span> <span class="ansi-bold" style="color: rgb(0,135,0)">del</span> region
-<span class="ansi-green-intense-fg ansi-bold">    860</span> ds <span style="color: rgb(98,98,98)">=</span> simple_xarray_concat(
-<span class="ansi-green-intense-fg ansi-bold">    861</span>     [
-<span class="ansi-green-fg">--&gt; 862</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">_gene_cnv</span><span class="ansi-yellow-bg">(</span>
-<span class="ansi-green-intense-fg ansi-bold">    863</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">region</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">r</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    864</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_sets</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    865</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    866</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">sample_query_options</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    867</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">max_coverage_variance</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    868</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">chunks</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    869</span> <span class="ansi-yellow-bg">            </span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">inline_array</span><span class="ansi-yellow-bg">,</span>
-<span class="ansi-green-intense-fg ansi-bold">    870</span> <span class="ansi-yellow-bg">        </span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    871</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> r <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> regions
-<span class="ansi-green-intense-fg ansi-bold">    872</span>     ],
-<span class="ansi-green-intense-fg ansi-bold">    873</span>     dim<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">genes</span><span style="color: rgb(175,0,0)">"</span>,
-<span class="ansi-green-intense-fg ansi-bold">    874</span> )
-<span class="ansi-green-intense-fg ansi-bold">    876</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> ds
-
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/malariagen_data/anopheles.py:908</span>, in <span class="ansi-cyan-fg">AnophelesDataResource._gene_cnv</span><span class="ansi-blue-fg">(self, region, sample_sets, sample_query, sample_query_options, max_coverage_variance, chunks, inline_array)</span>
-<span class="ansi-green-intense-fg ansi-bold">    906</span> cn <span style="color: rgb(98,98,98)">=</span> ds_hmm[<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">call_CN</span><span style="color: rgb(175,0,0)">"</span>]<span style="color: rgb(98,98,98)">.</span>data
-<span class="ansi-green-intense-fg ansi-bold">    907</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_dask_progress(desc<span style="color: rgb(98,98,98)">=</span><span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">Load CNV HMM data</span><span style="color: rgb(175,0,0)">"</span>):
-<span class="ansi-green-fg">--&gt; 908</span>     pos, end, cn <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">dask</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">compute</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">pos</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">end</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">cn</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    910</span> debug(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">access genes</span><span style="color: rgb(175,0,0)">"</span>)
-<span class="ansi-green-intense-fg ansi-bold">    911</span> df_genome_features <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>genome_features(region<span style="color: rgb(98,98,98)">=</span>region)
-
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/site-packages/dask/base.py:660</span>, in <span class="ansi-cyan-fg">compute</span><span class="ansi-blue-fg">(traverse, optimize_graph, scheduler, get, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">    657</span>     postcomputes<span style="color: rgb(98,98,98)">.</span>append(x<span style="color: rgb(98,98,98)">.</span>__dask_postcompute__())
-<span class="ansi-green-intense-fg ansi-bold">    659</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> shorten_traceback():
-<span class="ansi-green-fg">--&gt; 660</span>     results <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">schedule</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">dsk</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">keys</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    662</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> repack([f(r, <span style="color: rgb(98,98,98)">*</span>a) <span class="ansi-bold" style="color: rgb(0,135,0)">for</span> r, (f, a) <span class="ansi-bold" style="color: rgb(175,0,255)">in</span> <span style="color: rgb(0,135,0)">zip</span>(results, postcomputes)])
-
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/queue.py:171</span>, in <span class="ansi-cyan-fg">Queue.get</span><span class="ansi-blue-fg">(self, block, timeout)</span>
-<span class="ansi-green-intense-fg ansi-bold">    169</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> timeout <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-intense-fg ansi-bold">    170</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">while</span> <span class="ansi-bold" style="color: rgb(175,0,255)">not</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>_qsize():
-<span class="ansi-green-fg">--&gt; 171</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">not_empty</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">wait</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    172</span> <span class="ansi-bold" style="color: rgb(0,135,0)">elif</span> timeout <span style="color: rgb(98,98,98)">&lt;</span> <span style="color: rgb(98,98,98)">0</span>:
-<span class="ansi-green-intense-fg ansi-bold">    173</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> <span class="ansi-bold" style="color: rgb(215,95,95)">ValueError</span>(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">timeout</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)"> must be a non-negative number</span><span style="color: rgb(175,0,0)">"</span>)
-
-File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024-11-16-llm-use-case/.pixi/envs/default/lib/python3.12/threading.py:355</span>, in <span class="ansi-cyan-fg">Condition.wait</span><span class="ansi-blue-fg">(self, timeout)</span>
-<span class="ansi-green-intense-fg ansi-bold">    353</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:    <span style="color: rgb(95,135,135)"># restore state no matter what (e.g., KeyboardInterrupt)</span>
-<span class="ansi-green-intense-fg ansi-bold">    354</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> timeout <span class="ansi-bold" style="color: rgb(175,0,255)">is</span> <span class="ansi-bold" style="color: rgb(0,135,0)">None</span>:
-<span class="ansi-green-fg">--&gt; 355</span>         <span class="ansi-yellow-bg">waiter</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">acquire</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    356</span>         gotit <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">True</span>
-<span class="ansi-green-intense-fg ansi-bold">    357</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">else</span>:
-
-<span class="ansi-red-fg">KeyboardInterrupt</span>: </pre>
+                        })                };                });            </script> </div></div>
 </div>
 </div>
 </div>
 </div>
-</div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=73f8ac99-6089-4c9b-9f2f-eee14cde043f"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=3f1fe6d4-192c-4f7d-94e0-0cf16098e66c"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>But there are still a few decisions to make.</p>
-<p>E.g., know that there are 107 cytochrome P450 (<em>Cyp</em>) genes in the <em>Anopheles gambiae</em> genome. only some of these 107 <em>Cyp</em> genes have been associated with resistance previously. But it's possible that prior knowledge is incomplete. Should we analyse all 107 genes, or narrow down to a smaller set of validated genes?</p>
-<p>Also, some studies are also starting to find SNPs in <em>Cyp</em> genes are markers of resistance. Should we analyse SNPs as well as CNVs?</p>
-<p>These are tricky decisions because we could come up with a function call that is perfectly sensible from a biological point of view, but would overwhelm the user with data.</p>
+<p>This is a useful starting point for exploratory data analysis, because we can see for example that amplifications of <em>Cyp6aa1</em> and <em>Cyp69k1</em> are very high or fixed in almost all regions and years. Both of these genes are associated with pyrethroid resistance, and so this combination implies very strong metabolic resistance.</p>
+<p>For Uganda there are data for multiple years and regions, and the user might also be interested in changes over time. I might therefore be tempted to suggest some code to visualise frequency time series, e.g.:</p>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=7d8c96f7-6d5a-469c-abd9-f3f3f809dbd9">
+<div class="cell border-box-sizing code_cell rendered celltag_remove_output" id="cell-id=71061033-b039-4ed3-8fda-39d0fe6cf10f">
 <div class="input">
 <div class="inner_cell">
 <div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df_gff</span> <span class="o">=</span> <span class="n">ag3</span><span class="o">.</span><span class="n">genome_features</span><span class="p">()</span>
-<span class="n">df_gff</span>
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Compute gene CNV frequencies.</span>
+<span class="n">ds_cyp_cnv_frq</span> <span class="o">=</span> <span class="n">ag3</span><span class="o">.</span><span class="n">gene_cnv_frequencies_advanced</span><span class="p">(</span>
+    <span class="n">region</span><span class="o">=</span><span class="n">interesting_cyp_genes</span><span class="p">,</span>
+    <span class="n">sample_query</span><span class="o">=</span><span class="s2">"country == 'Uganda' and taxon == 'gambiae'"</span><span class="p">,</span>
+    <span class="n">area_by</span><span class="o">=</span><span class="s2">"admin1_iso"</span><span class="p">,</span>
+    <span class="n">period_by</span><span class="o">=</span><span class="s2">"year"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered" id="cell-id=622dccb0-87f9-4cef-9459-fdd5e7f59dce">
+<div class="input">
+<div class="inner_cell">
+<div class="input_area">
+<div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Plot frequency time series.</span>
+<span class="n">ag3</span><span class="o">.</span><span class="n">plot_frequencies_time_series</span><span class="p">(</span>
+    <span class="n">ds_cyp_cnv_frq</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">900</span><span class="p">,</span>  <span class="c1"># need enough height for three sub-plots</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -569,454 +546,46 @@ File <span class="ansi-green-fg">~/github/alimanfoo/alimanfoo.github.io/src/2024
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>                                     </pre>
-</div>
-</div>
-<div class="output_area">
-<div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+<div class="output_html rendered_html output_subarea"><div> <div class="plotly-graph-div" id="09da2947-41aa-4cec-b3b6-03fbc8fed535" style="height:900px; width:100%;"></div> <script type="text/javascript">                require(["plotly"], function(Plotly) {                    window.PLOTLYENV=window.PLOTLYENV || {};                                    if (document.getElementById("09da2947-41aa-4cec-b3b6-03fbc8fed535")) {                    Plotly.newPlot(                        "09da2947-41aa-4cec-b3b6-03fbc8fed535",                        [{"customdata":[["2013","UG-C","gambiae",46,"AGAP002862 (CYP6AA1) amp"],["2014","UG-C","gambiae",143,"AGAP002862 (CYP6AA1) amp"],["2015","UG-C","gambiae",183,"AGAP002862 (CYP6AA1) amp"],["2016","UG-C","gambiae",129,"AGAP002862 (CYP6AA1) amp"],["2017","UG-C","gambiae",187,"AGAP002862 (CYP6AA1) amp"],["2018","UG-C","gambiae",317,"AGAP002862 (CYP6AA1) amp"]],"error_y":{"array":[0.13006748247713174,0.07041994536765017,0.05674197943067294,0.05644762480287713,0.019184295626336834,0.00770064244598212],"arrayminus":[0.07645109076542363,0.08011582741926504,0.06719049974330482,0.0750535353177677,0.03780636545915317,0.019371557736803102]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp"],"legendgroup":"AGAP002862 (CYP6AA1) amp","line":{"color":"#636efa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP002862 (CYP6AA1) amp","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.15217391304347827,0.6853146853146853,0.7540983606557377,0.8217054263565892,0.9625668449197861,0.9873817034700315],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP002862 (CYP6AA1) amp"],["2016","UG-E","gambiae",20,"AGAP002862 (CYP6AA1) amp"],["2017","UG-E","gambiae",329,"AGAP002862 (CYP6AA1) amp"],["2018","UG-E","gambiae",223,"AGAP002862 (CYP6AA1) amp"],["2019","UG-E","gambiae",272,"AGAP002862 (CYP6AA1) amp"]],"error_y":{"array":[0.08264697066063287,0.04111855119920449,0.017038547137887106,0.010940231529905198,0.0072714604626888946],"arrayminus":[0.09212164125118816,0.18613119344674223,0.027597706947952938,0.02726726741673291,0.02089059072154864]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp"],"legendgroup":"AGAP002862 (CYP6AA1) amp","line":{"color":"#636efa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP002862 (CYP6AA1) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.6428571428571429,0.95,0.9574468085106383,0.9820627802690582,0.9889705882352942],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP002862 (CYP6AA1) amp"],["2017","UG-W","gambiae",188,"AGAP002862 (CYP6AA1) amp"],["2018","UG-W","gambiae",13,"AGAP002862 (CYP6AA1) amp"],["2019","UG-W","gambiae",105,"AGAP002862 (CYP6AA1) amp"]],"error_y":{"array":[0.09889980748418681,0.0,0.0,0.0],"arrayminus":[0.08302790430249848,0.020024132657813887,0.22809537235419852,0.03529407692910991]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp","AGAP002862 (CYP6AA1) amp"],"legendgroup":"AGAP002862 (CYP6AA1) amp","line":{"color":"#636efa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP002862 (CYP6AA1) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.2978723404255319,1.0,1.0,1.0],"yaxis":"y","type":"scatter"},{"customdata":[["2013","UG-C","gambiae",46,"AGAP013128 (CYP6AA2) amp"],["2014","UG-C","gambiae",143,"AGAP013128 (CYP6AA2) amp"],["2015","UG-C","gambiae",183,"AGAP013128 (CYP6AA2) amp"],["2016","UG-C","gambiae",129,"AGAP013128 (CYP6AA2) amp"],["2017","UG-C","gambiae",187,"AGAP013128 (CYP6AA2) amp"],["2018","UG-C","gambiae",317,"AGAP013128 (CYP6AA2) amp"]],"error_y":{"array":[0.07707356308558042,0.046553960320785105,0.036887205939552976,0.046008992808943966,0.03780636545915325,0.02376326859858074],"arrayminus":[0.0,0.022588666947925766,0.01767541052600396,0.01888471362458529,0.019184295626336802,0.012394512926939539]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp"],"legendgroup":"AGAP013128 (CYP6AA2) amp","line":{"color":"#EF553B","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP013128 (CYP6AA2) amp","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.0,0.04195804195804196,0.03278688524590164,0.031007751937984496,0.0374331550802139,0.025236593059936908],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP013128 (CYP6AA2) amp"],["2016","UG-E","gambiae",20,"AGAP013128 (CYP6AA2) amp"],["2017","UG-E","gambiae",329,"AGAP013128 (CYP6AA2) amp"],["2018","UG-E","gambiae",223,"AGAP013128 (CYP6AA2) amp"],["2019","UG-E","gambiae",272,"AGAP013128 (CYP6AA2) amp"]],"error_y":{"array":[0.06321668130234706,0.2189728183535234,0.048659118810698954,0.036827458147845694,0.03599332885060465],"arrayminus":[0.03479266953068085,0.15452275513239577,0.04252007240949798,0.021563578086206778,0.02391019072620275]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp"],"legendgroup":"AGAP013128 (CYP6AA2) amp","line":{"color":"#EF553B","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP013128 (CYP6AA2) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.07142857142857142,0.3,0.23404255319148937,0.04932735426008968,0.0661764705882353],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP013128 (CYP6AA2) amp"],["2017","UG-W","gambiae",188,"AGAP013128 (CYP6AA2) amp"],["2018","UG-W","gambiae",13,"AGAP013128 (CYP6AA2) amp"],["2019","UG-W","gambiae",105,"AGAP013128 (CYP6AA2) amp"]],"error_y":{"array":[0.07393006429617537,0.04865842050328624,0.25621643228791907,0.05578778316530819],"arrayminus":[0.041350894607446745,0.03204265085105763,0.06321265568052034,0.023182778764130454]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp","AGAP013128 (CYP6AA2) amp"],"legendgroup":"AGAP013128 (CYP6AA2) amp","line":{"color":"#EF553B","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP013128 (CYP6AA2) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.0851063829787234,0.0851063829787234,0.07692307692307693,0.0380952380952381],"yaxis":"y","type":"scatter"},{"customdata":[["2013","UG-C","gambiae",46,"AGAP002865 (CYP6P3) amp"],["2014","UG-C","gambiae",143,"AGAP002865 (CYP6P3) amp"],["2015","UG-C","gambiae",183,"AGAP002865 (CYP6P3) amp"],["2016","UG-C","gambiae",129,"AGAP002865 (CYP6P3) amp"],["2017","UG-C","gambiae",187,"AGAP002865 (CYP6P3) amp"],["2018","UG-C","gambiae",317,"AGAP002865 (CYP6P3) amp"]],"error_y":{"array":[0.07707356308558042,0.026160587422281566,0.030688689403020723,0.04288829089839749,0.024316761564157796,0.014495032130069469],"arrayminus":[0.0,0.0,0.010802795904785781,0.015315676520908917,0.004402987465481252,0.0025974971248635685]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp"],"legendgroup":"AGAP002865 (CYP6P3) amp","line":{"color":"#00cc96","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP002865 (CYP6P3) amp","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.0,0.0,0.01639344262295082,0.023255813953488372,0.0053475935828877,0.0031545741324921135],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP002865 (CYP6P3) amp"],["2016","UG-E","gambiae",20,"AGAP002865 (CYP6P3) amp"],["2017","UG-E","gambiae",329,"AGAP002865 (CYP6P3) amp"],["2018","UG-E","gambiae",223,"AGAP002865 (CYP6P3) amp"],["2019","UG-E","gambiae",272,"AGAP002865 (CYP6P3) amp"]],"error_y":{"array":[0.03991989688031347,0.21041886474075697,0.018680908875413085,0.016934553501221274,0.01392632868575133],"arrayminus":[0.007350716725279292,0.0976312541037834,0.007420143762352907,0.0,0.0]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp"],"legendgroup":"AGAP002865 (CYP6P3) amp","line":{"color":"#00cc96","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP002865 (CYP6P3) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.008928571428571428,0.15,0.0121580547112462,0.0,0.0],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP002865 (CYP6P3) amp"],["2017","UG-W","gambiae",188,"AGAP002865 (CYP6P3) amp"],["2018","UG-W","gambiae",13,"AGAP002865 (CYP6P3) amp"],["2019","UG-W","gambiae",105,"AGAP002865 (CYP6P3) amp"]],"error_y":{"array":[0.061803266329455674,0.020024132657813932,0.25621643228791907,0.035294076929109915],"arrayminus":[0.02588264333931898,0.0,0.06321265568052034,0.0]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp","AGAP002865 (CYP6P3) amp"],"legendgroup":"AGAP002865 (CYP6P3) amp","line":{"color":"#00cc96","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP002865 (CYP6P3) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.0425531914893617,0.0,0.07692307692307693,0.0],"yaxis":"y","type":"scatter"},{"customdata":[["2013","UG-C","gambiae",46,"AGAP000818 (CYP9K1) amp"],["2014","UG-C","gambiae",143,"AGAP000818 (CYP9K1) amp"],["2015","UG-C","gambiae",183,"AGAP000818 (CYP9K1) amp"],["2016","UG-C","gambiae",129,"AGAP000818 (CYP9K1) amp"],["2017","UG-C","gambiae",187,"AGAP000818 (CYP9K1) amp"],["2018","UG-C","gambiae",317,"AGAP000818 (CYP9K1) amp"]],"error_y":{"array":[0.14356154394066895,0.07989181021199587,0.060383508234924554,0.07180510915876492,0.06647449708829178,0.043703061130328735],"arrayminus":[0.13015744601274187,0.08153828074906255,0.06925913301662268,0.0836859917767071,0.07131838808526725,0.04993510327591266]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp"],"legendgroup":"AGAP000818 (CYP9K1) amp","line":{"color":"#ab63fa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP000818 (CYP9K1) amp","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.41304347826086957,0.5314685314685315,0.7158469945355191,0.7054263565891473,0.6203208556149733,0.7602523659305994],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP000818 (CYP9K1) amp"],["2016","UG-E","gambiae",20,"AGAP000818 (CYP9K1) amp"],["2017","UG-E","gambiae",329,"AGAP000818 (CYP9K1) amp"],["2018","UG-E","gambiae",223,"AGAP000818 (CYP9K1) amp"],["2019","UG-E","gambiae",272,"AGAP000818 (CYP9K1) amp"]],"error_y":{"array":[0.09212164125118827,0.21714572331476378,0.053902026735333286,0.06385199799097385,0.058896242201696536],"arrayminus":[0.08264697066063287,0.16880817589891794,0.0534459832883869,0.06559861113235527,0.059101041152957556]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp"],"legendgroup":"AGAP000818 (CYP9K1) amp","line":{"color":"#ab63fa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP000818 (CYP9K1) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.35714285714285715,0.35,0.48024316109422494,0.5515695067264574,0.5073529411764706],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP000818 (CYP9K1) amp"],["2017","UG-W","gambiae",188,"AGAP000818 (CYP9K1) amp"],["2018","UG-W","gambiae",13,"AGAP000818 (CYP9K1) amp"],["2019","UG-W","gambiae",105,"AGAP000818 (CYP9K1) amp"]],"error_y":{"array":[0.06041833119905382,0.03320179680599811,0.0,0.0370798237597072],"arrayminus":[0.0871499576103183,0.049604543770377596,0.22809537235419852,0.06699575563295279]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp","AGAP000818 (CYP9K1) amp"],"legendgroup":"AGAP000818 (CYP9K1) amp","line":{"color":"#ab63fa","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP000818 (CYP9K1) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.8404255319148937,0.9095744680851063,1.0,0.9238095238095239],"yaxis":"y","type":"scatter"},{"customdata":[["2013","UG-C","gambiae",46,"AGAP008212 (CYP6M2) amp"],["2014","UG-C","gambiae",143,"AGAP008212 (CYP6M2) amp"],["2015","UG-C","gambiae",183,"AGAP008212 (CYP6M2) amp"],["2016","UG-C","gambiae",129,"AGAP008212 (CYP6M2) amp"],["2017","UG-C","gambiae",187,"AGAP008212 (CYP6M2) amp"],["2018","UG-C","gambiae",317,"AGAP008212 (CYP6M2) amp"]],"error_y":{"array":[0.07707356308558042,0.03155220618354436,0.02055999158292087,0.02891761995687827,0.02745575429983041,0.016399238793341476],"arrayminus":[0.0,0.005757501102833168,0.0,0.0,0.007757264245463887,0.0045772436929305315]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp"],"legendgroup":"AGAP008212 (CYP6M2) amp","line":{"color":"#FFA15A","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008212 (CYP6M2) amp","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.0,0.006993006993006993,0.0,0.0,0.0106951871657754,0.006309148264984227],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP008212 (CYP6M2) amp"],["2016","UG-E","gambiae",20,"AGAP008212 (CYP6M2) amp"],["2017","UG-E","gambiae",329,"AGAP008212 (CYP6M2) amp"],["2018","UG-E","gambiae",223,"AGAP008212 (CYP6M2) amp"],["2019","UG-E","gambiae",272,"AGAP008212 (CYP6M2) amp"]],"error_y":{"array":[0.03316134706694389,0.1611251580528194,0.017343588609720552,0.02534626730308139,0.019055707789347606],"arrayminus":[-3.469446951953614e-18,0.0,0.006012662966360934,0.008867352012655306,0.005334178054857324]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp"],"legendgroup":"AGAP008212 (CYP6M2) amp","line":{"color":"#FFA15A","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008212 (CYP6M2) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.0,0.0,0.00911854103343465,0.013452914798206279,0.007352941176470588],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP008212 (CYP6M2) amp"],["2017","UG-W","gambiae",188,"AGAP008212 (CYP6M2) amp"],["2018","UG-W","gambiae",13,"AGAP008212 (CYP6M2) amp"],["2019","UG-W","gambiae",105,"AGAP008212 (CYP6M2) amp"]],"error_y":{"array":[0.039262076291544754,0.029900952987258107,0.22809537235419847,0.035294076929109915],"arrayminus":[0.0,0.010515888392991429,0.0,0.0]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp","AGAP008212 (CYP6M2) amp"],"legendgroup":"AGAP008212 (CYP6M2) amp","line":{"color":"#FFA15A","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008212 (CYP6M2) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.0,0.015957446808510637,0.0,0.0],"yaxis":"y","type":"scatter"},{"customdata":[["2013","UG-C","gambiae",46,"AGAP008218 (CYP6Z2) amp"],["2014","UG-C","gambiae",143,"AGAP008218 (CYP6Z2) amp"],["2015","UG-C","gambiae",183,"AGAP008218 (CYP6Z2) amp"],["2016","UG-C","gambiae",129,"AGAP008218 (CYP6Z2) amp"],["2017","UG-C","gambiae",187,"AGAP008218 (CYP6Z2) amp"],["2018","UG-C","gambiae",317,"AGAP008218 (CYP6Z2) amp"]],"error_y":{"array":[0.14022095079361158,0.07196148531102525,0.046695219559695245,0.06254558670813765,0.030055250227776657,0.022789496277847446],"arrayminus":[0.10000865700983047,0.05567972111114372,0.029056319677080056,0.039007989068818145,0.01057204421772015,0.011345200701411286]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp"],"legendgroup":"AGAP008218 (CYP6Z2) amp","line":{"color":"#19d3f3","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008218 (CYP6Z2) amp","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.2391304347826087,0.1888111888111888,0.07103825136612021,0.09302325581395349,0.016042780748663103,0.022082018927444796],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP008218 (CYP6Z2) amp"],["2016","UG-E","gambiae",20,"AGAP008218 (CYP6Z2) amp"],["2017","UG-E","gambiae",329,"AGAP008218 (CYP6Z2) amp"],["2018","UG-E","gambiae",223,"AGAP008218 (CYP6Z2) amp"],["2019","UG-E","gambiae",272,"AGAP008218 (CYP6Z2) amp"]],"error_y":{"array":[0.05253235273891388,0.18613119344674212,0.024642681290030086,0.034550621298883304,0.031400672783190385],"arrayminus":[0.021739673319608827,0.0411185511992046,0.013802879358766545,0.018982982430047594,0.018703137805005342]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp"],"legendgroup":"AGAP008218 (CYP6Z2) amp","line":{"color":"#19d3f3","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008218 (CYP6Z2) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.03571428571428571,0.05,0.030395136778115502,0.04035874439461883,0.04411764705882353],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP008218 (CYP6Z2) amp"],["2017","UG-W","gambiae",188,"AGAP008218 (CYP6Z2) amp"],["2018","UG-W","gambiae",13,"AGAP008218 (CYP6Z2) amp"],["2019","UG-W","gambiae",105,"AGAP008218 (CYP6Z2) amp"]],"error_y":{"array":[0.06849994827590118,0.041939473785807334,0.22809537235419847,0.04775797764679994],"arrayminus":[0.034250051936468524,0.024045568006484233,0.0,0.013808436981656111]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp","AGAP008218 (CYP6Z2) amp"],"legendgroup":"AGAP008218 (CYP6Z2) amp","line":{"color":"#19d3f3","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008218 (CYP6Z2) amp","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.06382978723404255,0.05319148936170213,0.0,0.01904761904761905],"yaxis":"y","type":"scatter"},{"customdata":[["2013","UG-C","gambiae",46,"AGAP008218 (CYP6Z2) del"],["2014","UG-C","gambiae",143,"AGAP008218 (CYP6Z2) del"],["2015","UG-C","gambiae",183,"AGAP008218 (CYP6Z2) del"],["2016","UG-C","gambiae",129,"AGAP008218 (CYP6Z2) del"],["2017","UG-C","gambiae",187,"AGAP008218 (CYP6Z2) del"],["2018","UG-C","gambiae",317,"AGAP008218 (CYP6Z2) del"]],"error_y":{"array":[0.07707356308558042,0.026160587422281566,0.02055999158292087,0.02891761995687827,0.030055250227776657,0.020612688256720295],"arrayminus":[0.0,0.0,0.0,0.0,0.01057204421772015,0.009017312870694225]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del"],"legendgroup":"AGAP008218 (CYP6Z2) del","line":{"color":"#FF6692","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008218 (CYP6Z2) del","orientation":"v","showlegend":true,"x":["2013-01-01T00:00:00","2014-01-01T00:00:00","2015-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00"],"xaxis":"x3","y":[0.0,0.0,0.0,0.0,0.016042780748663103,0.015772870662460567],"yaxis":"y3","type":"scatter"},{"customdata":[["2012","UG-E","gambiae",112,"AGAP008218 (CYP6Z2) del"],["2016","UG-E","gambiae",20,"AGAP008218 (CYP6Z2) del"],["2017","UG-E","gambiae",329,"AGAP008218 (CYP6Z2) del"],["2018","UG-E","gambiae",223,"AGAP008218 (CYP6Z2) del"],["2019","UG-E","gambiae",272,"AGAP008218 (CYP6Z2) del"]],"error_y":{"array":[0.05839883515087225,0.1611251580528194,0.02380824862300378,0.030540847110703546,0.025222706967633447],"arrayminus":[0.028790489555386628,0.0,0.012898286161440793,0.014517570031072648,0.011910775135665262]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del"],"legendgroup":"AGAP008218 (CYP6Z2) del","line":{"color":"#FF6692","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008218 (CYP6Z2) del","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2016-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x2","y":[0.05357142857142857,0.0,0.02735562310030395,0.026905829596412557,0.022058823529411766],"yaxis":"y2","type":"scatter"},{"customdata":[["2012","UG-W","gambiae",94,"AGAP008218 (CYP6Z2) del"],["2017","UG-W","gambiae",188,"AGAP008218 (CYP6Z2) del"],["2018","UG-W","gambiae",13,"AGAP008218 (CYP6Z2) del"],["2019","UG-W","gambiae",105,"AGAP008218 (CYP6Z2) del"]],"error_y":{"array":[0.04718461509044523,0.03214422075252581,0.25621643228791907,0.05578778316530819],"arrayminus":[0.008757902124252486,0.012972178846108216,0.06321265568052034,0.023182778764130454]},"hovertemplate":"\u003cb\u003e%{hovertext}\u003c\u002fb\u003e\u003cbr\u003e\u003cbr\u003eArea=%{customdata[1]}\u003cbr\u003eTaxon=%{customdata[2]}\u003cbr\u003eFrequency=%{y:.0%}\u003cbr\u003ePeriod=%{customdata[0]}\u003cbr\u003eSample size=%{customdata[3]}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":["AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del","AGAP008218 (CYP6Z2) del"],"legendgroup":"AGAP008218 (CYP6Z2) del","line":{"color":"#FF6692","dash":"solid"},"marker":{"symbol":"circle"},"mode":"lines+markers","name":"AGAP008218 (CYP6Z2) del","orientation":"v","showlegend":false,"x":["2012-01-01T00:00:00","2017-01-01T00:00:00","2018-01-01T00:00:00","2019-01-01T00:00:00"],"xaxis":"x","y":[0.010638297872340425,0.02127659574468085,0.07692307692307693,0.0380952380952381],"yaxis":"y","type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmapgl":[{"type":"heatmapgl","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"}}},"xaxis":{"anchor":"y","domain":[0.0,0.98],"title":{"text":"Date"}},"yaxis":{"anchor":"x","domain":[0.0,0.3133333333333333],"title":{"text":"Frequency"},"range":[-0.05,1.05]},"xaxis2":{"anchor":"y2","domain":[0.0,0.98],"matches":"x","showticklabels":false},"yaxis2":{"anchor":"x2","domain":[0.34333333333333327,0.6566666666666665],"matches":"y","title":{"text":"Frequency"}},"xaxis3":{"anchor":"y3","domain":[0.0,0.98],"matches":"x","showticklabels":false},"yaxis3":{"anchor":"x3","domain":[0.6866666666666665,0.9999999999999998],"matches":"y","title":{"text":"Frequency"}},"annotations":[{"font":{},"showarrow":false,"text":"Taxon=gambiae","x":0.49,"xanchor":"center","xref":"paper","y":0.9999999999999998,"yanchor":"bottom","yref":"paper"},{"font":{},"showarrow":false,"text":"Area=UG-W","textangle":90,"x":0.98,"xanchor":"left","xref":"paper","y":0.15666666666666665,"yanchor":"middle","yref":"paper"},{"font":{},"showarrow":false,"text":"Area=UG-E","textangle":90,"x":0.98,"xanchor":"left","xref":"paper","y":0.4999999999999999,"yanchor":"middle","yref":"paper"},{"font":{},"showarrow":false,"text":"Area=UG-C","textangle":90,"x":0.98,"xanchor":"left","xref":"paper","y":0.8433333333333332,"yanchor":"middle","yref":"paper"}],"legend":{"title":{"text":"Variant"},"tracegroupgap":0,"itemsizing":"constant"},"title":{"text":"Gene CNV frequencies (2R:28,480,576-28,482,637; 2R:28,483,301-28,484,921; 2R:28,491,415-28,493,141; X:15,240,572-15,242,864; 3R:6,928,858-6,930,547; 3R:6,973,779-6,975,563)"},"height":900},                        {"responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('09da2947-41aa-4cec-b3b6-03fbc8fed535');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
 
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>contig</th>
-<th>source</th>
-<th>type</th>
-<th>start</th>
-<th>end</th>
-<th>score</th>
-<th>strand</th>
-<th>phase</th>
-<th>ID</th>
-<th>Parent</th>
-<th>Name</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>0</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>chromosome</td>
-<td>1</td>
-<td>49364325</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>2L</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>1</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>157348</td>
-<td>186936</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP004677</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>methylenetetrahydrofolate dehydrogenase(NAD ) ...</td>
-</tr>
-<tr>
-<th>2</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>mRNA</td>
-<td>157348</td>
-<td>181305</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP004677-RA</td>
-<td>AGAP004677</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>3</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>three_prime_UTR</td>
-<td>157348</td>
-<td>157495</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>AGAP004677-RA</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>4</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>exon</td>
-<td>157348</td>
-<td>157623</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>AGAP004677-RA</td>
-<td>AGAP004677-RB-E4</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>196140</th>
-<td>Y_unplaced</td>
-<td>VectorBase</td>
-<td>five_prime_UTR</td>
-<td>47932</td>
-<td>48111</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>AGAP029375-RA</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>196141</th>
-<td>Y_unplaced</td>
-<td>VectorBase</td>
-<td>exon</td>
-<td>47932</td>
-<td>48138</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>AGAP029375-RA</td>
-<td>AGAP029375-RA-E2</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>196142</th>
-<td>Y_unplaced</td>
-<td>VectorBase</td>
-<td>CDS</td>
-<td>48112</td>
-<td>48138</td>
-<td>NaN</td>
-<td>+</td>
-<td>0.0</td>
-<td>AGAP029375-PA</td>
-<td>AGAP029375-RA</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>196143</th>
-<td>Y_unplaced</td>
-<td>VectorBase</td>
-<td>exon</td>
-<td>48301</td>
-<td>48385</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>AGAP029375-RA</td>
-<td>AGAP029375-RA-E3</td>
-<td>NaN</td>
-</tr>
-<tr>
-<th>196144</th>
-<td>Y_unplaced</td>
-<td>VectorBase</td>
-<td>CDS</td>
-<td>48301</td>
-<td>48385</td>
-<td>NaN</td>
-<td>+</td>
-<td>0.0</td>
-<td>AGAP029375-PA</td>
-<td>AGAP029375-RA</td>
-<td>NaN</td>
-<td>NaN</td>
-</tr>
-</tbody>
-</table>
-<p>196145 rows × 12 columns</p>
-</div></div>
-</div>
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=5549a0f4-c964-469f-8863-40c4876d7e96">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span><span class="n">df_gff</span><span class="p">[</span><span class="n">df_gff</span><span class="p">[</span><span class="s2">"Name"</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">'CYP'</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="kc">False</span><span class="p">)]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="output_wrapper">
-<div class="output">
-<div class="output_area">
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>/tmp/ipykernel_8066/136824284.py:1: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
-  df_gff[df_gff["Name"].str.startswith('CYP').fillna(False)]
-</pre>
-</div>
-</div>
-<div class="output_area">
-<div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th></th>
-<th>contig</th>
-<th>source</th>
-<th>type</th>
-<th>start</th>
-<th>end</th>
-<th>score</th>
-<th>strand</th>
-<th>phase</th>
-<th>ID</th>
-<th>Parent</th>
-<th>Name</th>
-<th>description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>16867</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>18340786</td>
-<td>18345362</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP005656</td>
-<td>NaN</td>
-<td>CYP305A1</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>16877</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>18346305</td>
-<td>18347977</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP005657</td>
-<td>NaN</td>
-<td>CYP305A3</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>16885</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>18348979</td>
-<td>18350777</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>AGAP005658</td>
-<td>NaN</td>
-<td>CYP15B1</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>16909</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>18353521</td>
-<td>18355707</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>AGAP005660</td>
-<td>NaN</td>
-<td>CYP305A4</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>18417</th>
-<td>2L</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>20455252</td>
-<td>20464457</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>AGAP005774</td>
-<td>NaN</td>
-<td>CYP49A1</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>...</th>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-<td>...</td>
-</tr>
-<tr>
-<th>183449</th>
-<td>X</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>5112021</td>
-<td>5114815</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP000284</td>
-<td>NaN</td>
-<td>CYP315A1</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>191625</th>
-<td>X</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>15240572</td>
-<td>15242864</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP000818</td>
-<td>NaN</td>
-<td>CYP9K1</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>192555</th>
-<td>X</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>16618800</td>
-<td>16621269</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP000877</td>
-<td>NaN</td>
-<td>CYP4G17</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>195075</th>
-<td>X</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>20008895</td>
-<td>20018400</td>
-<td>NaN</td>
-<td>+</td>
-<td>NaN</td>
-<td>AGAP001039</td>
-<td>NaN</td>
-<td>CYP307A1</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-<tr>
-<th>195745</th>
-<td>X</td>
-<td>VectorBase</td>
-<td>gene</td>
-<td>22937392</td>
-<td>22947129</td>
-<td>NaN</td>
-<td>-</td>
-<td>NaN</td>
-<td>AGAP001076</td>
-<td>NaN</td>
-<td>CYP4G16</td>
-<td>cytochrome P450 [Source:VB Community Annotation]</td>
-</tr>
-</tbody>
-</table>
-<p>107 rows × 12 columns</p>
-</div></div>
+                        })                };                });            </script> </div></div>
 </div>
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered" id="cell-id=7bade756-a55e-4402-a450-8e0e9918918d">
-<div class="input">
-<div class="inner_cell">
-<div class="input_area">
-<div class="highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=78697611-4f4a-4adc-9948-66ad7409a8fd"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>These time series give us some more information, e.g., they show that frequencies of <em>Cyp6aa1</em> and <em>Cyp9k1</em> have generally increased after 2012, although there are some geographical differences between the three regions of Uganda for which we have data. This is definitely getting us towards the original question, but it's worth mentioning that there are a lot of variations and other analyses we might suggest, as well as some subtleties.</p>
+<p>E.g., if we wanted to analyse <em>Anopheles funestus</em> instead of <em>Anopheles gambiae</em>, we would need to provide a different set of gene identifiers for the interesting <em>Cyp</em> genes to include.</p>
+<p>Also, there are actually 107 cytochrome P450 (<em>Cyp</em>) genes in the <em>Anopheles gambiae</em> genome in total, and although only some of these have been associated with resistance previously, it's possible that prior knowledge is incomplete. Should we analyse all 107 genes, or just the smaller set of validated genes? Furthermore, some studies are also starting to find SNPs in <em>Cyp</em> genes are markers of resistance. Should we analyse SNPs as well as CNVs? These are tricky decisions, because we could come up some analysis code that is perfectly sensible from a biological point of view, but would overwhelm the user with data. E.g., there are often dozens of SNPs within each <em>Cyp</em> gene, even after filtering out low frequency variants, and 107 genes each with dozens of SNPs is hard to visualise.</p>
+<p>Anyway, hopefully this is a useful use case to start thinking about what sort of assistant would be useful and if/how it could be implemented.</p>
 </div>
 </div>
 </div>{% endraw %}
 
 
 <script type="application/vnd.jupyter.widget-state+json">
-{"state": {"2cfe2f0fb1a1485ca9393aff7b38d88f": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "4387f0ee439e407fb5de475486e95a34": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "5e4b6e1cb28642e6b19554bad19426df": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "690d99176233418687e9120625fe0d23": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HBoxModel", "state": {"children": ["IPY_MODEL_7aca1259ef1c4a82af51ea81e435c8d3", "IPY_MODEL_f5f20cc3253a4a5183b4ae44e07637f6", "IPY_MODEL_e690a794595e4381a43c52906c901a47"], "layout": "IPY_MODEL_5e4b6e1cb28642e6b19554bad19426df"}}, "7aca1259ef1c4a82af51ea81e435c8d3": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_4387f0ee439e407fb5de475486e95a34", "style": "IPY_MODEL_84de980b0a9c4dd7b3ed10e5055d9cce", "value": "Load\u2007CNV\u2007HMM\u2007data:\u2007\u200735%"}}, "7cc5c4efb87c43589ba59e1c327a4d0f": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"description_width": "", "font_size": null, "text_color": null}}, "84de980b0a9c4dd7b3ed10e5055d9cce": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLStyleModel", "state": {"description_width": "", "font_size": null, "text_color": null}}, "c4a308fd3a55462cabe69d4950219c80": {"model_module": "@jupyter-widgets\/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "c61b56d537ca4529b649b0ff9ce5fd23": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "ProgressStyleModel", "state": {"description_width": ""}}, "e690a794595e4381a43c52906c901a47": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "HTMLModel", "state": {"layout": "IPY_MODEL_2cfe2f0fb1a1485ca9393aff7b38d88f", "style": "IPY_MODEL_7cc5c4efb87c43589ba59e1c327a4d0f", "value": "\u2007481\/1360\u2007[00:30&lt;00:49,\u200717.79it\/s]"}}, "f5f20cc3253a4a5183b4ae44e07637f6": {"model_module": "@jupyter-widgets\/controls", "model_module_version": "2.0.0", "model_name": "FloatProgressModel", "state": {"bar_style": "danger", "layout": "IPY_MODEL_c4a308fd3a55462cabe69d4950219c80", "max": 1360, "style": "IPY_MODEL_c61b56d537ca4529b649b0ff9ce5fd23", "value": 481}}}, "version_major": 2, "version_minor": 0}
+{"state": {}, "version_major": 2, "version_minor": 0}
 </script>
