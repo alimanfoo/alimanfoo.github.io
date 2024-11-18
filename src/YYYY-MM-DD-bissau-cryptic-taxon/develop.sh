@@ -8,7 +8,7 @@ while inotifywait -e close_write post.ipynb
 do
     pixi run jupyter nbconvert post.ipynb \
 	 --to html \
-	 --template basic \
+	 --template custom \
 	 --no-prompt \
 	 --TagRemovePreprocessor.enabled=True \
 	 --TagRemovePreprocessor.remove_input_tags remove_input \

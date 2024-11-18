@@ -1,0 +1,10 @@
+{% extends 'basic/index.html.j2' %}
+
+{% block input_group -%}
+<div class="input">
+<details>
+<summary>source code</summary>
+{{ super() }}
+</details>
+</div>
+{% endblock input_group %}
