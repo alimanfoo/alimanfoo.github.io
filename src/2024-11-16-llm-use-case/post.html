@@ -21,10 +21,15 @@ title: A coding assistant for genomic data analysis?
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=75405692-53be-4f25-b543-4c74ec064430"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=63845c7c-7b87-4cf4-b116-730ac132dd3b"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Use-case:-investigating-insecticide-resistance">Use case: investigating insecticide resistance<a class="anchor-link" href="#Use-case:-investigating-insecticide-resistance">¶</a></h1><p>Consider a use case where an analyst would like to investigate evidence for insecticide resistance in mosquito populations within a country of interest. Assume the analyst has good knowledge of vector biology but patchy knowledge of genomics and the molecular biology of insecticide resistance. Assume the analyst has completed <a href="https://anopheles-genomic-surveillance.github.io/">basic training in vector genomics data analysis</a> but is not an experienced programmer and finds writing data analysis code challenging.</p>
-<p>The analyst might start with a relatively broad question like, "Is there resistance to pyrethroid insecticides in Uganda?" But there are multiple possible mechanisms of pyrethroid resistance that need to be considered, and there are also multiple species of malaria vector present in Uganda. So this question is likely to need some refinement. If I were assisting this user, I would ask a series of questions to narrow down the focus, and to help the user become aware of the relevant data that are available. I would then be able to identify a smaller set of analysis function calls and parameter values that are relevant.</p>
+<h2 id="Use-case:-investigating-insecticide-resistance">Use case: investigating insecticide resistance<a class="anchor-link" href="#Use-case:-investigating-insecticide-resistance">¶</a></h2><p>Consider a use case where an analyst would like to investigate evidence for insecticide resistance in mosquito populations within a country of interest. Assume the analyst has good knowledge of vector biology but patchy knowledge of genomics and the molecular biology of insecticide resistance. Assume the analyst has completed <a href="https://anopheles-genomic-surveillance.github.io/">basic training in vector genomics data analysis</a> but is not an experienced programmer and finds writing data analysis code challenging.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=04161f39-1d1d-4782-be83-542a081d4ca4"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Prompt-refinement">Prompt refinement<a class="anchor-link" href="#Prompt-refinement">¶</a></h2><p>Typically an analyst might start with a relatively broad question like, "Is there resistance to pyrethroid insecticides in Uganda?" But there are multiple possible mechanisms of pyrethroid resistance that need to be considered, and there are also multiple species of malaria vector present in Uganda. So this question is likely to need some refinement. If I were assisting this user, I would ask a series of questions to narrow down the focus, and to help the user become aware of the relevant data that are available. I would then be able to identify a smaller set of analysis function calls and parameter values that are relevant.</p>
 <p>Would it be possible to create a chatbot assistant to help with this refinement? E.g., here is a hypothetical conversation between a user and an assistant that would refine the scope of the initial question to reach a point where code generation would be easier:</p>
 <table style="width: 100%; font-size: 1.1em; font-style: italic;">
 <colgroup>
@@ -77,7 +82,7 @@ title: A coding assistant for genomic data analysis?
 </div>
 <div class="cell border-box-sizing text_cell rendered" id="cell-id=afa97235-dc65-4968-a63b-32f04b527f7d"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>If we can get to this point, we probably have just enough information to start suggesting some code. E.g., we know that copy number amplification of <em>Cyp</em> genes has been associated with pyrethroid resistance. I might suggest to try analysing CNV frequencies at a selection of <em>Cyp</em> genes which have been previously linked to pyrethroid resistance. Here is some code which sets up an API to access data on the <em>Anopheles gambiae</em> complex, then uses two function calls to compute and then visualise gene CNV frequencies in Uganda, grouping mosquitoes by year and level one administrative units.</p>
+<h2 id="Code-generation">Code generation<a class="anchor-link" href="#Code-generation">¶</a></h2><p>If we can get to this point, we probably have just enough information to start suggesting some code. E.g., we know that copy number amplification of <em>Cyp</em> genes has been associated with pyrethroid resistance. If I were assisting the analyst, I might suggest to try analysing CNV frequencies at a selection of <em>Cyp</em> genes which have been previously linked to pyrethroid resistance. Here is some code which sets up an API to access data on the <em>Anopheles gambiae</em> complex, then uses two function calls to compute and then visualise gene CNV frequencies in Uganda, grouping mosquitoes by year and level one administrative units.</p>
 </div>
 </div>
 </div>
@@ -95,9 +100,9 @@ title: A coding assistant for genomic data analysis?
 <div class="output_wrapper">
 <div class="output">
 <div class="output_area">
-<div class="output_subarea output_javascript" id="d548c930-7d7a-44f9-8a9c-3fd36ffe8ee9">
+<div class="output_subarea output_javascript" id="d9663e88-2b71-4aa2-b2a3-1aed426f07e0">
 <script type="text/javascript">
-var element = $('#d548c930-7d7a-44f9-8a9c-3fd36ffe8ee9');
+var element = $('#d9663e88-2b71-4aa2-b2a3-1aed426f07e0');
 'use strict';
 (function(root) {
   function now() {
@@ -575,12 +580,43 @@ if (outputEl) {{
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing text_cell rendered" id="cell-id=78697611-4f4a-4adc-9948-66ad7409a8fd"><div class="inner_cell">
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=aca71750-b921-429a-8336-d04d9df9e154"><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>These time series give us some more information, e.g., they show that frequencies of <em>Cyp6aa1</em> and <em>Cyp9k1</em> have generally increased after 2012, although there are some geographical differences between the three regions of Uganda for which we have data. This is definitely getting us towards the original question, but it's worth mentioning that there are a lot of variations and other analyses we might suggest, as well as some subtleties.</p>
+<p>These time series give us some more information, e.g., they show that frequencies of <em>Cyp6aa1</em> and <em>Cyp9k1</em> have generally increased after 2012, although there are some geographical differences between the three regions of Uganda for which we have data.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=58cfc08b-b9f1-42ed-ad6e-f2538134cd34"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Training-data-/-examples">Training data / examples<a class="anchor-link" href="#Training-data-/-examples">¶</a></h2><p>What training data or existing examples exist that could be used to train an assistant?</p>
+<p>Probably the best source would be the learning materials for the <a href="https://anopheles-genomic-surveillance.github.io/">data analysis training course</a> we've developed. These materials comprise a collection of Jupyter notebooks with code examples weaved in with explanatory text.</p>
+<p>We also create many Jupyter notebooks as part of previous and ongoing studies where we're collaborating with scientific colleagues to analyse real datasets. These tend not to have nearly as much explanatory text, rather they are focused on just analysing data to produce tables and figures for reports and papers. However, if we knew they were to be used to train an assistant, we could potentially go through and annotate some with more explanatory text.</p>
+<p>In general, I wonder what the best way of using Jupyter notebooks to train an assistant would be.</p>
+<p>For the API itself, there are docstrings and type annotations for all public methods. The docstrings generally don't include examples, but will have some brief text explaining what the methods are used for. These are also used to generate an <a href="https://malariagen.github.io/malariagen-data-python/latest/">API documentation website</a>. What would be the best way to make use of this?</p>
+<p>Finally, I wonder how an assistant could learn more about the content of the actual data. E.g., how to teach an assistant something about the samples that have been sequenced from different places, time points and mosquito species? This information is very useful when trying to craft parameter values for API calls. I guess this might be roughly analogous to problems where you want to train an assistant to help generate SQL queries for a specific database.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=ddab961a-1f80-4803-8f58-b52014b04270"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Learning-methods">Learning methods<a class="anchor-link" href="#Learning-methods">¶</a></h2><p>What would be the best way to train a generative model?</p>
+<p>If we have a library of Jupyter notebook with text and code examples, could this be used for some form of retrieval-augmented generation? I.e., the user's question is used to retrieve the most relevant snippets of notebooks, then these are included in the prompt?</p>
+<p>What about few-shot learning or fine-tuning? For one specific use case like the one described above, perhapse few-shot learning would be sufficient? But to cover a breadth of different use cases, perhaps fine-tuning is needed?</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=6c662204-548f-4247-a5ab-9fb344a54434"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Challenges-and-subtleties">Challenges and subtleties<a class="anchor-link" href="#Challenges-and-subtleties">¶</a></h2><p>If it was possible to generate code examples like the ones above, then this would definitely be getting us towards the original question, but it's worth mentioning that there are a lot of variations and other analyses we might suggest, as well as some subtleties.</p>
 <p>E.g., if we wanted to analyse <em>Anopheles funestus</em> instead of <em>Anopheles gambiae</em>, we would need to provide a different set of gene identifiers for the interesting <em>Cyp</em> genes to include.</p>
 <p>Also, there are actually 107 cytochrome P450 (<em>Cyp</em>) genes in the <em>Anopheles gambiae</em> genome in total, and although only some of these have been associated with resistance previously, it's possible that prior knowledge is incomplete. Should we analyse all 107 genes, or just the smaller set of validated genes? Furthermore, some studies are also starting to find SNPs in <em>Cyp</em> genes are markers of resistance. Should we analyse SNPs as well as CNVs? These are tricky decisions, because we could come up some analysis code that is perfectly sensible from a biological point of view, but would overwhelm the user with data. E.g., there are often dozens of SNPs within each <em>Cyp</em> gene, even after filtering out low frequency variants, and 107 genes each with dozens of SNPs is hard to visualise.</p>
-<p>Anyway, hopefully this is a useful use case to start thinking about what sort of assistant would be useful and if/how it could be implemented.</p>
+<p>These are just a couple of potential challenges involved in considering what would be the most appropriate code examples to generate to address the original question, there are others.</p>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered" id="cell-id=c64b5c9e-4b47-4f09-a24a-3f75be06e5d4"><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Last-word">Last word<a class="anchor-link" href="#Last-word">¶</a></h2><p>Hopefully this is a useful use case to start thinking about what sort of assistant would be useful and if/how it could be implemented. Suggestions and thoughts very welcome.</p>
 </div>
 </div>
 </div>{% endraw %}
