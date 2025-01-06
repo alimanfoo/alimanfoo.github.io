@@ -4,12 +4,12 @@ title: A vintage year for African malaria vector genomics
 description: "Scientific highlights from 2024."
 ---
 
-Many long labours came to fruition in 2024. Collaborative efforts to
-collect and sequence samples, build data resources and analytical
-tools, train and support students and scientists, all converged to
-produce a bumper crop of new research papers on African *Anopheles*
-genomics. These papers have redefined our understanding of major
-malaria vector species and how they are evolving. 
+2024 was a great year for African Anopheles genomics. Many long
+labours all converged to produce a bumper crop of new research papers
+which have redefined our understanding of major malaria vector species
+and how they are evolving. Here is a selection of papers published
+last year, all of which made use of or generously contributed data to
+the [Malaria Vector Genome Observatory](https://malariagen.net/vobs).
 
 Clara Rehmann et al. published [Evaluating evidence for co-geography
 in the *Anopheles–Plasmodium* host–parasite
@@ -80,8 +80,5 @@ Rounding off the year in style, Marilou Bodde and Joachim Nwezeobi
 posted the preprint [Genomic diversity of the African malaria vector
 *Anopheles funestus*](https://doi.org/10.1101/2024.12.14.628470).
 
-All of these studies made use of or generously contributed data to the
-[Malaria Vector Genome Observatory](https://malariagen.net/vobs).
-
-I know there are a lot more great papers in the works from these and
-other groups, so I'm looking forward to 2025, Happy New Year!
+There are a load more great papers in the works from these and other
+groups, so I'm looking forward to 2025, Happy New Year!
